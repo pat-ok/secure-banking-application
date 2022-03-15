@@ -6,6 +6,7 @@ including deposits, withdrawals, and transfers to other users.
 Users may also view their notifications and transaction history.
 
 - Passwords are salted and hashed before being stored
+- Transfer money to other users and receive inbox notifications for incoming transfers
 
 
 ## Who will use it?
