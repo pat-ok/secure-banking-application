@@ -2,6 +2,17 @@ package model;
 
 // Represents a public class with static methods for security purposes
 public class Security {
+    private String junit;
+
+    // FOR JUNIT
+    public Security() {
+        this.junit = "for junit";
+    }
+
+    // FOR JUNIT
+    public String getJunit() {
+        return junit;
+    }
 
     // REQUIRES: nothing
     // MODIFIES: nothing
@@ -26,20 +37,27 @@ public class Security {
         return sb.toString();
     }
 
-    // REQUIRES: nothing
+    // TODO: move to ui
+    // REQUIRES: bool to be true
     // MODIFIES: nothing
-    // EFFECTS: A countdown is initiated in seconds from given integer time. Prints each second.
-    public static void countdownTimer() {
+    // EFFECTS: A 5-second countdown is initiated, printing each second
+    public static void countdownTimer(boolean succeed) {
         int time = 5;
+        int thread;
+        if (succeed) {
+            thread = 1000;
+        } else {
+            thread = -1;
+        }
         while (time > 0) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(thread);
             } catch (Exception e) {
-                System.out.println("Exception caught");
+                System.out.println("Exception caught in countdownTimer.");
+                break;
             }
             System.out.println(time + "...");
             time--;
         }
     }
-
 }

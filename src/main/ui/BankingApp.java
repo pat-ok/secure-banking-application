@@ -2,21 +2,27 @@ package ui;
 
 import model.Account;
 import model.UserDatabase;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import static model.Security.*;
 import static model.Formatting.*;
+import static model.Security.*;
 
 // Represents the Banking Application
 public class BankingApp extends Options {
-    //private static final String JSON_STORE = "./data/database.json";
+    private static final String JSON_STORE = "./data/database.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
     private Scanner input;
 
-    static UserDatabase database = new UserDatabase();
-    static HashMap<String, Account> databaseInfo = database.getUserDatabase();
+    private static UserDatabase database;
+    private static HashMap<String, Account> databaseInfo;
 
     static String username;
     static String password;
@@ -27,7 +33,17 @@ public class BankingApp extends Options {
 
     // EFFECTS: initiates Banking Application
     public BankingApp() {
+
+        // load database from save
+        jsonReader = new JsonReader(JSON_STORE);
+        loadUserDatabase();
+        //databaseInfo = database.getUserDatabase();
+
         mainMenu();
+
+        // save database before closing
+        jsonWriter = new JsonWriter(JSON_STORE);
+        saveUserDatabase();
     }
 
     // EFFECTS: main menu processes user input
@@ -96,13 +112,12 @@ public class BankingApp extends Options {
                 remainingTries = 0;
                 returnMain();
             } else if (database.authPassword(username, password)) {
-                Account userAccount = databaseInfo.get(username);
-                System.out.println(userAccount.loginNotifications());
+                System.out.println(databaseInfo.get(username).loginNotifications());
                 accountMenu();
             } else if (remainingTries == 1) {
                 System.out.println("Login failed. Account locked for 5 seconds.\nLaw enforcement has been called.");
                 remainingTries--;
-                countdownTimer();
+                countdownTimer(true);
             } else {
                 remainingTries--;
                 System.out.println("Password is incorrect. You have " + remainingTries + " attempt(s) left.");
@@ -116,7 +131,7 @@ public class BankingApp extends Options {
         newName = input.nextLine();
         if (newName.equals(QUIT_COMMAND)) {
             returnMain();
-        } else if (isInvalidEntry(newName)) {
+        } else if (isInvalidName(newName)) {
             System.out.println("Name is invalid.");
             doRegister();
         } else {
@@ -165,11 +180,12 @@ public class BankingApp extends Options {
     private void doHack() {
         System.out.println("*playing Mission Impossible theme*");
         System.out.println("Hacking the mainframe...");
-        countdownTimer();
+        countdownTimer(true);
         System.out.println("AND WE'RE IN! \n");
         databaseInfo.forEach((k, v)
                 -> System.out.println("Username: " + k + "  "
                 + "Password: " + v.getPassword()));
+        System.out.println("");
     }
 
     // EFFECTS: account menu processes user input after logging in
@@ -264,14 +280,14 @@ public class BankingApp extends Options {
 
     // EFFECTS: continues transfer sequence and transfers money if sender has funds
     private void doTransferActual(String recipient) {
-        Account userAccount = databaseInfo.get(username);
+        Account senderAccount = databaseInfo.get(username);
         Account recipientAccount = databaseInfo.get(recipient);
         System.out.println("Transfer amount: $");
         String amount = input.nextLine();
         if (amount.matches("\\d+(\\.\\d+)?")) {
             BigDecimal transfer = new BigDecimal(amount);
-            if (lessThanOrEqual(transfer, userAccount.getBalance())) {
-                doTransferFromTo(amount, userAccount, recipientAccount);
+            if (lessThanOrEqual(transfer, senderAccount.getBalance())) {
+                doTransferFromTo(amount, senderAccount, recipientAccount);
                 System.out.println(recipientAccount.getName() + " has received your Interac eTransfer! \n");
             } else {
                 System.out.println("You have insufficient funds. \n");
@@ -286,6 +302,29 @@ public class BankingApp extends Options {
     private void doTransactionHistory() {
         Account userAccount = databaseInfo.get(username);
         System.out.println(userAccount.transactionHistory());
+    }
+
+    // EFFECTS: saves user database to file
+    private void saveUserDatabase() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(database);
+            jsonWriter.close();
+            System.out.println("Saved user database to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads user database from file
+    private void loadUserDatabase() {
+        try {
+            database = jsonReader.read();
+            System.out.println("Loaded user database from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
 }

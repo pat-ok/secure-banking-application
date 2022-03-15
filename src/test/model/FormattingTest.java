@@ -1,3 +1,5 @@
+package model;
+
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -8,6 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FormattingTest {
 
     @Test
+    void testFormatting() {
+        Formatting testFormatting = new Formatting();
+        assertEquals("for junit", testFormatting.getJunit());
+
+    }
+
+    @Test
     void testPretty() {
         assertEquals("", pretty(""));
         assertEquals("testing", pretty("TeStInG"));
@@ -16,7 +25,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testInvalidEntry() {
+    void testIsInvalidEntry() {
         assertTrue(isInvalidEntry(""));
         assertTrue(isInvalidEntry(" "));
         assertTrue(isInvalidEntry("  "));
@@ -26,10 +35,42 @@ public class FormattingTest {
     }
 
     @Test
+    void testIsInvalidName() {
+        assertTrue(isInvalidName("123"));
+        assertTrue(isInvalidName(""));
+        assertTrue(isInvalidName(" "));
+        assertTrue(isInvalidName("  "));
+        assertTrue(isInvalidName(" test"));
+        assertTrue(isInvalidName("test "));
+        assertTrue(isInvalidName("  123  "));
+        assertFalse(isInvalidName("test"));
+        assertTrue(isInvalidName("123Test"));
+        assertFalse(isInvalidName("first last"));
+        assertFalse(isInvalidName("first middle last"));
+    }
+
+    @Test
     void testCapitalizeName() {
         assertEquals("Testing", capitalizeName("testing"));
         assertEquals("Testing Again", capitalizeName("testing again"));
         assertEquals("Testing Three Words", capitalizeName("testing three words"));
+        assertEquals("Testing Spaces", capitalizeName("testing      spaces"));
+        assertEquals("Testing More Spaces", capitalizeName("testing    mOre  spAces"));
+        assertEquals("Testing Capitals", capitalizeName("tESTING cAPITALS"));
+    }
+
+    @Test
+    void testDoTransferFromTo() {
+        Account testSender = new Account("pass123", "Sender");
+        Account testRecipient = new Account("pass123", "Recipient");
+
+        doTransferFromTo("50", testSender, testRecipient);
+
+        assertEquals(new BigDecimal("50"), testSender.getBalance());
+        assertEquals(1, testSender.getTransactions().size());
+        assertEquals(new BigDecimal("150"), testRecipient.getBalance());
+        assertEquals(4, testRecipient.getNotifications().size());
+        assertEquals(1, testRecipient.getTransactions().size());
     }
 
     @Test

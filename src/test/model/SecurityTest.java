@@ -1,16 +1,25 @@
+package model;
+
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import static jdk.nashorn.internal.objects.NativeString.length;
-import static model.Security.hashFunction;
-import static model.Security.salt;
+import static model.Security.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SecurityTest {
+
+    @Test
+    void testConstructor() {
+        Security testSecurity = new Security();
+        assertEquals("for junit", testSecurity.getJunit());
+    }
 
     @Test
     void testHashFunctionEmpty() {
@@ -19,6 +28,13 @@ public class SecurityTest {
 
     @Test
     void testHashFunctionString() {
+        assertEquals(-1571049144, hashFunction("vancouver"));
+    }
+
+    @Test
+    void testHashFunctionStringRepeated() {
+        assertEquals(-1571049144, hashFunction("vancouver"));
+        assertEquals(-1571049144, hashFunction("vancouver"));
         assertEquals(-1571049144, hashFunction("vancouver"));
     }
 
@@ -45,5 +61,23 @@ public class SecurityTest {
         Set<String> saltSet = new HashSet<>(salts);
 
         assertEquals(saltSet.size(), salts.size());
+    }
+
+    @Test
+    void testCountdownTimerProper() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        countdownTimer(true);
+
+        assertEquals("5...\r\n4...\r\n3...\r\n2...\r\n1...\r\n", outContent.toString());
+    }
+
+    @Test
+    void testCountdownTimerImproper() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        countdownTimer(false);
+
+        assertEquals("Exception caught in countdownTimer.\r\n", outContent.toString());
     }
 }

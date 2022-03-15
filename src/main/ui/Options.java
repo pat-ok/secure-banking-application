@@ -46,6 +46,6 @@ public abstract class Options {
     // MODIFIES: nothing
     // EFFECTS: prints returning to main menu message
     protected static void returnMain() {
-        System.out.println("Returning to main menu.");
+        System.out.println("Returning to main menu.\n");
     }
 }

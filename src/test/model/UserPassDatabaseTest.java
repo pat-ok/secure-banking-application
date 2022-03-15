@@ -1,5 +1,5 @@
-import model.Account;
-import model.UserDatabase;
+package model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,14 +14,14 @@ public class UserPassDatabaseTest {
 
     @BeforeEach
     void runBefore() {
-        userDatabase = new UserDatabase();
+        userDatabase = new UserDatabase(true);
         testDB = userDatabase.getUserDatabase();
     }
 
     @Test
     void testConstructor() {
         assertEquals(2, testDB.size());
-        assertTrue(testDB.containsKey("Foo") && testDB.containsKey("Bar"));
+        assertTrue(testDB.containsKey("foo") && testDB.containsKey("bar"));
     }
 
     @Test
@@ -35,18 +35,18 @@ public class UserPassDatabaseTest {
 
     @Test
     void testAuthUsername() {
-        assertTrue(userDatabase.authUsername("Foo"));
-        assertFalse(userDatabase.authUsername("FooFalse"));
-        assertTrue(userDatabase.authUsername("Bar"));
-        assertFalse(userDatabase.authUsername("BarFalse"));
+        assertTrue(userDatabase.authUsername("foo"));
+        assertFalse(userDatabase.authUsername("fooFalse"));
+        assertTrue(userDatabase.authUsername("bar"));
+        assertFalse(userDatabase.authUsername("barFalse"));
         assertFalse(userDatabase.authUsername(""));
     }
 
     @Test
     void testAuthPassword() {
-        assertTrue(userDatabase.authPassword("Foo", "pass123"));
-        assertFalse(userDatabase.authPassword("Foo", "false"));
-        assertTrue(userDatabase.authPassword("Bar", "pass123"));
-        assertFalse(userDatabase.authPassword("Bar", "false"));
+        assertTrue(userDatabase.authPassword("foo", "pass123"));
+        assertFalse(userDatabase.authPassword("foo", "false"));
+        assertTrue(userDatabase.authPassword("bar", "pass123"));
+        assertFalse(userDatabase.authPassword("bar", "false"));
     }
 }

@@ -25,14 +25,30 @@ public class Account extends Options {
     //          inbox is initialized with welcome messages,
     //          transactions is initialized with empty history
     public Account(String accountPass, String accountName) {
-        password = accountPass;
-        name = accountName;
-        balance = new BigDecimal("100");
-        notifications = new ArrayList<>();
-        notifications.add("Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.");
-        notifications.add("Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!");
-        notifications.add("You have received a $100 sign up bonus!");
-        transactions = new ArrayList<>();
+        this.password = accountPass;
+        this.name = accountName;
+        this.balance = new BigDecimal("100");
+        this.notifications = new ArrayList<>();
+        this.notifications.add("Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.");
+        this.notifications.add("Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!");
+        this.notifications.add("You have received a $100 sign up bonus!");
+        this.transactions = new ArrayList<>();
+    }
+
+    // REQUIRES: account password and account name must be valid entries
+    //           (non-empty, not only consisting of spaces, no leading or trailing spaces)
+    // MODIFIES: this is a constructor
+    // EFFECTS: secondary constructor for JsonReader that constructs an account with...
+    public Account(String pass,
+                   String name,
+                   String balance,
+                   ArrayList<String> notifications,
+                   ArrayList<String> transactions) {
+        this.password = pass;
+        this.name = name;
+        this.balance = new BigDecimal(balance.replaceAll("\\$", ""));
+        this.notifications = notifications;
+        this.transactions = transactions;
     }
 
     // getter for password
@@ -141,10 +157,14 @@ public class Account extends Options {
     public String transactionHistory() {
         int i = 1;
         StringBuilder transactionHistory = new StringBuilder("Transaction history for " + name + ":\n");
-        for (String transaction : transactions) {
-            String num = "[" + i + "] ";
-            transactionHistory.append(num).append(transaction).append("\n");
-            i++;
+        if (transactions.size() == 0) {
+            transactionHistory.append("No transactions to show.");
+        } else {
+            for (String transaction : transactions) {
+                String num = "[" + i + "] ";
+                transactionHistory.append(num).append(transaction).append("\n");
+                i++;
+            }
         }
         return transactionHistory.toString();
     }
