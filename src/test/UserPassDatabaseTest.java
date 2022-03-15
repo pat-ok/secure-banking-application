@@ -1,57 +1,52 @@
-package test;
-
-import main.model.Account;
-import main.model.UserPassDatabase;
+import model.Account;
+import model.UserDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserPassDatabaseTest {
-    private UserPassDatabase testdatabase;
-    private HashMap<String, Account> testlogininfo;
+    private UserDatabase userDatabase;
+    private HashMap<String, Account> testDB;
 
 
     @BeforeEach
     void runBefore() {
-        testdatabase = new UserPassDatabase();
-        testlogininfo = testdatabase.getloginInfo();
-        ArrayList<String> foogmailinbox = new ArrayList<>();
-        foogmailinbox.add("This is Foo's inbox.");
-        testlogininfo.put("foogmail",
-                new Account("foo123",
-                        "Mr. Foo",
-                        500,
-                        foogmailinbox));
+        userDatabase = new UserDatabase();
+        testDB = userDatabase.getUserDatabase();
     }
 
     @Test
-    void testauthUsername() {
-        assertTrue(testdatabase.authUsername("foogmail"));
-        assertFalse(testdatabase.authUsername("false"));
+    void testConstructor() {
+        assertEquals(2, testDB.size());
+        assertTrue(testDB.containsKey("Foo") && testDB.containsKey("Bar"));
     }
 
     @Test
-    void testauthPassword() {
-        assertFalse(testdatabase.authPassword("foogmail", "false"));
+    void testStoreAccount() {
+        Account testAccount = new Account("pass321", "Testing");
+        userDatabase.storeAccount("Tester", testAccount);
+
+        assertEquals(3,testDB.size());
+        assertTrue(testDB.containsKey("Tester"));
     }
 
     @Test
-    void testinvalidEntry() {
-        assertTrue(testdatabase.invalidEntry(""));
-        assertTrue(testdatabase.invalidEntry(" "));
-        assertTrue(testdatabase.invalidEntry(" Foo"));
-        assertTrue(testdatabase.invalidEntry("Foo "));
-        assertFalse(testdatabase.invalidEntry("Foo"));
+    void testAuthUsername() {
+        assertTrue(userDatabase.authUsername("Foo"));
+        assertFalse(userDatabase.authUsername("FooFalse"));
+        assertTrue(userDatabase.authUsername("Bar"));
+        assertFalse(userDatabase.authUsername("BarFalse"));
+        assertFalse(userDatabase.authUsername(""));
     }
 
     @Test
-    void testregisterPasswordMatch() {
-        assertTrue(testdatabase.registerPasswordMatch("password", "password"));
-        assertFalse(testdatabase.registerPasswordMatch("password", "false"));
+    void testAuthPassword() {
+        assertTrue(userDatabase.authPassword("Foo", "pass123"));
+        assertFalse(userDatabase.authPassword("Foo", "false"));
+        assertTrue(userDatabase.authPassword("Bar", "pass123"));
+        assertFalse(userDatabase.authPassword("Bar", "false"));
     }
 }

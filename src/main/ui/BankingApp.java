@@ -1,42 +1,29 @@
-package main.ui;
+package ui;
 
-import main.model.Account;
-import main.model.UserPassDatabase;
+import model.Account;
+import model.UserDatabase;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static model.Security.*;
+import static model.Formatting.*;
 
-// Banking Application
-public class BankingApp {
-
+// Represents the Banking Application
+public class BankingApp extends Options {
+    //private static final String JSON_STORE = "./data/database.json";
     private Scanner input;
 
-    // main menu commands
-    private static final String LOGIN_COMMAND = "login";
-    private static final String REGISTER_COMMAND = "register";
-    private static final String HACK_COMMAND = "hack";
-    private static final String QUIT_COMMAND = "quit";
+    static UserDatabase database = new UserDatabase();
+    static HashMap<String, Account> databaseInfo = database.getUserDatabase();
 
-    // account login commands
-    private static final String CHECK_BALANCE_COMMAND = "balance";
-    private static final String CHECK_INBOX_COMMAND = "checkinbox";
-    private static final String DEPOSIT_COMMAND = "deposit";
-    private static final String WITHDRAW_COMMAND = "withdraw";
-    private static final String TRANSFER_COMMAND = "transfer";
-    private static final String DELETE_INBOX_COMMAND = "deleteinbox";
-    private static final String LOGOUT_COMMAND = "logout";
-
-    static UserPassDatabase database = new UserPassDatabase();
-    static HashMap<String, Account> accountInfo = database.getloginInfo();
-
-    static String username = null;
-    static String password = null;
-    static String newUsername = null;
-    static String newPassword = null;
-    static String newPasswordConfirm = null;
-    static String newName = null;
+    static String username;
+    static String password;
+    static String newUsername;
+    static String newPassword;
+    static String newPasswordConfirm;
+    static String newName;
 
     // EFFECTS: initiates Banking Application
     public BankingApp() {
@@ -45,94 +32,77 @@ public class BankingApp {
 
     // EFFECTS: main menu processes user input
     private void mainMenu() {
-        Boolean runApp = true;
-        String command = null;
+        boolean runApp = true;
+        String command;
         input = new Scanner(System.in);
 
         while (runApp) {
-            displayOptions();
-            command = input.nextLine();
-            command = command.toLowerCase();
-
+            displayMainOptions();
+            command = pretty(input.nextLine());
             if (command.equals(QUIT_COMMAND)) {
                 runApp = false;
             } else {
                 parseCommand(command);
             }
         }
-        System.out.println("Bye.");
-    }
-
-    // EFFECTS: displays main menu options
-    private void displayOptions() {
-        System.out.println("Welcome to TD Canada Trust. How can we help you today?");
-        System.out.println("Select from:  ["
-                + LOGIN_COMMAND + " | "
-                + REGISTER_COMMAND + " | "
-                + HACK_COMMAND + " | "
-                + QUIT_COMMAND + "]");
-    }
-
-    private void displayInfo() {
-        System.out.println("Enter '" + LOGIN_COMMAND + "' to login.");
-        System.out.println("Enter '" + REGISTER_COMMAND + "' to register.");
-        System.out.println("Enter '" + HACK_COMMAND + "' to hack.");
-        System.out.println("Enter '" + QUIT_COMMAND + "' at any time to quit.");
+        System.out.println("Goodbye!");
     }
 
     // EFFECTS: parses commands from user on main menu
     private void parseCommand(String command) {
-        if (command.equals(LOGIN_COMMAND)) {
-            doLogin();
-        } else if (command.equals(REGISTER_COMMAND)) {
-            doRegister();
-        } else if (command.equals(HACK_COMMAND)) {
-            doHack();
-        } else if (command.equals("hash")) {
-            System.out.println("For prototype purposes");
-            System.out.println("Enter the string you would like to hash");
-            System.out.println(hashFunction(input.nextLine()));
-            System.out.println("And the random salt generated is:");
-            System.out.println(salt());
-        } else {
-            System.out.println("Command is not valid. Please try again.");
+        switch (command) {
+            case LOGIN_COMMAND:
+                doLogin();
+                break;
+            case REGISTER_COMMAND:
+                doRegister();
+                break;
+            case HACK_COMMAND:
+                doHack();
+                break;
+            case "hash":
+                System.out.println("For demonstration purposes. Enter the string you would like to hash.");
+                System.out.println(hashFunction(input.nextLine()));
+                System.out.println("And a random salt generated is:" + salt());
+                break;
+            default:
+                System.out.println("Command is not valid. Please try again.");
+                break;
         }
     }
 
-
-    // EFFECTS: initiates login UI and allows users to enter username
+    // EFFECTS: initiates login sequence and verifies entered username
     private void doLogin() {
         System.out.println("Please enter your username.");
         username = input.nextLine();
         if (username.equals(QUIT_COMMAND)) {
-            System.out.println("Returning to main menu.");
+            Options.returnMain();
         } else if (database.authUsername(username)) {
             System.out.println("Username exists.");
-            loginPasswordUI();
+            doLoginPassword();
         } else {
             System.out.println("Username DNE. Try again.");
             doLogin();
         }
     }
 
-    // EFFECTS: allows user to enter password
-    private void loginPasswordUI() {
+    // EFFECTS: continues login sequence and verifies entered password
+    private void doLoginPassword() {
         System.out.println("Please enter your password.");
-        Integer remainingTries = 3;
+        int remainingTries = 3;
         while (remainingTries > 0) {
             password = input.nextLine();
             if (password.equals(QUIT_COMMAND)) {
                 remainingTries = 0;
-                System.out.println("Returning to main menu.");
+                returnMain();
             } else if (database.authPassword(username, password)) {
-                Account userAccount = (Account) database.getloginInfo().get(username);
-                System.out.println("Password matches username. Access successful. \nWelcome to TD, "
-                        + userAccount.getName() + "!");
+                Account userAccount = databaseInfo.get(username);
+                System.out.println(userAccount.loginNotifications());
                 accountMenu();
             } else if (remainingTries == 1) {
-                System.out.println("Login failed. Account locked for 10 seconds.\nLaw enforcement has been called.");
+                System.out.println("Login failed. Account locked for 5 seconds.\nLaw enforcement has been called.");
                 remainingTries--;
-                countdownTimer(10);
+                countdownTimer();
             } else {
                 remainingTries--;
                 System.out.println("Password is incorrect. You have " + remainingTries + " attempt(s) left.");
@@ -140,59 +110,53 @@ public class BankingApp {
         }
     }
 
-
-    // EFFECTS: initiates registration UI
+    // EFFECTS: initiates registration sequence and allows users to enter a name
     private void doRegister() {
         System.out.println("Please enter your preferred name.");
         newName = input.nextLine();
         if (newName.equals(QUIT_COMMAND)) {
-            System.out.println("Returning to main menu.");
-        } else if (database.invalidEntry(newName)) {
+            returnMain();
+        } else if (isInvalidEntry(newName)) {
             System.out.println("Name is invalid.");
             doRegister();
         } else {
-            registerUsernameUI();
+            registerUsername();
         }
     }
 
-
-    // EFFECTS: allows users to register for a username
-    private void registerUsernameUI() {
-        System.out.println("Please enter your desired username. \nNote: username cannot be '" + QUIT_COMMAND + "'.");
+    // EFFECTS: continues registration sequence and allows users to enter a username
+    private void registerUsername() {
+        System.out.println("Please enter your desired username.\nNote: cannot use '" + QUIT_COMMAND + "'.");
         newUsername = input.nextLine();
         if (newUsername.equals(QUIT_COMMAND)) {
-            System.out.println("Returning to main menu.");
-        } else if (database.invalidEntry(newUsername) || database.authUsername(newUsername)) {
+            returnMain();
+        } else if (isInvalidEntry(newUsername) || database.authUsername(newUsername)) {
             System.out.println("Username is invalid or already exists.");
-            registerUsernameUI();
+            registerUsername();
         } else {
             System.out.println("Username is valid.");
-            registerPasswordUI();
+            registerPassword();
         }
     }
 
-    // EFFECTS: allows user to register for a password
-    private void registerPasswordUI() {
+    // EFFECTS: continues registration sequence and allows users to enter a password
+    private void registerPassword() {
         System.out.println("Please enter your desired password.");
         newPassword = input.nextLine();
-        if (database.invalidEntry(newPassword)) {
+        if (isInvalidEntry(newPassword)) {
             System.out.println("Password is invalid.");
-            registerPasswordUI();
+            registerPassword();
         } else {
             System.out.println("Please confirm your password.");
             newPasswordConfirm = input.nextLine();
-            if (database.registerPasswordMatch(newPassword, newPasswordConfirm)) {
-                ArrayList<String> inbox = new ArrayList<>();
-                inbox.add("Welcome to TD, " + newName.substring(0,1).toUpperCase() + newName.substring(1)
-                        + "!\nWe are glad to have you as a customer.");
-                inbox.add("Thank you for choosing TD Bank of Canada. \nPlease review your terms and conditions.");
+            if (newPassword.equals(newPasswordConfirm)) {
                 String salt = salt();
-                database.storeAccount(newUsername, new Account(salt + hashFunction(salt + newPassword),
-                        newName.substring(0,1).toUpperCase() + newName.substring(1), 0, inbox));
+                database.storeAccount(newUsername,
+                        new Account(salt + hashFunction(salt + newPassword), capitalizeName(newName)));
                 System.out.println("Account has been registered. Thank you!");
             } else {
                 System.out.println("Passwords do not match. Please try again.");
-                registerPasswordUI();
+                registerPassword();
             }
         }
     }
@@ -201,26 +165,22 @@ public class BankingApp {
     private void doHack() {
         System.out.println("*playing Mission Impossible theme*");
         System.out.println("Hacking the mainframe...");
-        countdownTimer(5);
+        countdownTimer();
         System.out.println("AND WE'RE IN! \n");
-        accountInfo.forEach((k,v)
+        databaseInfo.forEach((k, v)
                 -> System.out.println("Username: " + k + "  "
                 + "Password: " + v.getPassword()));
-        System.out.println("Enter '" + QUIT_COMMAND + "' to return to main menu.");
-        String end = input.next();
     }
 
-    // EFFECTS: runs account menu UI once logged in
+    // EFFECTS: account menu processes user input after logging in
     private void accountMenu() {
-        Boolean runAccountMenu = true;
-        String accountCommand = null;
+        boolean runAccountMenu = true;
+        String accountCommand;
         input = new Scanner(System.in);
 
         while (runAccountMenu) {
             displayAccountOptions();
-            accountCommand = input.nextLine();
-            accountCommand = accountCommand.toLowerCase();
-
+            accountCommand = pretty(input.nextLine());
             if (accountCommand.equals(LOGOUT_COMMAND)) {
                 runAccountMenu = false;
             } else {
@@ -230,166 +190,102 @@ public class BankingApp {
         System.out.println("You have been logged out. Press quit to return to main menu.");
     }
 
-    // EFFECTS: prints all options available once logged into account
-    private void displayAccountOptions() {
-        System.out.println("Select from:  ["
-                + CHECK_BALANCE_COMMAND + " | "
-                + CHECK_INBOX_COMMAND + " | "
-                + DEPOSIT_COMMAND + " | "
-                + WITHDRAW_COMMAND + " | "
-                + TRANSFER_COMMAND + " | "
-                + DELETE_INBOX_COMMAND + " | "
-                + LOGOUT_COMMAND + "]");
-    }
-
-    private void displayAccountInfo() {
-        System.out.println("Enter '" + CHECK_BALANCE_COMMAND + "' to check balance.");
-        System.out.println("Enter '" + CHECK_INBOX_COMMAND + "' to check messages.");
-        System.out.println("Enter '" + DEPOSIT_COMMAND + "' to deposit money.");
-        System.out.println("Enter '" + WITHDRAW_COMMAND + "' to withdraw money.");
-        System.out.println("Enter '" + TRANSFER_COMMAND + "' to eTransfer money.");
-        System.out.println("Enter '" + DELETE_INBOX_COMMAND + "' to delete messages.");
-        System.out.println("Enter '" + LOGOUT_COMMAND + "' to logout.");
-    }
-
-    // EFFECTS: parses commands once logged in.
+    // EFFECTS: parses commands once logged in
     private void parseAccountCommand(String command) {
-        if (command.equals(CHECK_BALANCE_COMMAND)) {
-            doCheckBalance();
-        } else if (command.equals(CHECK_INBOX_COMMAND)) {
-            doCheckInbox();
-        } else if (command.equals(DEPOSIT_COMMAND)) {
-            doDeposit();
-        } else if (command.equals(WITHDRAW_COMMAND)) {
-            doWithdraw();
-        } else if (command.equals(TRANSFER_COMMAND)) {
-            doTransfer();
-        } else if (command.equals(DELETE_INBOX_COMMAND)) {
-            doDeleteInbox();
-        } else {
-            System.out.println("Command is not valid. Please try again.");
+        switch (command) {
+            case CHECK_BALANCE_COMMAND:
+                doCheckBalance();
+                break;
+            case DEPOSIT_COMMAND:
+                doDeposit();
+                break;
+            case WITHDRAW_COMMAND:
+                doWithdraw();
+                break;
+            case TRANSFER_COMMAND:
+                doTransfer();
+                break;
+            case TRANSACTIONS_COMMAND:
+                doTransactionHistory();
+                break;
+            default:
+                System.out.println("Command is not valid. Please try again.");
+                break;
         }
     }
 
     // EFFECTS: prints current bank balance
     private void doCheckBalance() {
-        Account userAccount = (Account) database.getloginInfo().get(username);
-        System.out.println("Your current balance is: $" + userAccount.getBalance());
-        System.out.println("");
+        Account userAccount = databaseInfo.get(username);
+        System.out.println("Your current balance is: " + userAccount.getBalanceString() + "\n");
     }
 
-    // EFFECTS: reads messages from inbox
-    private void doCheckInbox() {
-        Account userAccount = (Account) database.getloginInfo().get(username);
-        System.out.println("You currently have: " + userAccount.getInbox().size() + " message(s).");
-        Integer n = 1;
-        for (String x : userAccount.getInbox()) {
-            System.out.println("[" + n + "]: '" + x + "'");
-            n++;
-        }
-        System.out.println("");
-    }
-
-    // EFFECTS: deposits money to bank account
+    // EFFECTS: deposits money to bank account and prints confirmation
     private void doDeposit() {
-        Account userAccount = (Account) database.getloginInfo().get(username);
+        Account userAccount = databaseInfo.get(username);
         System.out.println("Deposit amount: $");
-        Double amount = Double.parseDouble(input.nextLine());
-        userAccount.deposit(amount);
-        System.out.println("You have deposited: $" + amount + ".");
-        System.out.println("Your new balance is: $" + userAccount.getBalance() + ".");
-        System.out.println("");
+        String amount = input.nextLine();
+        if (amount.matches("\\d+(\\.\\d+)?")) {
+            System.out.println(userAccount.deposit(amount) + "\n");
+        } else {
+            System.out.println("Invalid amount. Please try again.");
+            doDeposit();
+        }
     }
 
-    // EFFECTS: withdraws money from bank account
+    // EFFECTS: withdraws money from bank account and prints confirmation
     private void doWithdraw() {
-        Account userAccount = (Account) database.getloginInfo().get(username);
+        Account userAccount = databaseInfo.get(username);
         System.out.println("Withdraw amount: $");
-        Double amount = Double.parseDouble(input.nextLine());
-        if (amount > userAccount.getBalance()) {
-            System.out.println("You have insufficient funds.");
-        } else {
-            userAccount.withdraw(amount);
-            System.out.println("You have withdrawn $" + amount + ".");
-            System.out.println("Your new balance is $" + userAccount.getBalance() + ".");
-        }
-        System.out.println("");
-    }
-
-    // EFFECTS: transfers an amount of money to another valid registered user
-    private void doTransfer() {
-        Account userAccount = (Account) database.getloginInfo().get(username);
-        System.out.println("Recipient username: ");
-        String recipientuser = input.nextLine();
-        if (database.authUsername(recipientuser)) {
-            System.out.println("Transfer amount: $");
-            Double transferamount = Double.parseDouble(input.nextLine());
-            if (transferamount > userAccount.getBalance()) {
-                System.out.println("You have insufficient funds.");
+        String amount = input.nextLine();
+        if (amount.matches("\\d+(\\.\\d+)?")) {
+            BigDecimal withdraw = new BigDecimal(amount);
+            if (lessThanOrEqual(withdraw, userAccount.getBalance())) {
+                System.out.println(userAccount.withdraw(amount) + "\n");
             } else {
-                Account recipientAccount = (Account) database.getloginInfo().get(recipientuser);
-                userAccount.withdraw(transferamount);
-                recipientAccount.deposit(transferamount);
-                recipientAccount.getInbox().add("You have received an eTransfer from " + userAccount.getName()
-                        + " of $" + transferamount);
-                System.out.println(recipientuser + " has received your eTransfer!");
+                System.out.println("You have insufficient funds. \n");
             }
         } else {
-            System.out.println("User not found. Returning to menu.");
+            System.out.println("Invalid amount. Please try again.");
+            doWithdraw();
         }
-        System.out.println("");
     }
 
-    // EFFECTS: deletes inbox messages
-    private void doDeleteInbox() {
-        Account userAccount = (Account) database.getloginInfo().get(username);
-        System.out.println("Are you sure? y/n");
-        String confirm = input.nextLine();
-        if (confirm.equals("y")) {
-            userAccount.getInbox().clear();
-            System.out.println("Inbox has been cleared.");
-        } else if (confirm.equals("n")) {
-            System.out.println("Action has been cancelled.");
+    // EFFECTS: initiates transfer sequence and checks whether user receiving money is an existing user
+    private void doTransfer() {
+        System.out.println("Recipient username:");
+        String recipientUser = input.nextLine();
+        if (database.authUsername(recipientUser)) {
+            doTransferActual(recipientUser);
         } else {
-            System.out.println("Sorry, command not recognized.");
+            System.out.println("User not found. Returning to menu. \n");
         }
-        System.out.println("");
     }
 
-    // REQUIRES: String must be string
-    // EFFECTS: String is scrambled into a random integer
-    public static int hashFunction(String s) {
-        int hash = 604;
-        for (int i = 0; i < s.length(); i++) {
-            hash = hash * 17 + s.charAt(i);
-        }
-        return hash;
-    }
-
-    // EFFECTS: creates a random string of length 5
-    public static String salt() {
-        String alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder sb = new StringBuilder(5);
-        for (int i = 0; i < 5; i++) {
-            sb.append(alphanumeric.charAt((int) (alphanumeric.length() * Math.random())));
-        }
-        return sb.toString();
-    }
-
-    // REQUIRES: Time is not empty
-    // EFFECTS: A countdown is initiated in seconds from given integer time. Prints each second.
-    public static Object countdownTimer(Integer time) {
-//        Integer timer = time;
-        while (time > 0) {
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                System.out.println(e);
+    // EFFECTS: continues transfer sequence and transfers money if sender has funds
+    private void doTransferActual(String recipient) {
+        Account userAccount = databaseInfo.get(username);
+        Account recipientAccount = databaseInfo.get(recipient);
+        System.out.println("Transfer amount: $");
+        String amount = input.nextLine();
+        if (amount.matches("\\d+(\\.\\d+)?")) {
+            BigDecimal transfer = new BigDecimal(amount);
+            if (lessThanOrEqual(transfer, userAccount.getBalance())) {
+                doTransferFromTo(amount, userAccount, recipientAccount);
+                System.out.println(recipientAccount.getName() + " has received your Interac eTransfer! \n");
+            } else {
+                System.out.println("You have insufficient funds. \n");
             }
-            System.out.println(time + "...");
-            time--;
+        } else {
+            System.out.println("Invalid amount. Please try again. \n");
+            doTransferActual(recipient);
         }
-        return null;
+    }
+
+    // EFFECTS: displays complete history of transactions for user
+    private void doTransactionHistory() {
+        Account userAccount = databaseInfo.get(username);
+        System.out.println(userAccount.transactionHistory());
     }
 
 }
