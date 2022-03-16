@@ -34,12 +34,19 @@ public class BankingApp extends Options {
 
     // EFFECTS: initiates Banking Application
     public BankingApp() {
-
-        // load database from save when opening
         jsonReader = new JsonReader(JSON_STORE);
-        loadUserDatabase();
-        databaseInfo = database.getUserDatabase();
 
+        // try to load database from save when opening,
+        // otherwise create new database with 2 demo accounts (foo, bar)
+        try {
+            loadUserDatabase();
+            System.out.println("File loaded");
+        } catch (IOException ioe) {
+            database = new UserDatabase(true);
+            System.out.println("No file found, creating new database");
+        }
+
+        databaseInfo = database.getUserDatabase();
         mainMenu();
 
         // save database when closing
@@ -326,7 +333,7 @@ public class BankingApp extends Options {
     //          adds amount to recipient balance,
     //          adds eTransfer to transaction history,
     //          adds eTransfer to notifications list
-    public static void doTransferFromTo(String amount, Account sender, Account recipient) {
+    private void doTransferFromTo(String amount, Account sender, Account recipient) {
         sender.transferOut(amount, recipient.getName());
         recipient.transferIn(amount, sender.getName());
     }
@@ -351,13 +358,8 @@ public class BankingApp extends Options {
 
     // MODIFIES: this
     // EFFECTS: loads user database from file
-    private void loadUserDatabase() {
-        try {
-            database = jsonReader.read();
-            System.out.println("Loaded user database from " + JSON_STORE);
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
+    private void loadUserDatabase() throws IOException {
+        database = jsonReader.read();
     }
 
     // REQUIRES: nothing
