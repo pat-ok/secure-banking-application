@@ -13,10 +13,11 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import static model.Formatting.*;
-import static model.Security.*;
+import static model.Security.hashFunction;
+import static model.Security.salt;
 
 // Represents the Banking Application
-public class BankingApp extends Options {
+public class BankingApp extends ui.Options {
     private static final String JSON_STORE = "./data/database.json";
     private final JsonWriter jsonWriter;
     private final JsonReader jsonReader;
@@ -34,10 +35,10 @@ public class BankingApp extends Options {
         // otherwise create new database with 2 demo accounts (foo, bar)
         try {
             loadUserDatabase();
-            System.out.println("File loaded");
+            System.out.println("File loaded from " + JSON_STORE);
         } catch (IOException ioe) {
             database = new UserDatabase(true);
-            System.out.println("No file found, creating new database");
+            System.out.println(JSON_STORE + " not found; creating new database");
         }
 
         databaseInfo = database.getUserDatabase();

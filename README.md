@@ -19,7 +19,7 @@ Customers seeking to be affiliated with the behaviours of participating in activ
 ## Why is this project of interest to you?
 Learning how to:  
 - Design a program in an object-oriented domain using a test driven development process.
-- Developing a robust exception handling system to maintain desired flow of program. 
+- Creating a robust exception handling system to maintain desired flow of program. 
 - Optimize data abstraction to more accurately model the domain and limit points of reliance with appropriate levels of access.  
 - Developing a well documented and maintainable codebase.
 
