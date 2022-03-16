@@ -50,8 +50,8 @@ public class JsonWriterTest extends JsonTest {
 
             JsonReader reader = new JsonReader("./data/testWriterGeneralUserDatabase.json");
             udb = reader.read();
-            checkAccount(udb, "foo", "pass123", "Mr. Foo", "100.00");
-            checkAccount(udb, "bar", "pass123", "Mr. Bar", "100.00");
+            checkAccount(udb, "foo", "pass123", "Mr. Foo", "100.00", 3, 0);
+            checkAccount(udb, "bar", "pass123", "Mr. Bar", "100.00", 3, 0);
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");

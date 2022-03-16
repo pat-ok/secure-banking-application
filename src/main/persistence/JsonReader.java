@@ -43,6 +43,7 @@ public class JsonReader {
 
     // TODO: make this smaller
     // EFFECTS: parses user database from JSON object and returns it
+    @SuppressWarnings("methodlength")
     private UserDatabase parseUserDatabase(JSONObject jsonObject) {
         // instantiate new database
         UserDatabase udb = new UserDatabase(false);
@@ -84,7 +85,6 @@ public class JsonReader {
 
         // with an arraylist of usernames and an arraylist of accounts,
         // iterate through each equally to add to user database
-        assert (usernames.size() == accounts.size());
         for (int i = 0; i < usernames.size(); i++) {
             udb.storeAccount(usernames.get(i), accounts.get(i));
         }

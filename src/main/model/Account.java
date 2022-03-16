@@ -35,10 +35,14 @@ public class Account extends Options {
         this.transactions = new ArrayList<>();
     }
 
-    // REQUIRES: account password and account name must be valid entries
-    //           (non-empty, not only consisting of spaces, no leading or trailing spaces)
+    // REQUIRES: nothing
     // MODIFIES: this is a constructor
     // EFFECTS: secondary constructor for JsonReader that constructs an account with...
+    //          password is set to pass,
+    //          name is set to name,
+    //          balance is set to balance,
+    //          notifications is set to notifications,
+    //          transactions is set to transactions
     public Account(String pass,
                    String name,
                    String balance,
@@ -82,7 +86,7 @@ public class Account extends Options {
     }
 
 
-    // REQUIRES: amount >= 0
+    // REQUIRES: nothing (checked that amount is >= 0)
     // MODIFIES: this
     // EFFECTS: deposited amount is added to current bank balance,
     //          transaction is recorded,
@@ -95,7 +99,7 @@ public class Account extends Options {
                 + ". Your new balance is: " + currencyFormat(balance);
     }
 
-    // REQUIRES: amount >= balance
+    // REQUIRES: nothing (checked that amount >= balance)
     // MODIFIES: this
     // EFFECTS: withdrawn amount is subtracted from current bank balance,
     //          transaction is recorded,
@@ -126,7 +130,7 @@ public class Account extends Options {
         return welcomeMessage.toString();
     }
 
-    // REQUIRES: amount >= balance, and recipient must be an existing user
+    // REQUIRES: nothing (checked for valid user and sufficient funds)
     // MODIFIES: this
     // EFFECTS: subtracts outgoing transfer amount from balance,
     //          adds eTransfer to transaction history

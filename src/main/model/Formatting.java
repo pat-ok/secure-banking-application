@@ -1,8 +1,12 @@
 package model;
 
+import exceptions.*;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
+// Represents a public class with static input checking and formatting methods
+// Should be abstract with no constructors if it weren't for jUnit?
 public class Formatting {
     private String junit;
 
@@ -26,25 +30,37 @@ public class Formatting {
         return s;
     }
 
-    // REQUIRES: nothing
+    // REQUIRES: s does not have illegal traits:
+    //           empty,
+    //           only whitespace,
+    //           leading or trailing whitespaces
     // MODIFIES: nothing
-    // EFFECTS: returns true if entry has illegal traits:
-    //          empty,
-    //          only whitespace,
-    //          leading or trailing whitespaces
-    public static boolean isInvalidEntry(String s) {
-        return s.matches(".{0}|( )*|( )+.*( )*|( )*.*( )+");
+    // EFFECTS: nothing
+    public static void isValidEntry(String s) throws IllegalEntryException {
+        if (s.matches(".{0}|( )*|( )+.*( )*|( )*.*( )+")) {
+            throw new IllegalEntryException();
+        }
     }
 
-    // REQUIRES: nothing
+    // REQUIRES: name does not have illegal traits:
+    //           empty,
+    //           only whitespace,
+    //           has non-alphabetical characters
     // MODIFIES: nothing
-    // EFFECTS: returns true if entry for name has illegal traits:
-    //          empty,
-    //          only whitespace,
-    //          leading or trailing whitespaces,
-    //          has non-alphabetical characters
-    public static boolean isInvalidName(String name) {
-        return isInvalidEntry(name) || !name.matches("(( )*[A-Za-z]*( )*)*");
+    // EFFECTS: nothing
+    public static void isValidName(String name) throws InvalidNameException {
+        if (name.matches(".{0}|( )*") || !name.matches("(( )*[A-Za-z]*( )*)*")) {
+            throw new InvalidNameException();
+        }
+    }
+
+    // REQUIRES: amount must be validly monetary
+    // MODIFIES: nothing
+    // EFFECTS: nothing
+    public static void isValidAmount(String amount) throws InvalidAmountException {
+        if (!amount.matches("\\d+(\\.\\d+)?")) {
+            throw new InvalidAmountException();
+        }
     }
 
     // REQUIRES: nothing
@@ -61,7 +77,16 @@ public class Formatting {
                 spaceBefore = true;
             }
         }
-        return String.valueOf(nameChars).replaceAll("( ){2,}", " ");
+        return String.valueOf(nameChars).replaceAll("( ){2,}", " ").trim();
+    }
+
+    // REQUIRES: password matches confirmation password
+    // MODIFIES: nothing
+    // EFFECTS: nothing
+    public static void doPasswordsMatch(String password, String passwordConfirm) throws PasswordsDoNotMatchException {
+        if (!password.equals(passwordConfirm)) {
+            throw new PasswordsDoNotMatchException();
+        }
     }
 
     // REQUIRES: nothing
@@ -86,10 +111,12 @@ public class Formatting {
         return NumberFormat.getCurrencyInstance().format(bd);
     }
 
-    // REQUIRES: nothing
+    // REQUIRES: outgoing <= balance
     // MODIFIES: nothing
-    // EFFECTS: BigDecimal comparator returning true if x >= y
-    public static boolean lessThanOrEqual(BigDecimal x, BigDecimal y) {
-        return (x.compareTo(y) <= 0);
+    // EFFECTS: nothing
+    public static void hasSufficientFunds(BigDecimal outgoing, BigDecimal balance) throws InsufficientFundsException {
+        if (!(outgoing.compareTo(balance) <= 0)) {
+            throw new InsufficientFundsException();
+        }
     }
 }

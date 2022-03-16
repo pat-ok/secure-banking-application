@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.*;
 import model.Account;
 import model.UserDatabase;
 import persistence.JsonReader;
@@ -17,8 +18,8 @@ import static model.Security.*;
 // Represents the Banking Application
 public class BankingApp extends Options {
     private static final String JSON_STORE = "./data/database.json";
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private final JsonWriter jsonWriter;
+    private final JsonReader jsonReader;
     private Scanner input;
 
     private static UserDatabase database;
@@ -37,7 +38,7 @@ public class BankingApp extends Options {
         // load database from save
         jsonReader = new JsonReader(JSON_STORE);
         loadUserDatabase();
-        //databaseInfo = database.getUserDatabase();
+        databaseInfo = database.getUserDatabase();
 
         mainMenu();
 
@@ -53,19 +54,23 @@ public class BankingApp extends Options {
         input = new Scanner(System.in);
 
         while (runApp) {
-            displayMainOptions();
+            displayMainMenuOptions();
             command = pretty(input.nextLine());
             if (command.equals(QUIT_COMMAND)) {
                 runApp = false;
             } else {
-                parseCommand(command);
+                try {
+                    parseCommand(command);
+                } catch (InvalidCommandException ice) {
+                    System.out.println("Invalid command. Please try again\n");
+                }
             }
         }
         System.out.println("Goodbye!");
     }
 
     // EFFECTS: parses commands from user on main menu
-    private void parseCommand(String command) {
+    private void parseCommand(String command) throws InvalidCommandException {
         switch (command) {
             case LOGIN_COMMAND:
                 doLogin();
@@ -82,23 +87,26 @@ public class BankingApp extends Options {
                 System.out.println("And a random salt generated is:" + salt());
                 break;
             default:
-                System.out.println("Command is not valid. Please try again.");
-                break;
+                throw new InvalidCommandException();
         }
     }
+
 
     // EFFECTS: initiates login sequence and verifies entered username
     private void doLogin() {
         System.out.println("Please enter your username.");
         username = input.nextLine();
         if (username.equals(QUIT_COMMAND)) {
-            Options.returnMain();
-        } else if (database.authUsername(username)) {
-            System.out.println("Username exists.");
-            doLoginPassword();
+            returnMain();
         } else {
-            System.out.println("Username DNE. Try again.");
-            doLogin();
+            try {
+                database.authUsername(username);
+                System.out.println("Username exists.");
+                doLoginPassword();
+            } catch (UsernameNotFoundException unfe) {
+                System.out.println("Username does not exist. Please try again.");
+                doLogin();
+            }
         }
     }
 
@@ -111,16 +119,19 @@ public class BankingApp extends Options {
             if (password.equals(QUIT_COMMAND)) {
                 remainingTries = 0;
                 returnMain();
-            } else if (database.authPassword(username, password)) {
-                System.out.println(databaseInfo.get(username).loginNotifications());
-                accountMenu();
-            } else if (remainingTries == 1) {
-                System.out.println("Login failed. Account locked for 5 seconds.\nLaw enforcement has been called.");
-                remainingTries--;
-                countdownTimer(true);
             } else {
-                remainingTries--;
-                System.out.println("Password is incorrect. You have " + remainingTries + " attempt(s) left.");
+                try {
+                    database.authPassword(username, password, remainingTries);
+                    System.out.println(databaseInfo.get(username).loginNotifications());
+                    accountMenu();
+                } catch (IncorrectPasswordTriesLeftException iptle) {
+                    remainingTries--;
+                    System.out.println("Password is incorrect. You have " + remainingTries + " attempt(s) left.");
+                } catch (IncorrectPasswordNoTriesLeftException ipntle) {
+                    remainingTries = 0;
+                    System.out.println("Login failed. Account locked for 5 seconds. \nYou are surrounded by police!");
+                    countdownTimer(true);
+                }
             }
         }
     }
@@ -131,11 +142,13 @@ public class BankingApp extends Options {
         newName = input.nextLine();
         if (newName.equals(QUIT_COMMAND)) {
             returnMain();
-        } else if (isInvalidName(newName)) {
-            System.out.println("Name is invalid.");
-            doRegister();
-        } else {
+        }
+        try {
+            isValidName(newName);
             registerUsername();
+        } catch (InvalidNameException ine) {
+            System.out.println("Name is invalid. Please try again.\n");
+            doRegister();
         }
     }
 
@@ -145,12 +158,18 @@ public class BankingApp extends Options {
         newUsername = input.nextLine();
         if (newUsername.equals(QUIT_COMMAND)) {
             returnMain();
-        } else if (isInvalidEntry(newUsername) || database.authUsername(newUsername)) {
-            System.out.println("Username is invalid or already exists.");
-            registerUsername();
         } else {
-            System.out.println("Username is valid.");
-            registerPassword();
+            try {
+                isValidEntry(newUsername);
+                database.isUsernameFree(newUsername);
+                registerPassword();
+            } catch (IllegalEntryException iee) {
+                System.out.println("Username contains illegal characters. Please try again.\n");
+                registerUsername();
+            } catch (UsernameNotFreeException unfe) {
+                System.out.println("Username is already taken. Please try again.\n");
+                registerUsername();
+            }
         }
     }
 
@@ -158,34 +177,33 @@ public class BankingApp extends Options {
     private void registerPassword() {
         System.out.println("Please enter your desired password.");
         newPassword = input.nextLine();
-        if (isInvalidEntry(newPassword)) {
-            System.out.println("Password is invalid.");
-            registerPassword();
-        } else {
+        try {
+            isValidEntry(newPassword);
             System.out.println("Please confirm your password.");
             newPasswordConfirm = input.nextLine();
-            if (newPassword.equals(newPasswordConfirm)) {
-                String salt = salt();
-                database.storeAccount(newUsername,
-                        new Account(salt + hashFunction(salt + newPassword), capitalizeName(newName)));
-                System.out.println("Account has been registered. Thank you!");
-            } else {
-                System.out.println("Passwords do not match. Please try again.");
-                registerPassword();
-            }
+            doPasswordsMatch(newPassword, newPasswordConfirm);
+            String salt = salt();
+            database.storeAccount(newUsername,
+                    new Account(salt + hashFunction(salt + newPassword), capitalizeName(newName)));
+            System.out.println("Account has been registered. Thank you!\n");
+        } catch (IllegalEntryException iee) {
+            System.out.println("Password contains illegal characters. Please try again.\n");
+            registerPassword();
+        } catch (PasswordsDoNotMatchException pdnme) {
+            System.out.println("Passwords do not match. Please try again.\n");
+            registerPassword();
         }
     }
 
     // EFFECTS: prints all usernames and passwords on database
     private void doHack() {
-        System.out.println("*playing Mission Impossible theme*");
-        System.out.println("Hacking the mainframe...");
+        System.out.println("*playing Mission Impossible theme* \nHacking the mainframe...");
         countdownTimer(true);
         System.out.println("AND WE'RE IN! \n");
         databaseInfo.forEach((k, v)
                 -> System.out.println("Username: " + k + "  "
                 + "Password: " + v.getPassword()));
-        System.out.println("");
+        System.out.println("\n");
     }
 
     // EFFECTS: account menu processes user input after logging in
@@ -200,14 +218,18 @@ public class BankingApp extends Options {
             if (accountCommand.equals(LOGOUT_COMMAND)) {
                 runAccountMenu = false;
             } else {
-                parseAccountCommand(accountCommand);
+                try {
+                    parseAccountCommand(accountCommand);
+                } catch (InvalidCommandException ice) {
+                    System.out.println("Invalid command. Please try again.\n");
+                }
             }
         }
         System.out.println("You have been logged out. Press quit to return to main menu.");
     }
 
     // EFFECTS: parses commands once logged in
-    private void parseAccountCommand(String command) {
+    private void parseAccountCommand(String command) throws InvalidCommandException {
         switch (command) {
             case CHECK_BALANCE_COMMAND:
                 doCheckBalance();
@@ -225,8 +247,7 @@ public class BankingApp extends Options {
                 doTransactionHistory();
                 break;
             default:
-                System.out.println("Command is not valid. Please try again.");
-                break;
+                throw new InvalidCommandException();
         }
     }
 
@@ -241,9 +262,10 @@ public class BankingApp extends Options {
         Account userAccount = databaseInfo.get(username);
         System.out.println("Deposit amount: $");
         String amount = input.nextLine();
-        if (amount.matches("\\d+(\\.\\d+)?")) {
+        try {
+            isValidAmount(amount);
             System.out.println(userAccount.deposit(amount) + "\n");
-        } else {
+        } catch (InvalidAmountException iae) {
             System.out.println("Invalid amount. Please try again.");
             doDeposit();
         }
@@ -254,16 +276,15 @@ public class BankingApp extends Options {
         Account userAccount = databaseInfo.get(username);
         System.out.println("Withdraw amount: $");
         String amount = input.nextLine();
-        if (amount.matches("\\d+(\\.\\d+)?")) {
-            BigDecimal withdraw = new BigDecimal(amount);
-            if (lessThanOrEqual(withdraw, userAccount.getBalance())) {
-                System.out.println(userAccount.withdraw(amount) + "\n");
-            } else {
-                System.out.println("You have insufficient funds. \n");
-            }
-        } else {
+        try {
+            isValidAmount(amount);
+            hasSufficientFunds(new BigDecimal(amount), userAccount.getBalance());
+            System.out.println(userAccount.withdraw(amount) + "\n");
+        } catch (InvalidAmountException iae) {
             System.out.println("Invalid amount. Please try again.");
             doWithdraw();
+        } catch (InsufficientFundsException ife) {
+            System.out.println("You have insufficient funds. Sorry!\n");
         }
     }
 
@@ -271,9 +292,10 @@ public class BankingApp extends Options {
     private void doTransfer() {
         System.out.println("Recipient username:");
         String recipientUser = input.nextLine();
-        if (database.authUsername(recipientUser)) {
+        try {
+            database.authUsername(recipientUser);
             doTransferActual(recipientUser);
-        } else {
+        } catch (UsernameNotFoundException unfe) {
             System.out.println("User not found. Returning to menu. \n");
         }
     }
@@ -284,17 +306,16 @@ public class BankingApp extends Options {
         Account recipientAccount = databaseInfo.get(recipient);
         System.out.println("Transfer amount: $");
         String amount = input.nextLine();
-        if (amount.matches("\\d+(\\.\\d+)?")) {
-            BigDecimal transfer = new BigDecimal(amount);
-            if (lessThanOrEqual(transfer, senderAccount.getBalance())) {
-                doTransferFromTo(amount, senderAccount, recipientAccount);
-                System.out.println(recipientAccount.getName() + " has received your Interac eTransfer! \n");
-            } else {
-                System.out.println("You have insufficient funds. \n");
-            }
-        } else {
-            System.out.println("Invalid amount. Please try again. \n");
+        try {
+            isValidAmount(amount);
+            hasSufficientFunds(new BigDecimal(amount), senderAccount.getBalance());
+            doTransferFromTo(amount, senderAccount, recipientAccount);
+            System.out.println(recipientAccount.getName() + " has received your Interac eTransfer!\n");
+        } catch (InvalidAmountException iae) {
+            System.out.println("Invalid amount. Please try again.");
             doTransferActual(recipient);
+        } catch (InsufficientFundsException ife) {
+            System.out.println("You have insufficient funds. Sorry!\n");
         }
     }
 

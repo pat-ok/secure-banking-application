@@ -11,14 +11,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonTest {
 
-    protected void checkAccount(UserDatabase userDatabase, String user, String password, String name, String balance) {
+    protected void checkAccount(UserDatabase userDatabase,
+                                String user,
+                                String password,
+                                String name,
+                                String balance,
+                                int notifications,
+                                int transactions) {
         HashMap<String, Account> testUserInfo = userDatabase.getUserDatabase();
         Account testAccount = testUserInfo.get(user);
 
         checkPassword(testAccount, password);
         checkName(testAccount, name);
         checkBalance(testAccount, balance);
-
+        checkNotifications(testAccount, notifications);
+        checkTransactions(testAccount, transactions);
     }
 
     private void checkPassword(Account account, String password) {
@@ -29,13 +36,21 @@ public class JsonTest {
         assertEquals(hashedPass, account.getPassword());
     }
 
-    protected void checkName(Account account, String name) {
+    private void checkName(Account account, String name) {
         assertEquals(name, account.getName());
     }
 
-    protected void checkBalance(Account account, String balance) {
+    private void checkBalance(Account account, String balance) {
         BigDecimal testBalance = new BigDecimal(balance);
 
         assertEquals(testBalance, account.getBalance());
+    }
+
+    private void checkNotifications(Account account, int notifications) {
+        assertEquals(notifications, account.getNotifications().size());
+    }
+
+    private void checkTransactions(Account account, int transactions) {
+        assertEquals(transactions, account.getTransactions().size());
     }
 }

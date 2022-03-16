@@ -1,11 +1,13 @@
 package model;
 
+import exceptions.*;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
 import static model.Formatting.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class FormattingTest {
 
@@ -25,28 +27,213 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsInvalidEntry() {
-        assertTrue(isInvalidEntry(""));
-        assertTrue(isInvalidEntry(" "));
-        assertTrue(isInvalidEntry("  "));
-        assertTrue(isInvalidEntry(" test"));
-        assertTrue(isInvalidEntry("test "));
-        assertFalse(isInvalidEntry("test"));
+    void testIsInvalidEntryEmpty() {
+        try {
+            isValidEntry("");
+            fail("String is illegal");
+        } catch (IllegalEntryException iee) {
+            // pass
+        }
     }
 
     @Test
-    void testIsInvalidName() {
-        assertTrue(isInvalidName("123"));
-        assertTrue(isInvalidName(""));
-        assertTrue(isInvalidName(" "));
-        assertTrue(isInvalidName("  "));
-        assertTrue(isInvalidName(" test"));
-        assertTrue(isInvalidName("test "));
-        assertTrue(isInvalidName("  123  "));
-        assertFalse(isInvalidName("test"));
-        assertTrue(isInvalidName("123Test"));
-        assertFalse(isInvalidName("first last"));
-        assertFalse(isInvalidName("first middle last"));
+    void testIsInvalidEntryOnlySpace() {
+        try {
+            isValidEntry(" ");
+            fail("String is illegal");
+        } catch (IllegalEntryException iee) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsInvalidEntryLeadingSpace() {
+        try {
+            isValidEntry(" test");
+            fail("String is illegal");
+        } catch (IllegalEntryException iee) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsInvalidEntryTrailingSpace() {
+        try {
+            isValidEntry("test ");
+            fail("String is illegal");
+        } catch (IllegalEntryException iee) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsInvalidEntryValid() {
+        try {
+            isValidEntry("test");
+            // pass
+        } catch (IllegalEntryException iee) {
+            fail("String is legal");
+        }
+    }
+
+    @Test
+    void testIsInvalidNameNumbers() {
+        try {
+            isValidName("123");
+            fail("Name is illegal");
+        } catch (InvalidNameException ine) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsInvalidNameEmpty() {
+        try {
+            isValidName("");
+            fail("Name is illegal");
+        } catch (InvalidNameException ine) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsInvalidNameOnlySpace() {
+        try {
+            isValidName(" ");
+            fail("Name is illegal");
+        } catch (InvalidNameException ine) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsInvalidNameNumbersAndLetters() {
+        try {
+            isValidName("123test");
+            fail("Name is illegal");
+        } catch (InvalidNameException ine) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsInvalidNameWord() {
+        try {
+            isValidName("test");
+            // pass
+        } catch (InvalidNameException ine) {
+            fail("Name is legal");
+        }
+    }
+
+    @Test
+    void testIsInvalidNameWordLeadingSpace() {
+        try {
+            isValidName(" test");
+            // pass
+        } catch (InvalidNameException ine) {
+            fail("Name is legal");
+        }
+    }
+
+    @Test
+    void testIsInvalidNameWordTrailingSpace() {
+        try {
+            isValidName("test ");
+            // pass
+        } catch (InvalidNameException ine) {
+            fail("Name is legal");
+        }
+    }
+
+    @Test
+    void testIsInvalidNameTwoWords() {
+        try {
+            isValidName("first last");
+            // pass
+        } catch (InvalidNameException ine) {
+            fail("Name is legal");
+        }
+    }
+
+    @Test
+    void testIsInvalidNameThreeWords() {
+        try {
+            isValidName("first middle last");
+            // pass
+        } catch (InvalidNameException ine) {
+            fail("Name is legal");
+        }
+    }
+
+    @Test
+    void testIsInvalidNameExtraSpacesWords() {
+        try {
+            isValidName("first    middle    last");
+            // pass
+        } catch (InvalidNameException ine) {
+            fail("Name is legal");
+        }
+    }
+
+    @Test
+    void testIsValidAmountLetters() {
+        try {
+            isValidAmount("not numbers");
+            fail("Illegal amount");
+        } catch (InvalidAmountException iae) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsValidAmountNegativeAmount() {
+        try {
+            isValidAmount("-50");
+            fail("Illegal amount");
+        } catch (InvalidAmountException iae) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsValidAmountTwoDecimals() {
+        try {
+            isValidAmount("10.20.30");
+            fail("Illegal amount");
+        } catch (InvalidAmountException iae) {
+            // pass
+        }
+    }
+
+    @Test
+    void testIsValidAmountProperNoDecimal() {
+        try {
+            isValidAmount("50");
+            // pass
+        } catch (InvalidAmountException iae) {
+            fail("Amount is legal");
+        }
+    }
+
+    @Test
+    void testIsValidAmountProperDecimal() {
+        try {
+            isValidAmount("50.10");
+            // pass
+        } catch (InvalidAmountException iae) {
+            fail("Amount is legal");
+        }
+    }
+
+    @Test
+    void testIsValidAmountProperDecimalMore() {
+        try {
+            isValidAmount("50.1020");
+            // pass
+        } catch (InvalidAmountException iae) {
+            fail("Amount is legal");
+        }
     }
 
     @Test
@@ -57,6 +244,27 @@ public class FormattingTest {
         assertEquals("Testing Spaces", capitalizeName("testing      spaces"));
         assertEquals("Testing More Spaces", capitalizeName("testing    mOre  spAces"));
         assertEquals("Testing Capitals", capitalizeName("tESTING cAPITALS"));
+        assertEquals("First Middle Last", capitalizeName("   first   midDle lAST"));
+    }
+
+    @Test
+    void testDoPasswordsMatchMatching() {
+        try {
+            doPasswordsMatch("matching", "matching");
+            // pass
+        } catch (PasswordsDoNotMatchException pdnme) {
+            fail("Password matches confirmation");
+        }
+    }
+
+    @Test
+    void testDoPasswordsMatchNotMatching() {
+        try {
+            doPasswordsMatch("matching", "notmatching");
+            fail("Password does not match confirmation");
+        } catch (PasswordsDoNotMatchException pdnme) {
+            // pass
+        }
     }
 
     @Test
@@ -89,35 +297,67 @@ public class FormattingTest {
     }
 
     @Test
-    void testLessThanOrEqual() {
-        // less
-        BigDecimal x0 = new BigDecimal("5");
-        BigDecimal y0 = new BigDecimal("10");
+    void testHasSufficientFundsEnough() {
+        BigDecimal out = new BigDecimal("5");
+        BigDecimal balance = new BigDecimal("10");
 
-        assertTrue(lessThanOrEqual(x0, y0));
+        try {
+            hasSufficientFunds(out, balance);
+            // pass
+        } catch (InsufficientFundsException ife) {
+            fail("There are enough funds");
+        }
+    }
 
-        // less boundary
-        BigDecimal x1 = new BigDecimal("9.99");
-        BigDecimal y1 = new BigDecimal("10");
+    @Test
+    void testHasSufficientFundsEnoughBelowBoundary() {
+        BigDecimal out = new BigDecimal("9.99");
+        BigDecimal balance = new BigDecimal("10");
 
-        assertTrue(lessThanOrEqual(x1, y1));
+        try {
+            hasSufficientFunds(out, balance);
+            // pass
+        } catch (InsufficientFundsException ife) {
+            fail("There are enough funds");
+        }
+    }
 
-        // equals
-        BigDecimal x2 = new BigDecimal("10");
-        BigDecimal y2 = new BigDecimal("10");
+    @Test
+    void testHasSufficientFundsEnoughBoundary() {
+        BigDecimal out = new BigDecimal("10");
+        BigDecimal balance = new BigDecimal("10");
 
-        assertTrue(lessThanOrEqual(x2, y2));
+        try {
+            hasSufficientFunds(out, balance);
+            // pass
+        } catch (InsufficientFundsException ife) {
+            fail("There are enough funds");
+        }
+    }
 
-        // greater boundary
-        BigDecimal x3 = new BigDecimal("10.01");
-        BigDecimal y3 = new BigDecimal("10");
+    @Test
+    void testHasSufficientFundsNotEnoughBoundary() {
+        BigDecimal out = new BigDecimal("10.01");
+        BigDecimal balance = new BigDecimal("10");
 
-        assertFalse(lessThanOrEqual(x3, y3));
+        try {
+            hasSufficientFunds(out, balance);
+            fail("There are not enough funds");
+        } catch (InsufficientFundsException ife) {
+            // pass
+        }
+    }
 
-        // greater
-        BigDecimal x4 = new BigDecimal("15");
-        BigDecimal y4 = new BigDecimal("10");
+    @Test
+    void testHasSufficientFundsNotEnoughGreater() {
+        BigDecimal out = new BigDecimal("15");
+        BigDecimal balance = new BigDecimal("10");
 
-        assertFalse(lessThanOrEqual(x4, y4));
+        try {
+            hasSufficientFunds(out, balance);
+            fail("There are not enough funds");
+        } catch (InsufficientFundsException ife) {
+            // pass
+        }
     }
 }

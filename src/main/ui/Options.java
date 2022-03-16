@@ -20,7 +20,7 @@ public abstract class Options {
     // REQUIRES: nothing
     // MODIFIES: nothing
     // EFFECTS: displays all main menu options
-    protected void displayMainOptions() {
+    protected void displayMainMenuOptions() {
         System.out.println("Welcome to BigDecimal Bank of Canada. How can we help you today?");
         System.out.println("Select from:  ["
                 + LOGIN_COMMAND + " | "

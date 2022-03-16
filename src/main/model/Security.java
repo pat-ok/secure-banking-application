@@ -1,6 +1,7 @@
 package model;
 
 // Represents a public class with static methods for security purposes
+// Should be abstract with no constructors if it weren't for jUnit?
 public class Security {
     private String junit;
 

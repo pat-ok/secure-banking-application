@@ -1,5 +1,9 @@
 package model;
 
+import exceptions.IncorrectPasswordNoTriesLeftException;
+import exceptions.IncorrectPasswordTriesLeftException;
+import exceptions.UsernameNotFoundException;
+import exceptions.UsernameNotFreeException;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -18,10 +22,10 @@ public class UserDatabase implements Writable {
     // MODIFIES: this is a constructor
     // EFFECTS: constructs new database,
     //          and if true, adds two accounts for demo purposes
-    public UserDatabase(boolean bool) {
+    public UserDatabase(boolean demo) {
         databaseInfo = new HashMap<>();
 
-        if (bool) {
+        if (demo) {
 
             // adding Foo
             String saltFoo = salt();
@@ -47,27 +51,44 @@ public class UserDatabase implements Writable {
         databaseInfo.put(newUser, newAccount);
     }
 
-    // REQUIRES: nothing
+    // REQUIRES: username is not registered already
     // MODIFIES: nothing
-    // EFFECTS: returns true if username is found in list of registered accounts
-    public boolean authUsername(String username) {
-        return databaseInfo.containsKey(username);
+    // EFFECTS: nothing
+    public void isUsernameFree(String username) throws UsernameNotFreeException {
+        if (databaseInfo.containsKey(username)) {
+            throw new UsernameNotFreeException();
+        }
+    }
+
+    // REQUIRES: username is registered
+    // MODIFIES: nothing
+    // EFFECTS: throws exception if username is not found in database
+    public void authUsername(String username) throws UsernameNotFoundException {
+        if (!databaseInfo.containsKey(username)) {
+            throw new UsernameNotFoundException();
+        }
     }
 
     // REQUIRES: nothing
     // MODIFIES: nothing
-    // EFFECTS: returns true if hashed password matches hash stored on the account
-    public boolean authPassword(String username, String password) {
+    // EFFECTS: throws exception if password does not match stored password
+    public void authPassword(String username, String password, int tries)
+            throws IncorrectPasswordTriesLeftException, IncorrectPasswordNoTriesLeftException {
         String salt = databaseInfo.get(username).getPassword().substring(0, 5);
         int saltedPass = hashFunction(salt + password);
-        return databaseInfo.get(username).getPassword().equals(salt + saltedPass);
+        if (!databaseInfo.get(username).getPassword().equals(salt + saltedPass)) {
+            if (tries > 1) {
+                throw new IncorrectPasswordTriesLeftException();
+            }
+            throw new IncorrectPasswordNoTriesLeftException();
+        }
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        List<String> keys = new ArrayList<String>(databaseInfo.keySet());
-        List<Account> accounts = new ArrayList<Account>(databaseInfo.values());
+        List<String> keys = new ArrayList<>(databaseInfo.keySet());
+        List<Account> accounts = new ArrayList<>(databaseInfo.values());
         json.put("keys", keys);
         json.put("values", accounts);
         return json;

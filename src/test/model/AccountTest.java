@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,6 +27,22 @@ class AccountTest {
         assertEquals(testBalance, foo.getBalance());
         assertEquals(3, foo.getNotifications().size());
         assertEquals(0, foo.getTransactions().size());
+    }
+
+    @Test
+    void testReaderConstructor() {
+        ArrayList<String> jsonNotifications = new ArrayList<>();
+        ArrayList<String> jsonTransactions = new ArrayList<>();
+        BigDecimal jsonBalance = new BigDecimal("50");
+        Account jsonAccount =
+                new Account("jsonpass", "Jason", "50", jsonNotifications, jsonTransactions);
+
+        assertEquals("jsonpass", jsonAccount.getPassword());
+        assertEquals("Jason", jsonAccount.getName());
+        assertEquals(jsonBalance, jsonAccount.getBalance());
+        assertEquals(0, jsonAccount.getNotifications().size());
+        assertEquals(0, jsonAccount.getTransactions().size());
+
     }
 
     @Test
