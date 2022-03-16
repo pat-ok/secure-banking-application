@@ -51,7 +51,7 @@ public class UserDatabase implements Writable {
         databaseInfo.put(newUser, newAccount);
     }
 
-    // REQUIRES: username is not registered already
+    // REQUIRES: username must not be registered already
     // MODIFIES: nothing
     // EFFECTS: nothing
     public void isUsernameFree(String username) throws UsernameNotFreeException {
@@ -60,25 +60,25 @@ public class UserDatabase implements Writable {
         }
     }
 
-    // REQUIRES: username is registered
+    // REQUIRES: username must be registered
     // MODIFIES: nothing
-    // EFFECTS: throws exception if username is not found in database
+    // EFFECTS: nothing
     public void authUsername(String username) throws UsernameNotFoundException {
         if (!databaseInfo.containsKey(username)) {
             throw new UsernameNotFoundException();
         }
     }
 
-    // REQUIRES: nothing
+    // REQUIRES: password must match stored password for account and there must be more than 1 try left
     // MODIFIES: nothing
-    // EFFECTS: throws exception if password does not match stored password
+    // EFFECTS: nothing
     public void authPassword(String username, String password, int tries)
             throws IncorrectPasswordTriesLeftException, IncorrectPasswordNoTriesLeftException {
         String salt = databaseInfo.get(username).getPassword().substring(0, 5);
         int saltedPass = hashFunction(salt + password);
         if (!databaseInfo.get(username).getPassword().equals(salt + saltedPass)) {
             if (tries > 1) {
-                throw new IncorrectPasswordTriesLeftException();
+                throw new IncorrectPasswordTriesLeftException(tries);
             }
             throw new IncorrectPasswordNoTriesLeftException();
         }

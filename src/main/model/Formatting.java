@@ -8,7 +8,7 @@ import java.text.NumberFormat;
 // Represents a public class with static input checking and formatting methods
 // Should be abstract with no constructors if it weren't for jUnit?
 public class Formatting {
-    private String junit;
+    private final String junit;
 
     // FOR JUNIT
     public Formatting() {

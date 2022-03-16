@@ -6,7 +6,7 @@ including deposits, withdrawals, and transfers to other users.
 Users may also view their notifications and transaction history.
 
 - Passwords are salted and hashed before being stored
-- Transfer money to other users and receive inbox notifications for incoming transfers
+- Data persistence implemented using JSON file format interchanging
 
 
 ## Who will use it?
@@ -26,6 +26,8 @@ Developing a well documented and maintainable codebase.
 *As a user, I want to deposit, withdraw, check balance, and view transaction history*
 
 *As a user, I want to transfer money to others and be notified of incoming transfers*
+
+*As a user, I want my account information to be saved when I exit the application*
 
 *As a user, I do NOT want my password to be leaked by a hacker*
 

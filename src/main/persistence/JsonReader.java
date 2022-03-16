@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 // Represents a reader that reads user database from JSON data stored in file
 public class JsonReader {
-    private String source;
+    private final String source;
 
     // EFFECTS: constructs reader to read from source file
     public JsonReader(String source) {
@@ -35,7 +35,7 @@ public class JsonReader {
         StringBuilder contentBuilder = new StringBuilder();
 
         try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
-            stream.forEach(s -> contentBuilder.append(s));
+            stream.forEach(contentBuilder::append);
         }
 
         return contentBuilder.toString();
@@ -50,7 +50,7 @@ public class JsonReader {
 
         // transfer json keys into arraylist of usernames
         JSONArray jsonKeyArray = jsonObject.getJSONArray("keys");
-        List<String> usernames = new ArrayList<String>();
+        List<String> usernames = new ArrayList<>();
         for (Object jsonUsername : jsonKeyArray) {
             String username = jsonUsername.toString();
             usernames.add(username);
@@ -58,7 +58,7 @@ public class JsonReader {
 
         // transfer json values into arraylist of accounts
         JSONArray jsonAccountArray = jsonObject.getJSONArray("values");
-        List<Account> accounts = new ArrayList<Account>();
+        List<Account> accounts = new ArrayList<>();
         for (Object jsonAccount : jsonAccountArray) {
             JSONObject nextAccount = (JSONObject) jsonAccount;
             String pass = nextAccount.getString("password");
@@ -66,14 +66,14 @@ public class JsonReader {
             String balance = nextAccount.getString("balanceString");
 
             // create arraylist of notifications
-            ArrayList<String> notifications = new ArrayList<String>();
+            ArrayList<String> notifications = new ArrayList<>();
             JSONArray jsonNotifications = nextAccount.getJSONArray("notifications");
             for (Object jsonNotification : jsonNotifications) {
                 notifications.add(jsonNotification.toString());
             }
 
             // create arraylist of transactions
-            ArrayList<String> transactions = new ArrayList<String>();
+            ArrayList<String> transactions = new ArrayList<>();
             JSONArray jsonTransactions = nextAccount.getJSONArray("transactions");
             for (Object jsonTransaction : jsonTransactions) {
                 transactions.add(jsonTransaction.toString());
