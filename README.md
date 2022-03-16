@@ -1,23 +1,27 @@
-# Secure Banking Application
+# Banking Application
 
 ## What does the application do?
-Users can register for a bank account and access it to check their balance and perform different monetary transactions
+Users can register for a bank account and access it to check balance and perform monetary transactions
 including deposits, withdrawals, and transfers to other users.
-Users may also view their notifications and transaction history.
+Users may also view their notifications and transaction history. Additional features include:
 
+- Complete test suite for the back end
+- Exception handling with custom exception types
 - Passwords are salted and hashed before being stored
+- All monetary transactions performed using BigDecimal objects
 - Data persistence implemented using JSON file format interchanging
 
 
 ## Who will use it?
-Customers looking to take part in banking activities.
+Customers seeking to be affiliated with the behaviours of participating in activities related to financial institutions.
 
 
 ## Why is this project of interest to you?
 Learning how to:  
-Design a program in an object-oriented domain using a test driven development process.  
-Optimize data abstraction to more accurately model the domain and limit points of reliance with appropriate levels of access.  
-Developing a well documented and maintainable codebase.
+- Design a program in an object-oriented domain using a test driven development process.
+- Developing a robust exception handling system to maintain desired flow of program. 
+- Optimize data abstraction to more accurately model the domain and limit points of reliance with appropriate levels of access.  
+- Developing a well documented and maintainable codebase.
 
 
 ## User Stories
