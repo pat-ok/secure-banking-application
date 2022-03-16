@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 // Represents a reader that reads user database from JSON data stored in file
@@ -41,25 +40,47 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // TODO: make this smaller
+    // REQUIRES: nothing
+    // MODIFIES: nothing
     // EFFECTS: parses user database from JSON object and returns it
-    @SuppressWarnings("methodlength")
     private UserDatabase parseUserDatabase(JSONObject jsonObject) {
         // instantiate new database
         UserDatabase udb = new UserDatabase(false);
 
         // transfer json keys into arraylist of usernames
+        ArrayList<String> usernames = jsonToUsernames(jsonObject);
+
+        // transfer json values into arraylist of accounts
+        ArrayList<Account> accounts = jsonToAccounts(jsonObject);
+
+        // with an arraylist of usernames and an arraylist of accounts,
+        // iterate through each concurrently to add to user database
+        for (int i = 0; i < usernames.size(); i++) {
+            udb.storeAccount(usernames.get(i), accounts.get(i));
+        }
+        return udb;
+    }
+
+    // REQUIRES: nothing
+    // MODIFIES: nothing
+    // EFFECTS: helper method for parser that creates an arraylist of usernames from source file
+    private ArrayList<String> jsonToUsernames(JSONObject jsonObject) {
         JSONArray jsonKeyArray = jsonObject.getJSONArray("keys");
-        List<String> usernames = new ArrayList<>();
+        ArrayList<String> usernames = new ArrayList<>();
         for (Object jsonUsername : jsonKeyArray) {
             String username = jsonUsername.toString();
             usernames.add(username);
         }
+        return usernames;
+    }
 
-        // transfer json values into arraylist of accounts
-        JSONArray jsonAccountArray = jsonObject.getJSONArray("values");
-        List<Account> accounts = new ArrayList<>();
-        for (Object jsonAccount : jsonAccountArray) {
+    // REQUIRES: nothing
+    // MODIFIES: nothing
+    // EFFECTS: helper method for parser that creates an arraylist of accounts from source file
+    private ArrayList<Account> jsonToAccounts(JSONObject jsonObject) {
+        JSONArray jsonValueArray = jsonObject.getJSONArray("values");
+        ArrayList<Account> accounts = new ArrayList<>();
+        for (Object jsonAccount : jsonValueArray) {
             JSONObject nextAccount = (JSONObject) jsonAccount;
             String pass = nextAccount.getString("password");
             String name = nextAccount.getString("name");
@@ -82,12 +103,6 @@ public class JsonReader {
             // add account to arraylist of accounts
             accounts.add(new Account(pass, name, balance, notifications, transactions));
         }
-
-        // with an arraylist of usernames and an arraylist of accounts,
-        // iterate through each equally to add to user database
-        for (int i = 0; i < usernames.size(); i++) {
-            udb.storeAccount(usernames.get(i), accounts.get(i));
-        }
-        return udb;
+        return accounts;
     }
 }
