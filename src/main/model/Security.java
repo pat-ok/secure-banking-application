@@ -37,28 +37,4 @@ public class Security {
         }
         return sb.toString();
     }
-
-    // TODO: move to ui
-    // REQUIRES: bool to be true
-    // MODIFIES: nothing
-    // EFFECTS: A 5-second countdown is initiated, printing each second
-    public static void countdownTimer(boolean succeed) {
-        int time = 5;
-        int thread;
-        if (succeed) {
-            thread = 1000;
-        } else {
-            thread = -1;
-        }
-        while (time > 0) {
-            try {
-                Thread.sleep(thread);
-            } catch (Exception e) {
-                System.out.println("Exception caught in countdownTimer.");
-                break;
-            }
-            System.out.println(time + "...");
-            time--;
-        }
-    }
 }

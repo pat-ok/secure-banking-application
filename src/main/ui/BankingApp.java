@@ -129,7 +129,7 @@ public class BankingApp extends Options {
                 } catch (IncorrectPasswordNoTriesLeftException ipntle) {
                     remainingTries = 0;
                     System.out.println(ipntle.getMessage());
-                    countdownTimer(true);
+                    countdownTimer();
                 }
             }
         }
@@ -196,7 +196,7 @@ public class BankingApp extends Options {
     // EFFECTS: prints all usernames and passwords on database
     private void doHack() {
         System.out.println("*playing Mission Impossible theme* \nHacking the mainframe...");
-        countdownTimer(true);
+        countdownTimer();
         System.out.println("AND WE'RE IN! \n");
         databaseInfo.forEach((k, v)
                 -> System.out.println("Username: " + k + "  "
@@ -357,6 +357,23 @@ public class BankingApp extends Options {
             System.out.println("Loaded user database from " + JSON_STORE);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+    // REQUIRES: nothing
+    // MODIFIES: nothing
+    // EFFECTS: A 5-second countdown is initiated, printing each second
+    public static void countdownTimer() {
+        int time = 5;
+        while (time > 0) {
+            try {
+                Thread.sleep(5);
+            } catch (Exception e) {
+                System.out.println("Exception caught in countdownTimer.");
+                break;
+            }
+            System.out.println(time + "...");
+            time--;
         }
     }
 }
