@@ -268,20 +268,6 @@ public class FormattingTest {
     }
 
     @Test
-    void testDoTransferFromTo() {
-        Account testSender = new Account("pass123", "Sender");
-        Account testRecipient = new Account("pass123", "Recipient");
-
-        doTransferFromTo("50", testSender, testRecipient);
-
-        assertEquals(new BigDecimal("50"), testSender.getBalance());
-        assertEquals(1, testSender.getTransactions().size());
-        assertEquals(new BigDecimal("150"), testRecipient.getBalance());
-        assertEquals(4, testRecipient.getNotifications().size());
-        assertEquals(1, testRecipient.getTransactions().size());
-    }
-
-    @Test
     void testCurrencyFormat() {
         BigDecimal testAmount0 = new BigDecimal("0");
         BigDecimal testAmount1 = new BigDecimal("00.50");

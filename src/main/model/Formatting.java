@@ -91,21 +91,6 @@ public class Formatting {
 
     // REQUIRES: nothing
     // MODIFIES: nothing
-    // EFFECTS: From sender:
-    //          subtracts amount from sender balance,
-    //          adds eTransfer to transaction history,
-    //          To recipient:
-    //          adds amount to recipient balance,
-    //          adds eTransfer to transaction history,
-    //          adds eTransfer to notifications list
-    // TODO : put under bankingapp
-    public static void doTransferFromTo(String amount, Account sender, Account recipient) {
-        sender.transferOut(amount, recipient.getName());
-        recipient.transferIn(amount, sender.getName());
-    }
-
-    // REQUIRES: nothing
-    // MODIFIES: nothing
     // EFFECTS: returns a BigDecimal number into currency format as a string
     public static String currencyFormat(BigDecimal bd) {
         return NumberFormat.getCurrencyInstance().format(bd);

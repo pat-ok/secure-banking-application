@@ -317,6 +317,20 @@ public class BankingApp extends Options {
         }
     }
 
+    // REQUIRES: nothing
+    // MODIFIES: nothing
+    // EFFECTS: From sender:
+    //          subtracts amount from sender balance,
+    //          adds eTransfer to transaction history,
+    //          To recipient:
+    //          adds amount to recipient balance,
+    //          adds eTransfer to transaction history,
+    //          adds eTransfer to notifications list
+    public static void doTransferFromTo(String amount, Account sender, Account recipient) {
+        sender.transferOut(amount, recipient.getName());
+        recipient.transferIn(amount, sender.getName());
+    }
+
     // EFFECTS: displays complete history of transactions for user
     private void doTransactionHistory() {
         Account userAccount = databaseInfo.get(username);
@@ -345,5 +359,4 @@ public class BankingApp extends Options {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
-
 }
