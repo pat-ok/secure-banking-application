@@ -22,15 +22,9 @@ public class BankingApp extends Options {
     private final JsonReader jsonReader;
     private Scanner input;
 
-    private static UserDatabase database;
-    private static HashMap<String, Account> databaseInfo;
-
-    static String username;
-    static String password;
-    static String newUsername;
-    static String newPassword;
-    static String newPasswordConfirm;
-    static String newName;
+    private UserDatabase database;
+    private final HashMap<String, Account> databaseInfo;
+    private String username;
 
     // EFFECTS: initiates Banking Application
     public BankingApp() {
@@ -121,7 +115,7 @@ public class BankingApp extends Options {
         System.out.println("Please enter your password.");
         int remainingTries = 3;
         while (remainingTries > 0) {
-            password = input.nextLine();
+            String password = input.nextLine();
             if (password.equals(QUIT_COMMAND)) {
                 remainingTries = 0;
                 returnMain();
@@ -145,13 +139,13 @@ public class BankingApp extends Options {
     // EFFECTS: initiates registration sequence and allows users to enter a name
     private void doRegister() {
         System.out.println("Please enter your preferred name.");
-        newName = input.nextLine();
+        String newName = input.nextLine();
         if (newName.equals(QUIT_COMMAND)) {
             returnMain();
         } else {
             try {
                 isValidName(newName);
-                registerUsername();
+                registerUsername(newName);
             } catch (InvalidNameException ine) {
                 System.out.println(ine.getMessage());
                 doRegister();
@@ -160,37 +154,37 @@ public class BankingApp extends Options {
     }
 
     // EFFECTS: continues registration sequence and allows users to enter a username
-    private void registerUsername() {
+    private void registerUsername(String newName) {
         System.out.println("Please enter your desired username.\nNote: cannot use '" + QUIT_COMMAND + "'.");
-        newUsername = input.nextLine();
+        String newUsername = input.nextLine();
         if (newUsername.equals(QUIT_COMMAND)) {
             returnMain();
         } else {
             try {
                 isValidEntry(newUsername);
                 database.isUsernameFree(newUsername);
-                registerPassword();
+                registerPassword(newName, newUsername);
             } catch (IllegalEntryException | UsernameNotFreeException e) {
                 System.out.println(e.getMessage());
-                registerUsername();
+                registerUsername(newName);
             }
         }
     }
 
     // EFFECTS: continues registration sequence and allows users to enter a password
-    private void registerPassword() {
+    private void registerPassword(String newName, String newUsername) {
         System.out.println("Please enter your desired password.");
-        newPassword = input.nextLine();
+        String newPassword = input.nextLine();
         try {
             isValidEntry(newPassword);
             System.out.println("Please confirm your password.");
-            newPasswordConfirm = input.nextLine();
+            String newPasswordConfirm = input.nextLine();
             doPasswordsMatch(newPassword, newPasswordConfirm);
             database.storeAccount(newUsername, new Account(createPassword(newPassword), capitalizeName(newName)));
             System.out.println("Account has been registered. Thank you!\n");
         } catch (IllegalEntryException | PasswordsDoNotMatchException e) {
             System.out.println(e.getMessage());
-            registerPassword();
+            registerPassword(newName, newUsername);
         }
     }
 
