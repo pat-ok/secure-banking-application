@@ -56,8 +56,8 @@ public class BankingApp {
         container.add(registerPanel, "register");
 
         // login child panel
-//        JPanel loginPanel = new LoginPanel();
-//        container.add(loginPanel, "login");
+        JPanel loginPanel = new LoginPanel();
+        container.add(loginPanel, "login");
 
         // card layout setup
         cl.show(container, "registration");
