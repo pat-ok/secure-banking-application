@@ -25,7 +25,7 @@ public class BankingApp {
     protected final HashMap<String, Account> databaseInfo;
     private String username;
 
-    protected static final int WIDTH = 1000;
+    public static final int WIDTH = 1000;
     protected static final int HEIGHT = 800;
 
     protected JFrame frame;
@@ -62,6 +62,7 @@ public class BankingApp {
         // setting up JFrame
         frame = new JFrame("Banking Application");
         frame.setSize(WIDTH, HEIGHT);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override

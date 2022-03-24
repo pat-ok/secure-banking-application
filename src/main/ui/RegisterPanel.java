@@ -22,6 +22,8 @@ import static ui.BankingApp.*;
 public class RegisterPanel extends JPanel {
 
     private final int width = BankingApp.WIDTH;
+    private final int confirmationWidth = 300;
+    private final int confirmationHeight = 150;
 
     public RegisterPanel(UserDatabase udb) {
         super.setLayout(null);
@@ -216,23 +218,59 @@ public class RegisterPanel extends JPanel {
         buttonRegister.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
+                String confirmationText;
+                Color confirmationColour;
                 try {
+                    // final check
                     isValidName(newName.getText());
                     isValidEntry(newUsername.getText());
                     udb.isUsernameFree(newUsername.getText());
                     isValidEntry(newPassword.getText());
                     doPasswordsMatch(newPassword.getText(), newPasswordConfirmation.getText());
 
+                    // account creation
                     Account acc = new Account(createPassword(newPassword.getText()), capitalizeName(newName.getText()));
                     udb.storeAccount(newUsername.getText(), acc);
                     textRegisterStatus.setText("Account registered!");
 
+                    confirmationText = "Registration Success!";
+                    confirmationColour = Color.GREEN;
                 } catch (InvalidNameException
                         | IllegalEntryException
                         | PasswordsDoNotMatchException
                         | UsernameNotFreeException e) {
                     textRegisterStatus.setText("One or more fields invalid!");
+
+                    confirmationText = "Registration FAILED!!";
+                    confirmationColour = Color.RED;
                 }
+                // confirmation frame
+                JFrame confirmationFrame = new JFrame("Registration Confirmation");
+                confirmationFrame.setSize(confirmationWidth, confirmationHeight);
+                confirmationFrame.setLocationRelativeTo(null);
+                confirmationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                JPanel confirmationPanel = new JPanel();
+                confirmationPanel.setLayout(null);
+                confirmationPanel.setBackground(confirmationColour);
+
+                JLabel confirmationPanelText = new JLabel(confirmationText);
+                confirmationPanelText.setFont(makeFont(17));
+                confirmationPanelText.setBounds(confirmationWidth / 2 - 80, 5, 200, 35);
+                confirmationPanel.add(confirmationPanelText);
+
+                JButton confirmationPanelButton = new JButton("OK");
+                confirmationPanelButton.setBounds(confirmationWidth / 2 - 50, 50, 100, 35);
+                confirmationPanelButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent arg0) {
+                        confirmationFrame.dispose();
+                    }
+                });
+                confirmationPanel.add(confirmationPanelButton);
+
+                confirmationFrame.add(confirmationPanel);
+                confirmationFrame.setVisible(true);
             }
         });
         super.add(buttonRegister);
