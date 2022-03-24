@@ -7,6 +7,8 @@ import persistence.JsonWriter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,12 +17,12 @@ import java.util.Scanner;
 // Represents the Banking Application
 public class BankingApp {
     private static final String JSON_STORE = "./data/database.json";
-    private final JsonWriter jsonWriter;
+    private JsonWriter jsonWriter;
     private final JsonReader jsonReader;
     private Scanner input;
 
-    private UserDatabase database;
-    private final HashMap<String, Account> databaseInfo;
+    protected UserDatabase database;
+    protected final HashMap<String, Account> databaseInfo;
     private String username;
 
     protected static final int WIDTH = 1000;
@@ -41,34 +43,6 @@ public class BankingApp {
 
     // EFFECTS: initiates Banking Application
     public BankingApp() {
-        // setting up JFrame
-        frame = new JFrame("Banking Application");
-        frame.setSize(WIDTH, HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // parent container
-        container = new JPanel();
-        cl = new CardLayout();
-        container.setLayout(cl);
-
-        // registration child panel
-        JPanel registerPanel = new RegisterPanel();
-        container.add(registerPanel, "register");
-
-        // login child panel
-        JPanel loginPanel = new LoginPanel();
-        container.add(loginPanel, "login");
-
-        // card layout setup
-        cl.show(container, "registration");
-        frame.add(container);
-
-        frame.setVisible(true);
-
-
-
-
-
 
         jsonReader = new JsonReader(JSON_STORE);
 
@@ -84,9 +58,51 @@ public class BankingApp {
 
         databaseInfo = database.getUserDatabase();
 
-        // save database when closing
-        jsonWriter = new JsonWriter(JSON_STORE);
-        saveUserDatabase();
+
+        // setting up JFrame
+        frame = new JFrame("Banking Application");
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                // save database when closing
+                jsonWriter = new JsonWriter(JSON_STORE);
+                saveUserDatabase();
+            }
+        });
+
+        // parent container
+        container = new JPanel();
+        cl = new CardLayout();
+        container.setLayout(cl);
+
+        // registration child panel
+        JPanel registerPanel = new RegisterPanel(database);
+        container.add(registerPanel, "register");
+
+        // login child panel
+        JPanel loginPanel = new LoginPanel();
+        container.add(loginPanel, "login");
+
+        // account child panel
+//        JPanel accountPanel = new AccountPanel();
+//        container.add(accountPanel, "account");
+
+        // card layout setup
+        cl.show(container, "registration");
+        frame.add(container);
+
+        frame.setVisible(true);
+
+
+
+
+
+
+
+
+
     }
 
     // EFFECTS: saves user database to file

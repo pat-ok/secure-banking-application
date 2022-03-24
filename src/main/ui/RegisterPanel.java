@@ -3,20 +3,27 @@ package ui;
 import exceptions.IllegalEntryException;
 import exceptions.InvalidNameException;
 import exceptions.PasswordsDoNotMatchException;
+import exceptions.UsernameNotFreeException;
+import model.Account;
+import model.UserDatabase;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static model.Formatting.*;
+import static model.Security.hashFunction;
+import static model.Security.salt;
 import static ui.BankingApp.*;
 
 public class RegisterPanel extends JPanel {
 
     private final int width = BankingApp.WIDTH;
 
-    public RegisterPanel() {
+    public RegisterPanel(UserDatabase udb) {
         super.setLayout(null);
         super.setBounds(0, 0, WIDTH, HEIGHT);
         super.setBackground(new Color(0, 140, 0));
@@ -38,12 +45,28 @@ public class RegisterPanel extends JPanel {
         // adding name text field
         JTextField newName = new JTextField("");
         newName.setBounds(width / 2 - 100, 120, 200, 35);
-        newName.addActionListener(e -> {
-            try {
-                isValidName(newName.getText());
-                newNameAvailability.setText("Available!");
-            } catch (InvalidNameException ine) {
-                newNameAvailability.setText("Unavailable!");
+        newName.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent arg0) {}
+
+            @Override
+            public void insertUpdate(DocumentEvent arg0) {
+                try {
+                    isValidName(newName.getText());
+                    newNameAvailability.setText("Available!");
+                } catch (InvalidNameException ine) {
+                    newNameAvailability.setText("Unavailable!");
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent arg0) {
+                try {
+                    isValidName(newName.getText());
+                    newNameAvailability.setText("Available!");
+                } catch (InvalidNameException ine) {
+                    newNameAvailability.setText("Unavailable!");
+                }
             }
         });
         super.add(newName);
@@ -63,12 +86,30 @@ public class RegisterPanel extends JPanel {
         // adding username text field
         JTextField newUsername = new JTextField("");
         newUsername.setBounds(width / 2 - 100, 190, 200, 35);
-        newUsername.addActionListener(e -> {
-            try {
-                isValidEntry(newUsername.getText());
-                newUsernameAvailability.setText("Available!");
-            } catch (IllegalEntryException iee) {
-                newUsernameAvailability.setText("Unavailable!");
+        newUsername.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent arg0) {}
+
+            @Override
+            public void insertUpdate(DocumentEvent arg0) {
+                try {
+                    isValidEntry(newUsername.getText());
+                    udb.isUsernameFree(newUsername.getText());
+                    newUsernameAvailability.setText("Available!");
+                } catch (IllegalEntryException | UsernameNotFreeException ex) {
+                    newUsernameAvailability.setText("Unavailable!");
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent arg0) {
+                try {
+                    isValidEntry(newUsername.getText());
+                    udb.isUsernameFree(newUsername.getText());
+                    newUsernameAvailability.setText("Available!");
+                } catch (IllegalEntryException | UsernameNotFreeException ex) {
+                    newUsernameAvailability.setText("Unavailable!");
+                }
             }
         });
         super.add(newUsername);
@@ -89,12 +130,28 @@ public class RegisterPanel extends JPanel {
         // adding password text field
         JTextField newPassword = new JTextField("");
         newPassword.setBounds(width / 2 - 100, 260, 200, 35);
-        newPassword.addActionListener(e -> {
-            try {
-                isValidEntry(newPassword.getText());
-                newPasswordAvailability.setText("Valid password!");
-            } catch (IllegalEntryException iee) {
-                newPasswordAvailability.setText("Invalid password!");
+        newPassword.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent arg0) {}
+
+            @Override
+            public void insertUpdate(DocumentEvent arg0) {
+                try {
+                    isValidEntry(newPassword.getText());
+                    newPasswordAvailability.setText("Valid password!");
+                } catch (IllegalEntryException iee) {
+                    newPasswordAvailability.setText("Invalid password!");
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent arg0) {
+                try {
+                    isValidEntry(newPassword.getText());
+                    newPasswordAvailability.setText("Valid password!");
+                } catch (IllegalEntryException iee) {
+                    newPasswordAvailability.setText("Invalid password!");
+                }
             }
         });
         super.add(newPassword);
@@ -115,12 +172,28 @@ public class RegisterPanel extends JPanel {
         // adding password confirmation text field
         JTextField newPasswordConfirmation = new JTextField("");
         newPasswordConfirmation.setBounds(width / 2 - 100, 330, 200, 35);
-        newPasswordConfirmation.addActionListener(e -> {
-            try {
-                doPasswordsMatch(newPassword.getText(), newPasswordConfirmation.getText());
-                newPasswordConfirmationAvailability.setText("Passwords Match!");
-            } catch (PasswordsDoNotMatchException pdnme) {
-                newPasswordConfirmationAvailability.setText("Passwords Do Not Match!");
+        newPasswordConfirmation.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent arg0) {}
+
+            @Override
+            public void insertUpdate(DocumentEvent arg0) {
+                try {
+                    doPasswordsMatch(newPassword.getText(), newPasswordConfirmation.getText());
+                    newPasswordConfirmationAvailability.setText("Passwords Match!");
+                } catch (PasswordsDoNotMatchException pdnme) {
+                    newPasswordConfirmationAvailability.setText("Passwords Do Not Match!");
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent arg0) {
+                try {
+                    doPasswordsMatch(newPassword.getText(), newPasswordConfirmation.getText());
+                    newPasswordConfirmationAvailability.setText("Passwords Match!");
+                } catch (PasswordsDoNotMatchException pdnme) {
+                    newPasswordConfirmationAvailability.setText("Passwords Do Not Match!");
+                }
             }
         });
         super.add(newPasswordConfirmation);
@@ -131,9 +204,37 @@ public class RegisterPanel extends JPanel {
         newPasswordConfirmationLabel.setFont(makeFont(12));
         super.add(newPasswordConfirmationLabel);
 
+        // adding registration status
+        // adding account owned text
+        JLabel textRegisterStatus = new JLabel("");
+        textRegisterStatus.setBounds(width / 2 - 220, 430, 200, 35);
+        super.add(textRegisterStatus);
+
         // adding registration button
         JButton buttonRegister = new JButton("Register");
         buttonRegister.setBounds(width / 2 - 50, 430, 100, 35);
+        buttonRegister.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    isValidName(newName.getText());
+                    isValidEntry(newUsername.getText());
+                    udb.isUsernameFree(newUsername.getText());
+                    isValidEntry(newPassword.getText());
+                    doPasswordsMatch(newPassword.getText(), newPasswordConfirmation.getText());
+
+                    Account acc = new Account(createPassword(newPassword.getText()), capitalizeName(newName.getText()));
+                    udb.storeAccount(newUsername.getText(), acc);
+                    textRegisterStatus.setText("Account registered!");
+
+                } catch (InvalidNameException
+                        | IllegalEntryException
+                        | PasswordsDoNotMatchException
+                        | UsernameNotFreeException e) {
+                    textRegisterStatus.setText("One or more fields invalid!");
+                }
+            }
+        });
         super.add(buttonRegister);
 
         // adding account owned text
@@ -152,5 +253,11 @@ public class RegisterPanel extends JPanel {
             }
         });
         super.add(buttonHaveAccount);
+    }
+
+    // EFFECTS: creates a new hashed password from a clear text password
+    private String createPassword(String newPassword) {
+        String salt = salt();
+        return salt + hashFunction(salt + newPassword);
     }
 }

@@ -19,7 +19,7 @@ public class LoginPanel extends JPanel {
 
         // adding title
         JLabel loginTitle = new JLabel("Login to your account!");
-        loginTitle.setBounds(width / 2 - 100, 30, 300, 40);
+        loginTitle.setBounds(width / 2 - 110, 130, 300, 40);
         loginTitle.setFont(makeFont(23));
         super.add(loginTitle);
 
@@ -27,12 +27,12 @@ public class LoginPanel extends JPanel {
         // USERNAME
         // adding username text field
         JTextField username = new JTextField("");
-        username.setBounds(width / 2 - 100, 120, 200, 35);
+        username.setBounds(width / 2 - 100, 220, 200, 35);
         super.add(username);
 
         // adding username text field label
         JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(width / 2 - 100, 100, 100, 20);
+        usernameLabel.setBounds(width / 2 - 100, 200, 100, 20);
         usernameLabel.setFont(makeFont(12));
         super.add(usernameLabel);
 
@@ -40,29 +40,29 @@ public class LoginPanel extends JPanel {
         // PASSWORD
         // adding password text field
         JTextField password = new JTextField("");
-        password.setBounds(width / 2 - 100, 190, 200, 35);
+        password.setBounds(width / 2 - 100, 290, 200, 35);
         super.add(password);
 
         // adding password text field label
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(width / 2 - 100, 170, 100, 20);
+        passwordLabel.setBounds(width / 2 - 100, 270, 100, 20);
         passwordLabel.setFont(makeFont(12));
         super.add(passwordLabel);
 
 
         // LOGIN BUTTON
         JButton buttonLogin = new JButton("Login");
-        buttonLogin.setBounds(width / 2 - 50, 290, 100, 35);
+        buttonLogin.setBounds(width / 2 - 50, 390, 100, 35);
         super.add(buttonLogin);
 
         // adding do not have an account text
         JLabel textDoNotHaveAccount = new JLabel("Don't have an account?");
-        textDoNotHaveAccount.setBounds(width / 2 - 220, 340, 200, 35);
+        textDoNotHaveAccount.setBounds(width / 2 - 220, 440, 200, 35);
         super.add(textDoNotHaveAccount);
 
         // REGISTRATION BUTTON
         JButton buttonRegister = new JButton("Register");
-        buttonRegister.setBounds(width / 2 - 50, 340, 100, 35);
+        buttonRegister.setBounds(width / 2 - 50, 440, 100, 35);
         buttonRegister.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
