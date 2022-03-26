@@ -25,8 +25,8 @@ public class BankingApp {
     protected final HashMap<String, Account> databaseInfo;
     private String username;
 
-    public static final int WIDTH = 1000;
-    protected static final int HEIGHT = 800;
+    protected static final int WIDTH = 1000;
+    protected static final int HEIGHT = 650;
 
     protected JFrame frame;
     protected static JPanel container;
@@ -78,32 +78,23 @@ public class BankingApp {
         cl = new CardLayout();
         container.setLayout(cl);
 
-        // registration child panel
+        // child registration panel
         JPanel registerPanel = new RegisterPanel(database);
         container.add(registerPanel, "register");
 
-        // login child panel
-        JPanel loginPanel = new LoginPanel();
+        // child login container panel
+        JPanel loginPanel = new LoginPanelContainer(database);
         container.add(loginPanel, "login");
 
-        // account child panel
-//        JPanel accountPanel = new AccountPanel();
-//        container.add(accountPanel, "account");
+        // hack child panel
+//        JPanel hackPanel = new HackPanel();
+//        container.add(hackPanel, "hack");
 
         // card layout setup
         cl.show(container, "registration");
         frame.add(container);
 
         frame.setVisible(true);
-
-
-
-
-
-
-
-
-
     }
 
     // EFFECTS: saves user database to file

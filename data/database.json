@@ -1,6 +1,7 @@
 {
     "keys": [
         "bar",
+        "test",
         "foo"
     ],
     "values": [
@@ -9,20 +10,32 @@
             "balance": 100,
             "name": "Mr. Bar",
             "transactions": [],
+            "balanceString": "$100.00",
             "notifications": [
                 "Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.",
                 "Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!",
                 "You have received a $100 sign up bonus!"
-            ],
-            "balanceString": "$100.00"
+            ]
+        },
+        {
+            "password": "Vvmq6-1438840177",
+            "balance": 100,
+            "name": "Test",
+            "transactions": [],
+            "balanceString": "$100.00",
+            "notifications": [
+                "Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.",
+                "Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!",
+                "You have received a $100 sign up bonus!"
+            ]
         },
         {
             "password": "0OTI01916101752",
             "balance": 100,
             "name": "Mr. Foo",
             "transactions": [],
-            "notifications": [],
-            "balanceString": "$100.00"
+            "balanceString": "$100.00",
+            "notifications": []
         }
     ]
 }

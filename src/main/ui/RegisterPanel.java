@@ -218,8 +218,6 @@ public class RegisterPanel extends JPanel {
         buttonRegister.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                String confirmationText;
-                Color confirmationColour;
                 try {
                     // final check
                     isValidName(newName.getText());
@@ -233,44 +231,13 @@ public class RegisterPanel extends JPanel {
                     udb.storeAccount(newUsername.getText(), acc);
                     textRegisterStatus.setText("Account registered!");
 
-                    confirmationText = "Registration Success!";
-                    confirmationColour = Color.GREEN;
+                    JOptionPane.showMessageDialog(null, "Registration Success!", "Banking Application", JOptionPane.WARNING_MESSAGE);
                 } catch (InvalidNameException
                         | IllegalEntryException
                         | PasswordsDoNotMatchException
                         | UsernameNotFreeException e) {
-                    textRegisterStatus.setText("One or more fields invalid!");
-
-                    confirmationText = "Registration FAILED!!";
-                    confirmationColour = Color.RED;
+                    JOptionPane.showMessageDialog(null, "Registration Failed! One or more fields invalid!", "Banking Application", JOptionPane.WARNING_MESSAGE);
                 }
-                // confirmation frame
-                JFrame confirmationFrame = new JFrame("Registration Confirmation");
-                confirmationFrame.setSize(confirmationWidth, confirmationHeight);
-                confirmationFrame.setLocationRelativeTo(null);
-                confirmationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                JPanel confirmationPanel = new JPanel();
-                confirmationPanel.setLayout(null);
-                confirmationPanel.setBackground(confirmationColour);
-
-                JLabel confirmationPanelText = new JLabel(confirmationText);
-                confirmationPanelText.setFont(makeFont(17));
-                confirmationPanelText.setBounds(confirmationWidth / 2 - 80, 5, 200, 35);
-                confirmationPanel.add(confirmationPanelText);
-
-                JButton confirmationPanelButton = new JButton("OK");
-                confirmationPanelButton.setBounds(confirmationWidth / 2 - 50, 50, 100, 35);
-                confirmationPanelButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent arg0) {
-                        confirmationFrame.dispose();
-                    }
-                });
-                confirmationPanel.add(confirmationPanelButton);
-
-                confirmationFrame.add(confirmationPanel);
-                confirmationFrame.setVisible(true);
             }
         });
         super.add(buttonRegister);
@@ -282,7 +249,6 @@ public class RegisterPanel extends JPanel {
 
         // adding account owned login button
         JButton buttonHaveAccount = new JButton("Login");
-        //buttonHaveAnAccount.setBounds(frame.getWidth() / 2, 100, 100, 35);
         buttonHaveAccount.setBounds(width / 2 - 50, 480, 100, 35);
         buttonHaveAccount.addActionListener(new ActionListener() {
             @Override

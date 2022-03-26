@@ -1,17 +1,20 @@
 package ui;
 
+import model.UserDatabase;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static ui.BankingApp.*;
+import static ui.LoginPanelContainer.lcl;
 
 public class LoginPanel extends JPanel {
 
     private final int width = BankingApp.WIDTH;
 
-    public LoginPanel() {
+    public LoginPanel(UserDatabase udb, JPanel parentContainer) {
         super.setLayout(null);
         super.setBounds(0, 0, 600, 600);
         super.setBackground(Color.CYAN);
@@ -53,6 +56,25 @@ public class LoginPanel extends JPanel {
         // LOGIN BUTTON
         JButton buttonLogin = new JButton("Login");
         buttonLogin.setBounds(width / 2 - 50, 390, 100, 35);
+        buttonLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    udb.authUsername(username.getText());
+                    udb.authPassword(username.getText(), password.getText(), 3);
+                    cl.show(container, "account");
+                    // account child split pane
+                    JPanel accountStatusPanel = new AccountStatusPanel();
+                    JPanel accountChoicePanel = new AccountChoicePanel();
+                    JSplitPane accountPanel = new AccountPanel(udb.getUserDatabase().get(username.getText()), accountStatusPanel, accountChoicePanel);
+                    parentContainer.add(accountPanel, "account");
+                    lcl.show(parentContainer, "account");
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Login Failed!", "Banking Application", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
         super.add(buttonLogin);
 
         // adding do not have an account text
