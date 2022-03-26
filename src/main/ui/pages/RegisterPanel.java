@@ -1,4 +1,4 @@
-package ui;
+package ui.pages;
 
 import exceptions.IllegalEntryException;
 import exceptions.InvalidNameException;
@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import static model.Formatting.*;
 import static model.Security.hashFunction;
 import static model.Security.salt;
-import static ui.BankingApp.*;
+import static ui.pages.BankingApp.*;
 
 public class RegisterPanel extends JPanel {
 

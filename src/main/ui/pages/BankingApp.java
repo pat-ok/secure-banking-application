@@ -1,4 +1,4 @@
-package ui;
+package ui.pages;
 
 import model.Account;
 import model.UserDatabase;
@@ -83,7 +83,7 @@ public class BankingApp {
         container.add(registerPanel, "register");
 
         // child login container panel
-        JPanel loginPanel = new LoginPanelContainer(database);
+        JPanel loginPanel = new LoginPanel(database);
         container.add(loginPanel, "login");
 
         // hack child panel

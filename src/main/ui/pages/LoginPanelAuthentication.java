@@ -1,4 +1,4 @@
-package ui;
+package ui.pages;
 
 import model.UserDatabase;
 
@@ -7,14 +7,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static ui.BankingApp.*;
-import static ui.LoginPanelContainer.lcl;
+import static ui.pages.BankingApp.*;
+import static ui.pages.LoginPanel.lcl;
 
-public class LoginPanel extends JPanel {
+public class LoginPanelAuthentication extends JPanel {
 
     private final int width = BankingApp.WIDTH;
 
-    public LoginPanel(UserDatabase udb, JPanel parentContainer) {
+    public LoginPanelAuthentication(UserDatabase udb, JPanel parentContainer) {
         super.setLayout(null);
         super.setBounds(0, 0, 600, 600);
         super.setBackground(Color.CYAN);
@@ -66,9 +66,9 @@ public class LoginPanel extends JPanel {
                     System.out.println(password.getText());
                     JPanel accountPanel;
                     if (username.getText().equals("admin")) {
-                        accountPanel = new AccountPanel(udb, udb.getUserDatabase().get(username.getText()), true);
+                        accountPanel = new LoginPanelAccount(udb, udb.getUserDatabase().get(username.getText()), true);
                     } else {
-                        accountPanel = new AccountPanel(udb, udb.getUserDatabase().get(username.getText()), false);
+                        accountPanel = new LoginPanelAccount(udb, udb.getUserDatabase().get(username.getText()), false);
                     }
                     parentContainer.add(accountPanel, "account");
                     lcl.show(parentContainer, "account");

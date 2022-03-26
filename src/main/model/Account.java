@@ -1,14 +1,12 @@
 package model;
 
-import ui.Options;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static model.Formatting.currencyFormat;
 
 // Represents an account that has a password, a name, a balance, and an ArrayList of string messages.
-public class Account extends Options {
+public class Account {
     private final String password;                       // password for the account
     private final String name;                           // name of account owner
     private BigDecimal balance;                          // current balance of account owner
