@@ -27,7 +27,7 @@ public class RegisterPanel extends JPanel {
 
     public RegisterPanel(UserDatabase udb) {
         super.setLayout(null);
-        super.setBounds(0, 0, WIDTH, HEIGHT);
+        //super.setBounds(0, 0, WIDTH, HEIGHT);
         super.setBackground(new Color(0, 140, 0));
 
 

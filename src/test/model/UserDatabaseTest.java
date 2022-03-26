@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserPassDatabaseTest {
+public class UserDatabaseTest {
     private UserDatabase userDatabase;
     private HashMap<String, Account> testDB;
 
@@ -79,7 +79,7 @@ public class UserPassDatabaseTest {
         try {
             userDatabase.authUsername("Foo");
             fail("Username is not in database");
-        } catch (UsernameNotFoundException unfe) {
+        } catch (AuthenticationFailedUsernameException unfe) {
             // pass
         }
     }
@@ -89,7 +89,7 @@ public class UserPassDatabaseTest {
         try {
             userDatabase.authUsername("Bar");
             fail("Username is not in database");
-        } catch (UsernameNotFoundException unfe) {
+        } catch (AuthenticationFailedUsernameException unfe) {
             // pass
         }
     }
@@ -99,7 +99,7 @@ public class UserPassDatabaseTest {
         try {
             userDatabase.authUsername("foo");
             // pass
-        } catch (UsernameNotFoundException unfe) {
+        } catch (AuthenticationFailedUsernameException unfe) {
             fail("Username should be in database");
         }
     }
@@ -109,65 +109,27 @@ public class UserPassDatabaseTest {
         try {
             userDatabase.authUsername("bar");
             // pass
-        } catch (UsernameNotFoundException unfe) {
+        } catch (AuthenticationFailedUsernameException unfe) {
             fail("Username should be in database");
         }
     }
 
     @Test
-    void testAuthPasswordFailWithThreeTries() {
+    void testAuthPasswordFail() {
         try {
-            userDatabase.authPassword("foo", "fail", 3);
+            userDatabase.authPassword("foo", "fail");
             fail("Password is not correct");
-        } catch (IncorrectPasswordTriesLeftException iptle) {
+        } catch (AuthenticationFailedPasswordException afpe) {
             // pass
-        } catch (IncorrectPasswordNoTriesLeftException ipntle) {
-            fail("There are still tries left");
-        }
-    }
-
-    @Test
-    void testAuthPasswordFailWithTwoTries() {
-        try {
-            userDatabase.authPassword("foo", "fail", 2);
-            fail("Password is not correct");
-        } catch (IncorrectPasswordTriesLeftException iptle) {
-            // pass
-        } catch (IncorrectPasswordNoTriesLeftException ipntle) {
-            fail("There are still tries left");
-        }
-    }
-
-    @Test
-    void testAuthPasswordFailFinalTry() {
-        try {
-            userDatabase.authPassword("foo", "fail", 1);
-            fail("Password is not correct");
-        } catch (IncorrectPasswordTriesLeftException iptle) {
-            fail("There are no tries left");
-        } catch (IncorrectPasswordNoTriesLeftException ipntle) {
-            // pass
-        }
-    }
-
-    @Test
-    void testAuthPasswordFailWithTries() {
-        try {
-            userDatabase.authPassword("foo", "fail", 3);
-            fail("Password is not correct");
-        } catch (IncorrectPasswordTriesLeftException iptle) {
-            // pass
-        } catch (IncorrectPasswordNoTriesLeftException ipntle) {
-            fail("There are still tries left");
         }
     }
 
     @Test
     void testAuthPasswordPassFoo() {
         try {
-            userDatabase.authPassword("foo", "pass123", 3);
+            userDatabase.authPassword("foo", "pass123");
             // pass
-        } catch (IncorrectPasswordException iptle) {
+        } catch (AuthenticationFailedPasswordException afpe) {
             fail("Password should pass");
         }
     }
@@ -175,9 +137,9 @@ public class UserPassDatabaseTest {
     @Test
     void testAuthPasswordPassBar() {
         try {
-            userDatabase.authPassword("bar", "pass123", 3);
+            userDatabase.authPassword("bar", "pass123");
             // pass
-        } catch (IncorrectPasswordException iptle) {
+        } catch (AuthenticationFailedPasswordException afpe) {
             fail("Password should pass");
         }
     }

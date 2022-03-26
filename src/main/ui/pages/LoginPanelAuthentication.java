@@ -1,103 +1,115 @@
 package ui.pages;
 
+import exceptions.AuthenticationFailedException;
+import model.Account;
 import model.UserDatabase;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static ui.pages.BankingApp.*;
+import static ui.pages.BankingApp.optionPane;
 import static ui.pages.LoginPanel.lcl;
 
 public class LoginPanelAuthentication extends JPanel {
 
     private final int width = BankingApp.WIDTH;
+    private final UserDatabase udb;
+    private final JPanel parentContainer;
 
+    // FIELDS
+    private JTextField username;
+    private JTextField password;
+
+    // Constructor for authentication panel
     public LoginPanelAuthentication(UserDatabase udb, JPanel parentContainer) {
-        super.setLayout(null);
-        super.setBounds(0, 0, 600, 600);
-        super.setBackground(Color.CYAN);
+        this.setLayout(null);
+        this.setBackground(Color.CYAN);
+        this.udb = udb;
+        this.parentContainer = parentContainer;
 
+        createTitle();
+        createUsername();
+        createPassword();
+        createLoginButton();
+        createRegisterButton();
+    }
 
-        // adding title
+    // EFFECTS: Creates login title label
+    private void createTitle() {
         JLabel loginTitle = new JLabel("Login to your account!");
         loginTitle.setBounds(width / 2 - 110, 130, 300, 40);
         loginTitle.setFont(makeFont(23));
-        super.add(loginTitle);
+        this.add(loginTitle);
+    }
 
-
-        // USERNAME
-        // adding username text field
-        JTextField username = new JTextField("");
+    // EFFECTS: Creates username entry field with label
+    private void createUsername() {
+        username = new JTextField("");
         username.setBounds(width / 2 - 100, 220, 200, 35);
-        super.add(username);
+        this.add(username);
 
-        // adding username text field label
         JLabel usernameLabel = new JLabel("Username");
         usernameLabel.setBounds(width / 2 - 100, 200, 100, 20);
         usernameLabel.setFont(makeFont(12));
-        super.add(usernameLabel);
+        this.add(usernameLabel);
+    }
 
-
-        // PASSWORD
-        // adding password text field
-        JTextField password = new JTextField("");
+    // EFFECTS: Creates password entry field with label
+    private void createPassword() {
+        password = new JTextField("");
         password.setBounds(width / 2 - 100, 290, 200, 35);
-        super.add(password);
+        this.add(password);
 
-        // adding password text field label
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(width / 2 - 100, 270, 100, 20);
         passwordLabel.setFont(makeFont(12));
-        super.add(passwordLabel);
+        this.add(passwordLabel);
+    }
 
-
-        // LOGIN BUTTON
+    // EFFECTS: Creates login button triggering account authentication
+    private void createLoginButton() {
         JButton buttonLogin = new JButton("Login");
         buttonLogin.setBounds(width / 2 - 50, 390, 100, 35);
-        buttonLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                try {
-                    udb.authUsername(username.getText());
-                    udb.authPassword(username.getText(), password.getText(), 3);
-                    System.out.println(username.getText());
-                    System.out.println(password.getText());
-                    JPanel accountPanel;
-                    if (username.getText().equals("admin")) {
-                        accountPanel = new LoginPanelAccount(udb, udb.getUserDatabase().get(username.getText()), true);
-                    } else {
-                        accountPanel = new LoginPanelAccount(udb, udb.getUserDatabase().get(username.getText()), false);
-                    }
-                    parentContainer.add(accountPanel, "account");
-                    lcl.show(parentContainer, "account");
-
-                    username.setText("");
-                    password.setText("");
-
-
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e, "Banking Application", JOptionPane.WARNING_MESSAGE);
+        buttonLogin.addActionListener(arg0 -> {
+            try {
+                udb.authUsername(username.getText());
+                udb.authPassword(username.getText(), password.getText());
+                JPanel accountPanel;
+                Account account = udb.getUserDatabase().get(username.getText());
+                if (username.getText().equals("admin")) {
+                    accountPanel = new LoginPanelAccount(udb, account, true);
+                } else {
+                    accountPanel = new LoginPanelAccount(udb, account, false);
                 }
+                parentContainer.add(accountPanel, "account");
+                lcl.show(parentContainer, "account");
+                clearFields();
+            } catch (AuthenticationFailedException afe) {
+                optionPane(afe.getMessage());
             }
         });
-        super.add(buttonLogin);
+        this.add(buttonLogin);
+    }
 
-        // adding do not have an account text
+    // EFFECTS: Creates registration button bringing user back to registration panel
+    private void createRegisterButton() {
         JLabel textDoNotHaveAccount = new JLabel("Don't have an account?");
         textDoNotHaveAccount.setBounds(width / 2 - 220, 440, 200, 35);
-        super.add(textDoNotHaveAccount);
+        this.add(textDoNotHaveAccount);
 
-        // REGISTRATION BUTTON
         JButton buttonRegister = new JButton("Register");
         buttonRegister.setBounds(width / 2 - 50, 440, 100, 35);
-        buttonRegister.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                cl.show(container, "register");
-            }
+        buttonRegister.addActionListener(arg0 -> {
+            clearFields();
+            cl.show(container, "register");
         });
-        super.add(buttonRegister);
+        this.add(buttonRegister);
+    }
+
+    // EFFECTS: Clears user input from all fields
+    private void clearFields() {
+        username.setText("");
+        password.setText("");
     }
 }

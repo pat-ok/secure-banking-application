@@ -3,7 +3,7 @@ package ui.pages;
 import exceptions.InsufficientFundsException;
 import exceptions.InvalidAmountException;
 import exceptions.UnconfirmedException;
-import exceptions.UsernameNotFoundException;
+import exceptions.AuthenticationFailedUsernameException;
 import model.Account;
 import model.UserDatabase;
 
@@ -15,6 +15,7 @@ import java.util.Map;
 import static model.Formatting.hasSufficientFunds;
 import static model.Formatting.isValidAmount;
 import static ui.pages.BankingApp.*;
+import static ui.pages.BankingApp.optionPane;
 
 // Represents account UI after login authentication
 // Child panel of LoginPanel card layout
@@ -120,6 +121,7 @@ public class LoginPanelAccount extends JPanel {
         notificationsPanel = new JTextArea();
         notificationsPanel.setEditable(false);
         notificationsPanel.setFont(makeFont(16));
+        notificationsPanel.setLineWrap(true);
         notificationsPanel.setWrapStyleWord(true);
         JScrollPane notifications = new JScrollPane(notificationsPanel,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -232,7 +234,7 @@ public class LoginPanelAccount extends JPanel {
     private void setAdminLockButton() {
         buttonOne.setText("Lock");
         buttonOne.addActionListener(arg0 -> {
-            clearChoices();
+            clearFields();
             labelOne.setText(lockText);
             fieldOne.setVisible(true);
             labelTwo.setText("Enter 'confirm' to proceed");
@@ -245,7 +247,7 @@ public class LoginPanelAccount extends JPanel {
     private void setAdminUnlockButton() {
         buttonTwo.setText("Unlock");
         buttonTwo.addActionListener(arg0 -> {
-            clearChoices();
+            clearFields();
             labelOne.setText(unlockText);
             fieldOne.setVisible(true);
             labelTwo.setText("Enter 'confirm' to proceed");
@@ -258,7 +260,7 @@ public class LoginPanelAccount extends JPanel {
     private void setAdminViewButton() {
         buttonThree.setText("View");
         buttonThree.addActionListener(arg0 -> {
-            clearChoices();
+            clearFields();
             labelOne.setText(viewText);
             fieldOne.setVisible(true);
             confirmButton.setVisible(true);
@@ -269,7 +271,7 @@ public class LoginPanelAccount extends JPanel {
     private void setAdminDatabaseButton() {
         buttonFour.setText("Database");
         buttonFour.addActionListener(arg0 -> {
-            clearChoices();
+            clearFields();
             StringBuilder accountList = new StringBuilder();
             for (Map.Entry<String, Account> entry : udb.getUserDatabase().entrySet()) {
                 String k = entry.getKey();
@@ -307,7 +309,7 @@ public class LoginPanelAccount extends JPanel {
             confirmationTrue(fieldTwo.getText());
             udb.getUserDatabase().get(fieldOne.getText()).lockAccount();
             optionPane(fieldOne.getText() + " has been locked!");
-        } catch (UsernameNotFoundException | UnconfirmedException ex) {
+        } catch (AuthenticationFailedUsernameException | UnconfirmedException ex) {
             optionPane(ex.getMessage());
         }
     }
@@ -319,7 +321,7 @@ public class LoginPanelAccount extends JPanel {
             confirmationTrue(fieldTwo.getText());
             udb.getUserDatabase().get(fieldOne.getText()).unlockAccount();
             optionPane(fieldOne.getText() + " has been unlocked!");
-        } catch (UsernameNotFoundException | UnconfirmedException ex) {
+        } catch (AuthenticationFailedUsernameException | UnconfirmedException ex) {
             optionPane(ex.getMessage());
         }
     }
@@ -336,7 +338,7 @@ public class LoginPanelAccount extends JPanel {
                     + "\nNotifications: " + user.getNotificationsString()
                     + "\nTransactions: " + user.transactionHistory();
             createPopFrame("Account Information", content);
-        } catch (UsernameNotFoundException unfe) {
+        } catch (AuthenticationFailedUsernameException unfe) {
             optionPane(unfe.getMessage());
         }
     }
@@ -362,7 +364,7 @@ public class LoginPanelAccount extends JPanel {
     private void setUserDepositButton() {
         buttonOne.setText("Deposit");
         buttonOne.addActionListener(arg0 -> {
-            clearChoices();
+            clearFields();
             labelTwo.setText(depositText);
             labelTwoDollar.setText(dollarSign);
             fieldTwo.setVisible(true);
@@ -374,7 +376,7 @@ public class LoginPanelAccount extends JPanel {
     private void setUserWithdrawButton() {
         buttonTwo.setText("Withdraw");
         buttonTwo.addActionListener(arg0 -> {
-            clearChoices();
+            clearFields();
             labelTwo.setText(withdrawText);
             labelTwoDollar.setText(dollarSign);
             fieldTwo.setVisible(true);
@@ -386,7 +388,7 @@ public class LoginPanelAccount extends JPanel {
     private void setUserTransferButton() {
         buttonThree.setText("Transfer");
         buttonThree.addActionListener(arg0 -> {
-            clearChoices();
+            clearFields();
             labelOne.setText(transferRecipientText);
             labelTwo.setText(transferText);
             labelTwoDollar.setText(dollarSign);
@@ -400,7 +402,7 @@ public class LoginPanelAccount extends JPanel {
     private void setUserHistoryButton() {
         buttonFour.setText("History");
         buttonFour.addActionListener(arg0 -> {
-            clearChoices();
+            clearFields();
             createPopFrame("Transaction History", account.transactionHistory());
         });
     }
@@ -430,7 +432,7 @@ public class LoginPanelAccount extends JPanel {
             isValidAmount(fieldTwo.getText());
             optionPane(account.deposit(fieldTwo.getText()));
             balanceLabelActual.setText(account.getBalanceString());
-            clearChoices();
+            clearFields();
         } catch (InvalidAmountException iae) {
             optionPane(iae.getMessage());
         }
@@ -443,7 +445,7 @@ public class LoginPanelAccount extends JPanel {
             hasSufficientFunds(new BigDecimal(fieldTwo.getText()), account.getBalance());
             optionPane(account.withdraw(fieldTwo.getText()));
             balanceLabelActual.setText(account.getBalanceString());
-            clearChoices();
+            clearFields();
         } catch (InvalidAmountException | InsufficientFundsException ex) {
             optionPane(ex.getMessage());
         }
@@ -459,15 +461,15 @@ public class LoginPanelAccount extends JPanel {
             doTransferFromTo(fieldTwo.getText(), account, recipientAccount);
             optionPane(recipientAccount.getName() + " has received your Interac eTransfer!");
             balanceLabelActual.setText(account.getBalanceString());
-            clearChoices();
-        } catch (UsernameNotFoundException | InvalidAmountException | InsufficientFundsException ex) {
+            clearFields();
+        } catch (AuthenticationFailedUsernameException | InvalidAmountException | InsufficientFundsException ex) {
             optionPane(ex.getMessage());
         }
     }
 
     // HELPER METHODS ==================================================================================================
     // EFFECTS: Clears all choice fields and sets text fields to non-visible
-    private void clearChoices() {
+    private void clearFields() {
         labelOne.setText("");
         fieldOne.setText("");
         fieldOne.setVisible(false);
@@ -488,6 +490,7 @@ public class LoginPanelAccount extends JPanel {
         JTextArea text = new JTextArea(content);
         text.setEditable(false);
         text.setFont(makeFont(16));
+        text.setLineWrap(true);
         text.setWrapStyleWord(true);
         JScrollPane scroll =
                 new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -496,11 +499,6 @@ public class LoginPanelAccount extends JPanel {
         frame.add(scroll);
 
         frame.setVisible(true);
-    }
-
-    // EFFECTS: Creates a pop-up JOptionPane with a message
-    private void optionPane(String message) {
-        JOptionPane.showMessageDialog(null, message, "Banking Application", JOptionPane.WARNING_MESSAGE);
     }
 
     // EFFECTS: From sender:
@@ -515,7 +513,7 @@ public class LoginPanelAccount extends JPanel {
         recipient.transferIn(amount, sender.getName());
     }
 
-    // EFFECTS: checks whether confirmation string is "CONFIRM"
+    // EFFECTS: checks whether confirmation string is "confirm"
     private void confirmationTrue(String confirmation) throws UnconfirmedException {
         if (!confirmation.equals("confirm")) {
             throw new UnconfirmedException();

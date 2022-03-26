@@ -5,7 +5,7 @@ import model.UserDatabase;
 import javax.swing.*;
 import java.awt.*;
 
-// Represents a container holding
+// Represents a container holding authentication panel and account panel
 public class LoginPanel extends JPanel {
 
     protected static CardLayout lcl;
@@ -16,10 +16,8 @@ public class LoginPanel extends JPanel {
         super.setLayout(lcl);
 
         // child login panel
-        JPanel loginPanel = new ui.pages.LoginPanelAuthentication(udb, this);
+        JPanel loginPanel = new LoginPanelAuthentication(udb, this);
         super.add(loginPanel, "login");
-
-        // child JSplit panel
 
         // card layout setup
         lcl.show(this, "login");

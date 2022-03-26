@@ -1,8 +1,7 @@
 package model;
 
-import exceptions.IncorrectPasswordNoTriesLeftException;
-import exceptions.IncorrectPasswordTriesLeftException;
-import exceptions.UsernameNotFoundException;
+import exceptions.AuthenticationFailedPasswordException;
+import exceptions.AuthenticationFailedUsernameException;
 import exceptions.UsernameNotFreeException;
 import org.json.JSONObject;
 import persistence.Writable;
@@ -63,24 +62,20 @@ public class UserDatabase implements Writable {
     // REQUIRES: username must be registered
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public void authUsername(String username) throws UsernameNotFoundException {
+    public void authUsername(String username) throws AuthenticationFailedUsernameException {
         if (!databaseInfo.containsKey(username)) {
-            throw new UsernameNotFoundException();
+            throw new AuthenticationFailedUsernameException();
         }
     }
 
     // REQUIRES: password must match stored password for account and there must be more than 1 try left
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public void authPassword(String username, String password, int tries)
-            throws IncorrectPasswordTriesLeftException, IncorrectPasswordNoTriesLeftException {
+    public void authPassword(String username, String password) throws AuthenticationFailedPasswordException {
         String salt = databaseInfo.get(username).getPassword().substring(0, 5);
         int saltedPass = hashFunction(salt + password);
         if (!databaseInfo.get(username).getPassword().equals(salt + saltedPass)) {
-            if (tries > 1) {
-                throw new IncorrectPasswordTriesLeftException(tries);
-            }
-            throw new IncorrectPasswordNoTriesLeftException();
+            throw new AuthenticationFailedPasswordException();
         }
     }
 

@@ -86,10 +86,6 @@ public class BankingApp {
         JPanel loginPanel = new LoginPanel(database);
         container.add(loginPanel, "login");
 
-        // hack child panel
-//        JPanel hackPanel = new HackPanel();
-//        container.add(hackPanel, "hack");
-
         // card layout setup
         cl.show(container, "registration");
         frame.add(container);
@@ -113,5 +109,11 @@ public class BankingApp {
     // EFFECTS: loads user database from file
     private void loadUserDatabase() throws IOException {
         database = jsonReader.read();
+    }
+
+
+    // EFFECTS: Creates a pop-up JOptionPane with a message
+    public static void optionPane(String message) {
+        JOptionPane.showMessageDialog(null, message, "Banking Application", JOptionPane.WARNING_MESSAGE);
     }
 }
