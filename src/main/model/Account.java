@@ -14,6 +14,7 @@ public class Account extends Options {
     private BigDecimal balance;                          // current balance of account owner
     private final ArrayList<String> notifications;       // stack of notification messages received
     private final ArrayList<String> transactions;        // stack of transactions recorded
+    private boolean lock;                                // account locking status
 
     // REQUIRES: account password and account name must be valid entries
     //           (non-empty, not only consisting of spaces, no leading or trailing spaces)
@@ -24,6 +25,7 @@ public class Account extends Options {
     //          balance on account is initialized at 100 with signup bonus,
     //          inbox is initialized with welcome messages,
     //          transactions is initialized with empty history
+    //          account is unlocked
     public Account(String accountPass, String accountName) {
         this.password = accountPass;
         this.name = accountName;
@@ -33,6 +35,7 @@ public class Account extends Options {
         this.notifications.add("Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!");
         this.notifications.add("You have received a $100 sign up bonus!");
         this.transactions = new ArrayList<>();
+        this.lock = false;
     }
 
     // REQUIRES: nothing
@@ -53,6 +56,7 @@ public class Account extends Options {
         this.balance = new BigDecimal(balance.replaceAll("\\$", ""));
         this.notifications = notifications;
         this.transactions = transactions;
+        this.lock = false;
     }
 
     // getter for password
@@ -80,9 +84,30 @@ public class Account extends Options {
         return notifications;
     }
 
+    // getter for notifications as string
+    public String getNotificationsString() {
+        int n = 1;
+        String temp = "There are a total of " + notifications.size() + " new notification(s).\n\n";
+        StringBuilder welcomeMessage = new StringBuilder(temp);
+        for (String s : notifications) {
+            String num = "[" + n + "] ";
+            welcomeMessage.append(num).append(s).append("\n\n");
+            n++;
+        }
+        return welcomeMessage.toString();
+    }
+
     // getter for transactions
     public ArrayList<String> getTransactions() {
         return transactions;
+    }
+
+    // getter for transactions as string
+
+
+    // getter for locked status
+    public boolean getLock() {
+        return lock;
     }
 
 
@@ -94,7 +119,7 @@ public class Account extends Options {
     public String deposit(String amount) {
         BigDecimal deposit = new BigDecimal(amount);
         balance = balance.add(deposit);
-        transactions.add("Deposit: " + currencyFormat(deposit) + " | Balance: " + currencyFormat(balance));
+        transactions.add("Deposit: " + currencyFormat(deposit) + "\n     Balance: " + currencyFormat(balance));
         return "You have deposited: " + currencyFormat(deposit)
                 + ". Your new balance is: " + currencyFormat(balance);
     }
@@ -107,7 +132,7 @@ public class Account extends Options {
     public String withdraw(String amount) {
         BigDecimal withdraw = new BigDecimal(amount);
         balance = balance.subtract(withdraw);
-        transactions.add("Withdrawal: " + currencyFormat(withdraw) + " | Balance: " + currencyFormat(balance));
+        transactions.add("Withdrawal: " + currencyFormat(withdraw) + "\n     Balance: " + currencyFormat(balance));
         return "You have withdrawn: " + currencyFormat(withdraw)
                 + ". Your new balance is: " + currencyFormat(balance);
     }
@@ -118,12 +143,11 @@ public class Account extends Options {
     //          and clears the notifications that have been displayed
     public String loginNotifications() {
         int n = 1;
-        String temp = "Password matches username. Access successful. Welcome back, " + name + "!"
-                + "\nYou have: " + notifications.size() + " new notifications.\n";
+        String temp = "You have: " + notifications.size() + " new notification(s).\n\n";
         StringBuilder welcomeMessage = new StringBuilder(temp);
         for (String s : notifications) {
             String num = "[" + n + "] ";
-            welcomeMessage.append(num).append(s).append("\n");
+            welcomeMessage.append(num).append(s).append("\n\n");
             n++;
         }
         notifications.clear();
@@ -138,7 +162,7 @@ public class Account extends Options {
         BigDecimal outgoingAmount = new BigDecimal(amount);
         balance = balance.subtract(outgoingAmount);
         transactions.add("Outgoing eTransfer: " + currencyFormat(outgoingAmount) + " to " + recipient
-                + " | Balance: " + currencyFormat(balance));
+                + "\n     Balance: " + currencyFormat(balance));
     }
 
     // REQUIRES: nothing
@@ -152,7 +176,7 @@ public class Account extends Options {
         notifications.add("You have received an Interac eTransfer of " + currencyFormat(incomingAmount) + " from "
                 + senderName + ".");
         transactions.add("Incoming eTransfer: " + currencyFormat(incomingAmount) + " from " + senderName
-                + " | Balance: " + currencyFormat(balance));
+                + "\n     Balance: " + currencyFormat(balance));
     }
 
     // REQUIRES: nothing
@@ -160,16 +184,30 @@ public class Account extends Options {
     // EFFECTS: returns string denoting complete history of transactions
     public String transactionHistory() {
         int i = 1;
-        StringBuilder transactionHistory = new StringBuilder("Transaction history for " + name + ":\n");
+        StringBuilder transactionHistory = new StringBuilder("Transaction history for " + name + ":\n\n");
         if (transactions.size() == 0) {
             transactionHistory.append("No transactions to show.");
         } else {
             for (String transaction : transactions) {
                 String num = "[" + i + "] ";
-                transactionHistory.append(num).append(transaction).append("\n");
+                transactionHistory.append(num).append(transaction).append("\n\n");
                 i++;
             }
         }
         return transactionHistory.toString();
+    }
+
+    // REQUIRES: nothing
+    // MODIFIES: nothing
+    // EFFECTS: sets locked status to true
+    public void lockAccount() {
+        this.lock = true;
+    }
+
+    // REQUIRES: nothing
+    // MODIFIES: nothing
+    // EFFECTS: sets locked status to false
+    public void unlockAccount() {
+        this.lock = false;
     }
 }

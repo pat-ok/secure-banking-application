@@ -232,6 +232,18 @@ public class RegisterPanel extends JPanel {
                     textRegisterStatus.setText("Account registered!");
 
                     JOptionPane.showMessageDialog(null, "Registration Success!", "Banking Application", JOptionPane.WARNING_MESSAGE);
+
+                    newName.setText("");
+                    newNameAvailability.setText("");
+                    newUsername.setText("");
+                    newUsernameAvailability.setText("");
+                    newPassword.setText("");
+                    newPasswordAvailability.setText("");
+                    newPasswordConfirmation.setText("");
+                    newPasswordConfirmationAvailability.setText("");
+
+                    revalidate();
+                    repaint();
                 } catch (InvalidNameException
                         | IllegalEntryException
                         | PasswordsDoNotMatchException

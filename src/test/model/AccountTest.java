@@ -149,15 +149,15 @@ class AccountTest {
         foo.withdraw("50");
         foo.transferIn("50", bar.getName());
         foo.transferOut("50", bar.getName());
-        String testTransactionsFoo = "Transaction history for Foo:\n"
-                + "[1] Deposit: $50.00 | Balance: $150.00\n"
-                + "[2] Withdrawal: $50.00 | Balance: $100.00\n"
-                + "[3] Incoming eTransfer: $50.00 from Bar | Balance: $150.00\n"
-                + "[4] Outgoing eTransfer: $50.00 to Bar | Balance: $100.00\n";
+        String testTransactionsFoo = "Transaction history for Foo:\n\n"
+                + "[1] Deposit: $50.00\n     Balance: $150.00\n\n"
+                + "[2] Withdrawal: $50.00\n     Balance: $100.00\n\n"
+                + "[3] Incoming eTransfer: $50.00 from Bar\n     Balance: $150.00\n\n"
+                + "[4] Outgoing eTransfer: $50.00 to Bar\n     Balance: $100.00\n\n";
 
         assertEquals(4, foo.getTransactions().size());
         assertEquals(testTransactionsFoo, foo.transactionHistory());
-        assertEquals("Transaction history for Bar:\nNo transactions to show.", bar.transactionHistory());
+        assertEquals("Transaction history for Bar:\n\nNo transactions to show.", bar.transactionHistory());
 
     }
 }

@@ -62,16 +62,23 @@ public class LoginPanel extends JPanel {
                 try {
                     udb.authUsername(username.getText());
                     udb.authPassword(username.getText(), password.getText(), 3);
-                    cl.show(container, "account");
-                    // account child split pane
-                    JPanel accountStatusPanel = new AccountStatusPanel();
-                    JPanel accountChoicePanel = new AccountChoicePanel();
-                    JSplitPane accountPanel = new AccountPanel(udb.getUserDatabase().get(username.getText()), accountStatusPanel, accountChoicePanel);
+                    System.out.println(username.getText());
+                    System.out.println(password.getText());
+                    JPanel accountPanel;
+                    if (username.getText().equals("admin")) {
+                        accountPanel = new AccountPanel(udb, udb.getUserDatabase().get(username.getText()), true);
+                    } else {
+                        accountPanel = new AccountPanel(udb, udb.getUserDatabase().get(username.getText()), false);
+                    }
                     parentContainer.add(accountPanel, "account");
                     lcl.show(parentContainer, "account");
 
+                    username.setText("");
+                    password.setText("");
+
+
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Login Failed!", "Banking Application", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e, "Banking Application", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
