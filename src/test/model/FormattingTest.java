@@ -181,7 +181,7 @@ public class FormattingTest {
         try {
             isValidAmount("not numbers");
             fail("Illegal amount");
-        } catch (InvalidAmountException iae) {
+        } catch (AmountFailedInvalidEntryException iae) {
             // pass
         }
     }
@@ -191,7 +191,7 @@ public class FormattingTest {
         try {
             isValidAmount("-50");
             fail("Illegal amount");
-        } catch (InvalidAmountException iae) {
+        } catch (AmountFailedInvalidEntryException iae) {
             // pass
         }
     }
@@ -201,7 +201,7 @@ public class FormattingTest {
         try {
             isValidAmount("10.20.30");
             fail("Illegal amount");
-        } catch (InvalidAmountException iae) {
+        } catch (AmountFailedInvalidEntryException iae) {
             // pass
         }
     }
@@ -211,7 +211,7 @@ public class FormattingTest {
         try {
             isValidAmount("50");
             // pass
-        } catch (InvalidAmountException iae) {
+        } catch (AmountFailedInvalidEntryException iae) {
             fail("Amount is legal");
         }
     }
@@ -221,7 +221,7 @@ public class FormattingTest {
         try {
             isValidAmount("50.10");
             // pass
-        } catch (InvalidAmountException iae) {
+        } catch (AmountFailedInvalidEntryException iae) {
             fail("Amount is legal");
         }
     }
@@ -231,7 +231,7 @@ public class FormattingTest {
         try {
             isValidAmount("50.1020");
             // pass
-        } catch (InvalidAmountException iae) {
+        } catch (AmountFailedInvalidEntryException iae) {
             fail("Amount is legal");
         }
     }
@@ -290,7 +290,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             // pass
-        } catch (InsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ife) {
             fail("There are enough funds");
         }
     }
@@ -303,7 +303,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             // pass
-        } catch (InsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ife) {
             fail("There are enough funds");
         }
     }
@@ -316,7 +316,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             // pass
-        } catch (InsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ife) {
             fail("There are enough funds");
         }
     }
@@ -329,7 +329,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             fail("There are not enough funds");
-        } catch (InsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ife) {
             // pass
         }
     }
@@ -342,7 +342,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             fail("There are not enough funds");
-        } catch (InsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ife) {
             // pass
         }
     }

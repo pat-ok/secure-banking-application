@@ -1,9 +1,6 @@
 package ui.pages;
 
-import exceptions.InsufficientFundsException;
-import exceptions.InvalidAmountException;
-import exceptions.UnconfirmedException;
-import exceptions.AuthenticationFailedUsernameException;
+import exceptions.*;
 import model.Account;
 import model.UserDatabase;
 
@@ -15,7 +12,6 @@ import java.util.Map;
 import static model.Formatting.hasSufficientFunds;
 import static model.Formatting.isValidAmount;
 import static ui.pages.BankingApp.*;
-import static ui.pages.BankingApp.optionPane;
 
 // Represents account UI after login authentication
 // Child panel of LoginPanel card layout
@@ -338,8 +334,8 @@ public class LoginPanelAccount extends JPanel {
                     + "\nNotifications: " + user.getNotificationsString()
                     + "\nTransactions: " + user.transactionHistory();
             createPopFrame("Account Information", content);
-        } catch (AuthenticationFailedUsernameException unfe) {
-            optionPane(unfe.getMessage());
+        } catch (AuthenticationFailedUsernameException ex) {
+            optionPane(ex.getMessage());
         }
     }
 
@@ -433,8 +429,8 @@ public class LoginPanelAccount extends JPanel {
             optionPane(account.deposit(fieldTwo.getText()));
             balanceLabelActual.setText(account.getBalanceString());
             clearFields();
-        } catch (InvalidAmountException iae) {
-            optionPane(iae.getMessage());
+        } catch (AmountFailedInvalidEntryException ex) {
+            optionPane(ex.getMessage());
         }
     }
 
@@ -446,7 +442,7 @@ public class LoginPanelAccount extends JPanel {
             optionPane(account.withdraw(fieldTwo.getText()));
             balanceLabelActual.setText(account.getBalanceString());
             clearFields();
-        } catch (InvalidAmountException | InsufficientFundsException ex) {
+        } catch (AmountFailedException ex) {
             optionPane(ex.getMessage());
         }
     }
@@ -462,7 +458,7 @@ public class LoginPanelAccount extends JPanel {
             optionPane(recipientAccount.getName() + " has received your Interac eTransfer!");
             balanceLabelActual.setText(account.getBalanceString());
             clearFields();
-        } catch (AuthenticationFailedUsernameException | InvalidAmountException | InsufficientFundsException ex) {
+        } catch (AuthenticationFailedUsernameException | AmountFailedException ex) {
             optionPane(ex.getMessage());
         }
     }

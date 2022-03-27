@@ -57,9 +57,9 @@ public class Formatting {
     // REQUIRES: amount must be validly monetary
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public static void isValidAmount(String amount) throws InvalidAmountException {
+    public static void isValidAmount(String amount) throws AmountFailedInvalidEntryException {
         if (!amount.matches("\\d+(\\.\\d+)?")) {
-            throw new InvalidAmountException();
+            throw new AmountFailedInvalidEntryException();
         }
     }
 
@@ -99,9 +99,9 @@ public class Formatting {
     // REQUIRES: outgoing <= balance
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public static void hasSufficientFunds(BigDecimal outgoing, BigDecimal balance) throws InsufficientFundsException {
+    public static void hasSufficientFunds(BigDecimal outgoing, BigDecimal balance) throws AmountFailedInsufficientFundsException {
         if (!(outgoing.compareTo(balance) <= 0)) {
-            throw new InsufficientFundsException();
+            throw new AmountFailedInsufficientFundsException();
         }
     }
 }

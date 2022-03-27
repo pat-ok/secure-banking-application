@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import static ui.pages.BankingApp.*;
-import static ui.pages.BankingApp.optionPane;
 import static ui.pages.LoginPanel.lcl;
 
 public class LoginPanelAuthentication extends JPanel {
