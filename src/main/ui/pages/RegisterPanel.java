@@ -31,6 +31,13 @@ public class RegisterPanel extends JPanel {
     private JLabel newPasswordConfirmAvailability;
     private JLabel registerStatus;
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawRect(0, 0, 500, 500);
+        g.setColor(Color.CYAN);
+        g.fillRect(0, 0, 500, 500);
+    }
 
     // Constructor for registration panel
     public RegisterPanel(UserDatabase udb) {
@@ -38,18 +45,14 @@ public class RegisterPanel extends JPanel {
         this.setBackground(new Color(0, 140, 0));
         this.udb = udb;
 
+
         createTitle();
         createNewName();
-        createNewNameUpdate();
         createNewUsername();
-        createNewUsernameUpdate();
         createNewPassword();
-        createNewPasswordUpdate();
         createNewPasswordConfirm();
-        createNewPasswordConfirmUpdate();
         createRegister();
-        createRegisterButton();
-        createLoginButton();
+        createLogin();
     }
 
     // ELEMENT CREATION ================================================================================================
@@ -75,6 +78,8 @@ public class RegisterPanel extends JPanel {
         newName = new JTextField("");
         newName.setBounds(width / 2 - 100, 120, 200, 35);
         this.add(newName);
+
+        createNewNameUpdate();
     }
 
     // Adds new name text field availability functionality
@@ -119,6 +124,8 @@ public class RegisterPanel extends JPanel {
         newUsername = new JTextField("");
         newUsername.setBounds(width / 2 - 100, 190, 200, 35);
         this.add(newUsername);
+
+        createNewUsernameUpdate();
     }
 
     // Adds new username text field availability functionality
@@ -165,6 +172,8 @@ public class RegisterPanel extends JPanel {
         newPassword = new JTextField("");
         newPassword.setBounds(width / 2 - 100, 260, 200, 35);
         this.add(newPassword);
+
+        createNewPasswordUpdate();
     }
 
     // Adds new password text field availability functionality
@@ -209,6 +218,8 @@ public class RegisterPanel extends JPanel {
         newPasswordConfirm = new JTextField("");
         newPasswordConfirm.setBounds(width / 2 - 100, 330, 200, 35);
         this.add(newPasswordConfirm);
+
+        createNewPasswordConfirmUpdate();
     }
 
     // Adds new password confirm text field availability functionality
@@ -244,11 +255,12 @@ public class RegisterPanel extends JPanel {
         registerStatus = new JLabel("");
         registerStatus.setBounds(width / 2 - 220, 430, 200, 35);
         this.add(registerStatus);
+        createRegisterButton();
     }
 
     // EFFECTS: Creates register button with functionality
     private void createRegisterButton() {
-        JButton buttonRegister = new JButton("Register");
+        JButton buttonRegister = new JButton("REGISTER");
         buttonRegister.setBounds(width / 2 - 50, 430, 100, 35);
         buttonRegister.addActionListener(arg0 -> {
             try {
@@ -273,7 +285,7 @@ public class RegisterPanel extends JPanel {
 
     // EFFECTS: Creates login button and label
     //          login button switches user to login authentication panel
-    private void createLoginButton() {
+    private void createLogin() {
         JLabel textHaveAccount = new JLabel("Already have an account?");
         textHaveAccount.setBounds(width / 2 - 220, 480, 200, 35);
         this.add(textHaveAccount);

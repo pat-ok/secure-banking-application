@@ -36,6 +36,11 @@ public class UserDatabase implements Writable {
             String passBar = saltBar + hashFunction(saltBar + "pass123");
             databaseInfo.put("bar", new Account(passBar, "Mr. Bar"));
         }
+
+        // adding admin account
+        String saltAdmin = salt();
+        String passAdmin = saltAdmin + hashFunction(saltAdmin + "admin");
+        databaseInfo.put("admin", new Account(passAdmin, "Admin"));
     }
 
     // getter for database
