@@ -31,7 +31,7 @@ public class FormattingTest {
         try {
             isValidEntry("");
             fail("String is illegal");
-        } catch (IllegalEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException iee) {
             // pass
         }
     }
@@ -41,7 +41,7 @@ public class FormattingTest {
         try {
             isValidEntry(" ");
             fail("String is illegal");
-        } catch (IllegalEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException iee) {
             // pass
         }
     }
@@ -51,7 +51,7 @@ public class FormattingTest {
         try {
             isValidEntry(" test");
             fail("String is illegal");
-        } catch (IllegalEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException iee) {
             // pass
         }
     }
@@ -61,7 +61,7 @@ public class FormattingTest {
         try {
             isValidEntry("test ");
             fail("String is illegal");
-        } catch (IllegalEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException iee) {
             // pass
         }
     }
@@ -71,7 +71,7 @@ public class FormattingTest {
         try {
             isValidEntry("test");
             // pass
-        } catch (IllegalEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException iee) {
             fail("String is legal");
         }
     }
@@ -81,7 +81,7 @@ public class FormattingTest {
         try {
             isValidName("123");
             fail("Name is illegal");
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             // pass
         }
     }
@@ -91,7 +91,7 @@ public class FormattingTest {
         try {
             isValidName("");
             fail("Name is illegal");
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             // pass
         }
     }
@@ -101,7 +101,7 @@ public class FormattingTest {
         try {
             isValidName(" ");
             fail("Name is illegal");
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             // pass
         }
     }
@@ -111,7 +111,7 @@ public class FormattingTest {
         try {
             isValidName("123test");
             fail("Name is illegal");
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             // pass
         }
     }
@@ -121,7 +121,7 @@ public class FormattingTest {
         try {
             isValidName("test");
             // pass
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
     }
@@ -131,7 +131,7 @@ public class FormattingTest {
         try {
             isValidName(" test");
             // pass
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
     }
@@ -141,7 +141,7 @@ public class FormattingTest {
         try {
             isValidName("test ");
             // pass
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
     }
@@ -151,7 +151,7 @@ public class FormattingTest {
         try {
             isValidName("first last");
             // pass
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
     }
@@ -161,7 +161,7 @@ public class FormattingTest {
         try {
             isValidName("first middle last");
             // pass
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
     }
@@ -171,7 +171,7 @@ public class FormattingTest {
         try {
             isValidName("first    middle    last");
             // pass
-        } catch (InvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
     }
@@ -252,7 +252,7 @@ public class FormattingTest {
         try {
             doPasswordsMatch("matching", "matching");
             // pass
-        } catch (PasswordsDoNotMatchException pdnme) {
+        } catch (RegistrationFailedPasswordsDoNotMatchException pdnme) {
             fail("Password matches confirmation");
         }
     }
@@ -262,7 +262,7 @@ public class FormattingTest {
         try {
             doPasswordsMatch("matching", "notmatching");
             fail("Password does not match confirmation");
-        } catch (PasswordsDoNotMatchException pdnme) {
+        } catch (RegistrationFailedPasswordsDoNotMatchException pdnme) {
             // pass
         }
     }

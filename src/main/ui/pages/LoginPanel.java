@@ -5,7 +5,8 @@ import model.UserDatabase;
 import javax.swing.*;
 import java.awt.*;
 
-// Represents a container holding authentication panel and account panel
+// Represents a card layout container holding authentication panel and account panel
+// Child panel of container panel from BankingApp
 public class LoginPanel extends JPanel {
 
     protected static CardLayout lcl;
@@ -13,11 +14,11 @@ public class LoginPanel extends JPanel {
     public LoginPanel(UserDatabase udb) {
         // parent container (this)
         lcl = new CardLayout();
-        super.setLayout(lcl);
+        this.setLayout(lcl);
 
         // child login panel
         JPanel loginPanel = new LoginPanelAuthentication(udb, this);
-        super.add(loginPanel, "login");
+        this.add(loginPanel, "login");
 
         // card layout setup
         lcl.show(this, "login");

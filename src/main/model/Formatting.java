@@ -36,9 +36,9 @@ public class Formatting {
     //           leading or trailing whitespaces
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public static void isValidEntry(String s) throws IllegalEntryException {
+    public static void isValidEntry(String s) throws RegistrationFailedInvalidEntryException {
         if (s.matches(".{0}|( )*|( )+.*( )*|( )*.*( )+")) {
-            throw new IllegalEntryException();
+            throw new RegistrationFailedInvalidEntryException();
         }
     }
 
@@ -48,9 +48,9 @@ public class Formatting {
     //           has non-alphabetical characters
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public static void isValidName(String name) throws InvalidNameException {
+    public static void isValidName(String name) throws RegistrationFailedInvalidNameException {
         if (name.matches(".{0}|( )*") || !name.matches("(( )*[A-Za-z]*( )*)*")) {
-            throw new InvalidNameException();
+            throw new RegistrationFailedInvalidNameException();
         }
     }
 
@@ -83,9 +83,9 @@ public class Formatting {
     // REQUIRES: password matches confirmation password
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public static void doPasswordsMatch(String password, String passwordConfirm) throws PasswordsDoNotMatchException {
+    public static void doPasswordsMatch(String password, String passwordConfirm) throws RegistrationFailedPasswordsDoNotMatchException {
         if (!password.equals(passwordConfirm)) {
-            throw new PasswordsDoNotMatchException();
+            throw new RegistrationFailedPasswordsDoNotMatchException();
         }
     }
 

@@ -13,7 +13,7 @@ import static model.Formatting.hasSufficientFunds;
 import static model.Formatting.isValidAmount;
 import static ui.pages.BankingApp.*;
 
-// Represents account UI after login authentication
+// Represents account UI after account login authentication
 // Child panel of LoginPanel card layout
 public class LoginPanelAccount extends JPanel {
 

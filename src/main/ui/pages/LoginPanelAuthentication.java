@@ -10,6 +10,8 @@ import java.awt.*;
 import static ui.pages.BankingApp.*;
 import static ui.pages.LoginPanel.lcl;
 
+// Represents authentication UI for account login authentication
+// Child panel of LoginPanel card layout
 public class LoginPanelAuthentication extends JPanel {
 
     private final int width = BankingApp.WIDTH;
@@ -34,6 +36,7 @@ public class LoginPanelAuthentication extends JPanel {
         createRegisterButton();
     }
 
+    // ELEMENT CREATION ================================================================================================
     // EFFECTS: Creates login title label
     private void createTitle() {
         JLabel loginTitle = new JLabel("Login to your account!");
@@ -100,12 +103,13 @@ public class LoginPanelAuthentication extends JPanel {
         JButton buttonRegister = new JButton("Register");
         buttonRegister.setBounds(width / 2 - 50, 440, 100, 35);
         buttonRegister.addActionListener(arg0 -> {
-            clearFields();
             cl.show(container, "register");
+            clearFields();
         });
         this.add(buttonRegister);
     }
 
+    // HELPER METHODS ==================================================================================================
     // EFFECTS: Clears user input from all fields
     private void clearFields() {
         username.setText("");

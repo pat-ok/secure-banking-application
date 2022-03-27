@@ -48,7 +48,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.isUsernameFree("foo");
             fail("Username is already taken");
-        } catch (UsernameNotFreeException unfe) {
+        } catch (RegistrationFailedUsernameNotFreeException unfe) {
             // pass
         }
     }
@@ -59,7 +59,7 @@ public class UserDatabaseTest {
             userDatabase.storeAccount("newTester", new Account("pass123", "New Tester"));
             userDatabase.isUsernameFree("newTester");
             fail("Username is already taken");
-        } catch (UsernameNotFreeException unfe) {
+        } catch (RegistrationFailedUsernameNotFreeException unfe) {
             // pass
         }
     }
@@ -69,7 +69,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.isUsernameFree("newTester");
             // pass
-        } catch (UsernameNotFreeException unfe) {
+        } catch (RegistrationFailedUsernameNotFreeException unfe) {
             fail("Username should be free");
         }
     }

@@ -2,7 +2,7 @@ package model;
 
 import exceptions.AuthenticationFailedPasswordException;
 import exceptions.AuthenticationFailedUsernameException;
-import exceptions.UsernameNotFreeException;
+import exceptions.RegistrationFailedUsernameNotFreeException;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -53,9 +53,9 @@ public class UserDatabase implements Writable {
     // REQUIRES: username must not be registered already
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public void isUsernameFree(String username) throws UsernameNotFreeException {
+    public void isUsernameFree(String username) throws RegistrationFailedUsernameNotFreeException {
         if (databaseInfo.containsKey(username)) {
-            throw new UsernameNotFreeException();
+            throw new RegistrationFailedUsernameNotFreeException();
         }
     }
 

@@ -1,9 +1,6 @@
 package ui.pages;
 
-import exceptions.IllegalEntryException;
-import exceptions.InvalidNameException;
-import exceptions.PasswordsDoNotMatchException;
-import exceptions.UsernameNotFreeException;
+import exceptions.RegistrationFailedException;
 import model.Account;
 import model.UserDatabase;
 
@@ -11,269 +8,321 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static model.Formatting.*;
 import static model.Security.hashFunction;
 import static model.Security.salt;
 import static ui.pages.BankingApp.*;
 
+// Represents registration UI for account creation
+// Child panel of container panel from BankingApp
 public class RegisterPanel extends JPanel {
 
     private final int width = BankingApp.WIDTH;
-    private final int confirmationWidth = 300;
-    private final int confirmationHeight = 150;
+    private final UserDatabase udb;
 
+    private JTextField newName;
+    private JLabel newNameAvailability;
+    private JTextField newUsername;
+    private JLabel newUsernameAvailability;
+    private JTextField newPassword;
+    private JLabel newPasswordAvailability;
+    private JTextField newPasswordConfirm;
+    private JLabel newPasswordConfirmAvailability;
+    private JLabel registerStatus;
+
+
+    // Constructor for registration panel
     public RegisterPanel(UserDatabase udb) {
-        super.setLayout(null);
-        //super.setBounds(0, 0, WIDTH, HEIGHT);
-        super.setBackground(new Color(0, 140, 0));
+        this.setLayout(null);
+        this.setBackground(new Color(0, 140, 0));
+        this.udb = udb;
 
+        createTitle();
+        createNewName();
+        createNewNameUpdate();
+        createNewUsername();
+        createNewUsernameUpdate();
+        createNewPassword();
+        createNewPasswordUpdate();
+        createNewPasswordConfirm();
+        createNewPasswordConfirmUpdate();
+        createRegister();
+        createRegisterButton();
+        createLoginButton();
+    }
 
-        // adding title
+    // ELEMENT CREATION ================================================================================================
+    // Creates registration title label
+    private void createTitle() {
         JLabel registrationTitle = new JLabel("Register for a new account!");
         registrationTitle.setBounds(width / 2 - 150, 30, 300, 40);
         registrationTitle.setFont(makeFont(23));
-        super.add(registrationTitle);
+        this.add(registrationTitle);
+    }
 
-
-        // NAME
-        // adding name availability status
-        JLabel newNameAvailability = new JLabel("");
+    // Creates new name text field and availability status label
+    private void createNewName() {
+        newNameAvailability = new JLabel("");
         newNameAvailability.setBounds(width / 2 + 120, 120, 100, 35);
-        super.add(newNameAvailability);
+        this.add(newNameAvailability);
 
-        // adding name text field
-        JTextField newName = new JTextField("");
+        JLabel newNameLabel = new JLabel("Name");
+        newNameLabel.setBounds(width / 2 - 100, 100, 100, 20);
+        newNameLabel.setFont(makeFont(12));
+        this.add(newNameLabel);
+
+        newName = new JTextField("");
         newName.setBounds(width / 2 - 100, 120, 200, 35);
+        this.add(newName);
+    }
+
+    // Adds new name text field availability functionality
+    private void createNewNameUpdate() {
         newName.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent arg0) {}
 
             @Override
             public void insertUpdate(DocumentEvent arg0) {
-                try {
-                    isValidName(newName.getText());
-                    newNameAvailability.setText("Available!");
-                } catch (InvalidNameException ine) {
-                    newNameAvailability.setText("Unavailable!");
-                }
+                tryNewName();
             }
 
             @Override
             public void removeUpdate(DocumentEvent arg0) {
+                tryNewName();
+            }
+
+            public void tryNewName() {
                 try {
+                    setRegisterClear();
                     isValidName(newName.getText());
-                    newNameAvailability.setText("Available!");
-                } catch (InvalidNameException ine) {
-                    newNameAvailability.setText("Unavailable!");
+                    setAvailable(newNameAvailability);
+                } catch (RegistrationFailedException ex) {
+                    setLabel(newNameAvailability, ex.getMessage());
                 }
             }
         });
-        super.add(newName);
+    }
 
-        // adding name text field label
-        JLabel newNameLabel = new JLabel("Name");
-        newNameLabel.setBounds(width / 2 - 100, 100, 100, 20);
-        newNameLabel.setFont(makeFont(12));
-        super.add(newNameLabel);
-
-        // USERNAME
-        // adding username availability status
-        JLabel newUsernameAvailability = new JLabel("");
+    // Creates new username text field and availability status label
+    private void createNewUsername() {
+        newUsernameAvailability = new JLabel("");
         newUsernameAvailability.setBounds(width / 2 + 120, 190, 200, 35);
-        super.add(newUsernameAvailability);
+        this.add(newUsernameAvailability);
 
-        // adding username text field
-        JTextField newUsername = new JTextField("");
+        JLabel newUsernameLabel = new JLabel("Username");
+        newUsernameLabel.setBounds(width / 2 - 100, 170, 100, 20);
+        newUsernameLabel.setFont(makeFont(12));
+        this.add(newUsernameLabel);
+
+        newUsername = new JTextField("");
         newUsername.setBounds(width / 2 - 100, 190, 200, 35);
+        this.add(newUsername);
+    }
+
+    // Adds new username text field availability functionality
+    private void createNewUsernameUpdate() {
         newUsername.getDocument().addDocumentListener(new DocumentListener() {
+
             @Override
             public void changedUpdate(DocumentEvent arg0) {}
 
             @Override
             public void insertUpdate(DocumentEvent arg0) {
-                try {
-                    isValidEntry(newUsername.getText());
-                    udb.isUsernameFree(newUsername.getText());
-                    newUsernameAvailability.setText("Available!");
-                } catch (IllegalEntryException | UsernameNotFreeException ex) {
-                    newUsernameAvailability.setText("Unavailable!");
-                }
+                tryNewUsername();
             }
 
             @Override
             public void removeUpdate(DocumentEvent arg0) {
+                tryNewUsername();
+            }
+
+            private void tryNewUsername() {
                 try {
+                    setRegisterClear();
                     isValidEntry(newUsername.getText());
                     udb.isUsernameFree(newUsername.getText());
-                    newUsernameAvailability.setText("Available!");
-                } catch (IllegalEntryException | UsernameNotFreeException ex) {
-                    newUsernameAvailability.setText("Unavailable!");
+                    setAvailable(newUsernameAvailability);
+                } catch (RegistrationFailedException ex) {
+                    setLabel(newUsernameAvailability, ex.getMessage());
                 }
             }
         });
-        super.add(newUsername);
+    }
 
-        // adding username text field label
-        JLabel newUsernameLabel = new JLabel("Username");
-        newUsernameLabel.setBounds(width / 2 - 100, 170, 100, 20);
-        newUsernameLabel.setFont(makeFont(12));
-        super.add(newUsernameLabel);
-
-
-        // PASSWORD
-        // adding password availability status
-        JLabel newPasswordAvailability = new JLabel("");
+    // Creates new password text field and availability status label
+    private void createNewPassword() {
+        newPasswordAvailability = new JLabel("");
         newPasswordAvailability.setBounds(width / 2 + 120, 260, 200, 35);
-        super.add(newPasswordAvailability);
+        this.add(newPasswordAvailability);
 
-        // adding password text field
-        JTextField newPassword = new JTextField("");
+        JLabel newPasswordLabel = new JLabel("Password");
+        newPasswordLabel.setBounds(width / 2 - 100, 240, 100, 20);
+        newPasswordLabel.setFont(makeFont(12));
+        this.add(newPasswordLabel);
+
+        newPassword = new JTextField("");
         newPassword.setBounds(width / 2 - 100, 260, 200, 35);
+        this.add(newPassword);
+    }
+
+    // Adds new password text field availability functionality
+    private void createNewPasswordUpdate() {
         newPassword.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent arg0) {}
 
             @Override
             public void insertUpdate(DocumentEvent arg0) {
-                try {
-                    isValidEntry(newPassword.getText());
-                    newPasswordAvailability.setText("Valid password!");
-                } catch (IllegalEntryException iee) {
-                    newPasswordAvailability.setText("Invalid password!");
-                }
+                tryNewPassword();
             }
 
             @Override
             public void removeUpdate(DocumentEvent arg0) {
+                tryNewPassword();
+            }
+
+            private void tryNewPassword() {
                 try {
+                    setRegisterClear();
                     isValidEntry(newPassword.getText());
-                    newPasswordAvailability.setText("Valid password!");
-                } catch (IllegalEntryException iee) {
-                    newPasswordAvailability.setText("Invalid password!");
+                    setAvailable(newPasswordAvailability);
+                } catch (RegistrationFailedException ex) {
+                    setLabel(newPasswordAvailability, ex.getMessage());
                 }
             }
         });
-        super.add(newPassword);
+    }
 
-        // adding password text field label
-        JLabel newPasswordLabel = new JLabel("Password");
-        newPasswordLabel.setBounds(width / 2 - 100, 240, 100, 20);
-        newPasswordLabel.setFont(makeFont(12));
-        super.add(newPasswordLabel);
+    // Creates new password confirmation text field and availability status label
+    private void createNewPasswordConfirm() {
+        newPasswordConfirmAvailability = new JLabel("");
+        newPasswordConfirmAvailability.setBounds(width / 2 + 120, 330, 200, 35);
+        this.add(newPasswordConfirmAvailability);
 
+        JLabel newPasswordConfirmationLabel = new JLabel("Confirm Password");
+        newPasswordConfirmationLabel.setBounds(width / 2 - 100, 310, 200, 20);
+        newPasswordConfirmationLabel.setFont(makeFont(12));
+        this.add(newPasswordConfirmationLabel);
 
-        // PASSWORD CONFIRMATION
-        // adding password confirmation text field
-        JLabel newPasswordConfirmationAvailability = new JLabel("");
-        newPasswordConfirmationAvailability.setBounds(width / 2 + 120, 330, 200, 35);
-        super.add(newPasswordConfirmationAvailability);
+        newPasswordConfirm = new JTextField("");
+        newPasswordConfirm.setBounds(width / 2 - 100, 330, 200, 35);
+        this.add(newPasswordConfirm);
+    }
 
-        // adding password confirmation text field
-        JTextField newPasswordConfirmation = new JTextField("");
-        newPasswordConfirmation.setBounds(width / 2 - 100, 330, 200, 35);
-        newPasswordConfirmation.getDocument().addDocumentListener(new DocumentListener() {
+    // Adds new password confirm text field availability functionality
+    private void createNewPasswordConfirmUpdate() {
+        newPasswordConfirm.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent arg0) {}
 
             @Override
             public void insertUpdate(DocumentEvent arg0) {
-                try {
-                    doPasswordsMatch(newPassword.getText(), newPasswordConfirmation.getText());
-                    newPasswordConfirmationAvailability.setText("Passwords Match!");
-                } catch (PasswordsDoNotMatchException pdnme) {
-                    newPasswordConfirmationAvailability.setText("Passwords Do Not Match!");
-                }
+                tryNewPasswordConfirm();
             }
 
             @Override
             public void removeUpdate(DocumentEvent arg0) {
+                tryNewPasswordConfirm();
+            }
+
+            private void tryNewPasswordConfirm() {
                 try {
-                    doPasswordsMatch(newPassword.getText(), newPasswordConfirmation.getText());
-                    newPasswordConfirmationAvailability.setText("Passwords Match!");
-                } catch (PasswordsDoNotMatchException pdnme) {
-                    newPasswordConfirmationAvailability.setText("Passwords Do Not Match!");
+                    setRegisterClear();
+                    doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
+                    setAvailable(newPasswordConfirmAvailability);
+                } catch (RegistrationFailedException ex) {
+                    setLabel(newPasswordConfirmAvailability, ex.getMessage());
                 }
             }
         });
-        super.add(newPasswordConfirmation);
-
-        // adding password confirmation text field label
-        JLabel newPasswordConfirmationLabel = new JLabel("Confirm Password");
-        newPasswordConfirmationLabel.setBounds(width / 2 - 100, 310, 200, 20);
-        newPasswordConfirmationLabel.setFont(makeFont(12));
-        super.add(newPasswordConfirmationLabel);
-
-        // adding registration status
-        // adding account owned text
-        JLabel textRegisterStatus = new JLabel("");
-        textRegisterStatus.setBounds(width / 2 - 220, 430, 200, 35);
-        super.add(textRegisterStatus);
-
-        // adding registration button
-        JButton buttonRegister = new JButton("Register");
-        buttonRegister.setBounds(width / 2 - 50, 430, 100, 35);
-        buttonRegister.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                try {
-                    // final check
-                    isValidName(newName.getText());
-                    isValidEntry(newUsername.getText());
-                    udb.isUsernameFree(newUsername.getText());
-                    isValidEntry(newPassword.getText());
-                    doPasswordsMatch(newPassword.getText(), newPasswordConfirmation.getText());
-
-                    // account creation
-                    Account acc = new Account(createPassword(newPassword.getText()), capitalizeName(newName.getText()));
-                    udb.storeAccount(newUsername.getText(), acc);
-                    textRegisterStatus.setText("Account registered!");
-
-                    JOptionPane.showMessageDialog(null, "Registration Success!", "Banking Application", JOptionPane.WARNING_MESSAGE);
-
-                    newName.setText("");
-                    newNameAvailability.setText("");
-                    newUsername.setText("");
-                    newUsernameAvailability.setText("");
-                    newPassword.setText("");
-                    newPasswordAvailability.setText("");
-                    newPasswordConfirmation.setText("");
-                    newPasswordConfirmationAvailability.setText("");
-
-                    revalidate();
-                    repaint();
-                } catch (InvalidNameException
-                        | IllegalEntryException
-                        | PasswordsDoNotMatchException
-                        | UsernameNotFreeException e) {
-                    JOptionPane.showMessageDialog(null, "Registration Failed! One or more fields invalid!", "Banking Application", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
-        super.add(buttonRegister);
-
-        // adding account owned text
-        JLabel textHaveAccount = new JLabel("Already have an account?");
-        textHaveAccount.setBounds(width / 2 - 220, 480, 200, 35);
-        super.add(textHaveAccount);
-
-        // adding account owned login button
-        JButton buttonHaveAccount = new JButton("Login");
-        buttonHaveAccount.setBounds(width / 2 - 50, 480, 100, 35);
-        buttonHaveAccount.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                cl.show(container, "login");
-            }
-        });
-        super.add(buttonHaveAccount);
     }
 
+    // EFFECTS: Creates register button label
+    private void createRegister() {
+        registerStatus = new JLabel("");
+        registerStatus.setBounds(width / 2 - 220, 430, 200, 35);
+        this.add(registerStatus);
+    }
+
+    // EFFECTS: Creates register button with functionality
+    private void createRegisterButton() {
+        JButton buttonRegister = new JButton("Register");
+        buttonRegister.setBounds(width / 2 - 50, 430, 100, 35);
+        buttonRegister.addActionListener(arg0 -> {
+            try {
+                isValidName(newName.getText());
+                isValidEntry(newUsername.getText());
+                udb.isUsernameFree(newUsername.getText());
+                isValidEntry(newPassword.getText());
+                doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
+
+                Account acc = new Account(createPassword(newPassword.getText()), capitalizeName(newName.getText()));
+                udb.storeAccount(newUsername.getText(), acc);
+                clearFields();
+                setLabel(registerStatus, "Account registered!");
+                optionPane("Registration Success!");
+            } catch (RegistrationFailedException ex) {
+                optionPane("Registration Failed! One or more fields invalid!");
+                setRegisterFailed();
+            }
+        });
+        this.add(buttonRegister);
+    }
+
+    // EFFECTS: Creates login button and label
+    //          login button switches user to login authentication panel
+    private void createLoginButton() {
+        JLabel textHaveAccount = new JLabel("Already have an account?");
+        textHaveAccount.setBounds(width / 2 - 220, 480, 200, 35);
+        this.add(textHaveAccount);
+
+        JButton buttonHaveAccount = new JButton("Login");
+        buttonHaveAccount.setBounds(width / 2 - 50, 480, 100, 35);
+        buttonHaveAccount.addActionListener(arg0 -> {
+            cl.show(container, "login");
+            clearFields();
+        });
+        this.add(buttonHaveAccount);
+    }
+
+    // HELPER METHODS ==================================================================================================
     // EFFECTS: creates a new hashed password from a clear text password
     private String createPassword(String newPassword) {
         String salt = salt();
         return salt + hashFunction(salt + newPassword);
+    }
+
+    // EFFECTS: Sets label to available
+    private void setAvailable(JLabel label) {
+        label.setText("Available!");
+    }
+
+    // EFFECTS: Sets label to custom string
+    private void setLabel(JLabel label, String message) {
+        label.setText(message);
+    }
+
+    // EFFECTS: Sets registration status label to failed
+    private void setRegisterFailed() {
+        registerStatus.setText("Registration Failed!");
+    }
+
+    // EFFECTS: Clears registration status
+    private void setRegisterClear() {
+        registerStatus.setText("");
+    }
+
+    // EFFECTS: Clears user input from all fields
+    private void clearFields() {
+        newName.setText("");
+        newNameAvailability.setText("");
+        newUsername.setText("");
+        newUsernameAvailability.setText("");
+        newPassword.setText("");
+        newPasswordAvailability.setText("");
+        newPasswordConfirm.setText("");
+        newPasswordConfirmAvailability.setText("");
     }
 }
