@@ -365,6 +365,7 @@ public class LoginPanelAccount extends JPanel {
             labelTwoDollar.setText(dollarSign);
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
+            notificationsPanel.setVisible(false);
         });
     }
 
@@ -377,6 +378,7 @@ public class LoginPanelAccount extends JPanel {
             labelTwoDollar.setText(dollarSign);
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
+            notificationsPanel.setVisible(true);
         });
     }
 

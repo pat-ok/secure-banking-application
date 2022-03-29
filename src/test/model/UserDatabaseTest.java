@@ -24,13 +24,13 @@ public class UserDatabaseTest {
         UserDatabase emptyDatabase = new UserDatabase(false);
         testDB = emptyDatabase.getUserDatabase();
 
-        assertEquals(0, testDB.size());
+        assertEquals(1, testDB.size());
         assertFalse(testDB.containsKey("foo") || testDB.containsKey("bar"));
     }
 
     @Test
     void testConstructorDemo() {
-        assertEquals(2, testDB.size());
+        assertEquals(3, testDB.size());
         assertTrue(testDB.containsKey("foo") && testDB.containsKey("bar"));
     }
 
@@ -39,7 +39,7 @@ public class UserDatabaseTest {
         Account testAccount = new Account("pass321", "Testing");
         userDatabase.storeAccount("Tester", testAccount);
 
-        assertEquals(3,testDB.size());
+        assertEquals(4,testDB.size());
         assertTrue(testDB.containsKey("Tester"));
     }
 

@@ -33,7 +33,7 @@ public class JsonWriterTest extends JsonTest {
 
             JsonReader reader = new JsonReader("./data/testWriterEmptyUserDatabase.json");
             udb = reader.read();
-            assertEquals(0, udb.getUserDatabase().size());
+            assertEquals(1, udb.getUserDatabase().size());
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }

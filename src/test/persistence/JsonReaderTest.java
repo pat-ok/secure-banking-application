@@ -25,7 +25,7 @@ public class JsonReaderTest extends JsonTest {
         JsonReader reader = new JsonReader("./data/testReaderEmptyUserDatabase.json");
         try {
             UserDatabase udb = reader.read();
-            assertEquals(0, udb.getUserDatabase().size());
+            assertEquals(1, udb.getUserDatabase().size());
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
