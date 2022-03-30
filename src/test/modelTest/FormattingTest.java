@@ -1,6 +1,7 @@
-package model;
+package modelTest;
 
 import exceptions.*;
+import model.Formatting;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

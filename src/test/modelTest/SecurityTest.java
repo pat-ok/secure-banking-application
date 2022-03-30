@@ -1,5 +1,6 @@
-package model;
+package modelTest;
 
+import model.Security;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

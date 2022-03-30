@@ -1,5 +1,6 @@
 package ui.pages;
 
+
 import model.UserDatabase;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -14,6 +15,8 @@ import java.io.IOException;
 // Represents the Banking Application
 public class BankingApp {
     private static final String JSON_STORE = "./data/database.json";
+    public static final Color whitish = new Color(235, 235, 235);
+    public static final Color bluish = new Color(17, 70, 144);
 
     protected UserDatabase database;
 
@@ -30,7 +33,11 @@ public class BankingApp {
     }
 
     public static Font makeFont(int size) {
-        return new Font("Arial", Font.PLAIN, size);
+        return new Font("Segoe UI", Font.PLAIN, size);
+    }
+
+    public static Font makeFontBold(int size) {
+        return new Font("Segoe UI", Font.BOLD, size);
     }
 
     private void initiateFrame() {

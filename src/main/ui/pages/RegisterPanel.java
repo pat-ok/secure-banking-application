@@ -55,25 +55,25 @@ public class RegisterPanel extends JPanel {
     // Creates registration title label
     private void createTitle() {
         JLabel registrationTitle = new JLabelModern("Register for a new account!");
-        registrationTitle.setBounds(width / 2 + 10, 30, 300, 40);
-        registrationTitle.setFont(new Font("Segoe UI", Font.PLAIN, 23));
+        registrationTitle.setBounds(width / 2 + 15, 30, 300, 40);
+        registrationTitle.setFont(makeFont(23));
         this.add(registrationTitle);
 
         JLabel welcomeTitle = new JLabelModern("Welcome!");
         welcomeTitle.setBounds(65, 100, 200, 60);
-        welcomeTitle.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        welcomeTitle.setFont(makeFontBold(40));
         welcomeTitle.setForeground(Color.WHITE);
         this.add(welcomeTitle);
 
         JLabel companyTitle = new JLabelModern("BigDecimal");
         companyTitle.setLocation(85, 300);
-        companyTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        companyTitle.setFont(makeFontBold(30));
         companyTitle.setForeground(Color.WHITE);
         this.add(companyTitle);
 
         JLabel canadaTitle = new JLabelModern("Bank of Canada");
         canadaTitle.setLocation(75, 350);
-        canadaTitle.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        canadaTitle.setFont(makeFontBold(25));
         canadaTitle.setForeground(Color.WHITE);
         this.add(canadaTitle);
     }
@@ -295,7 +295,7 @@ public class RegisterPanel extends JPanel {
     //          login button switches user to login authentication panel
     private void createLogin() {
         JLabel test = new JLabelModern("Have an account?");
-        test.setLocation(width / 2 + 280, 520);
+        test.setLocation(width / 2 - 100, 520);
         this.add(test);
 
 

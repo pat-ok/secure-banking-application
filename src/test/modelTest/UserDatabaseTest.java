@@ -1,6 +1,8 @@
-package model;
+package modelTest;
 
 import exceptions.*;
+import model.Account;
+import model.UserDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

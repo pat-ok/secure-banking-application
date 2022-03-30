@@ -3,6 +3,9 @@ package ui.pages;
 import exceptions.AuthenticationFailedException;
 import model.Account;
 import model.UserDatabase;
+import ui.modern.JButtonModern;
+import ui.modern.JLabelModern;
+import ui.modern.JTextFieldModern;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +26,7 @@ public class LoginPanel extends JPanel {
     // Constructor for authentication panel
     public LoginPanel(UserDatabase udb) {
         this.setLayout(null);
-        this.setBackground(Color.CYAN);
+        this.setBackground(whitish);
         this.udb = udb;
 
         createTitle();
@@ -36,7 +39,7 @@ public class LoginPanel extends JPanel {
     // ELEMENT CREATION ================================================================================================
     // EFFECTS: Creates login title label
     private void createTitle() {
-        JLabel loginTitle = new JLabel("Login to your account!");
+        JLabel loginTitle = new JLabelModern("Login to your account!");
         loginTitle.setBounds(width / 2 - 110, 130, 300, 40);
         loginTitle.setFont(makeFont(23));
         this.add(loginTitle);
@@ -44,32 +47,22 @@ public class LoginPanel extends JPanel {
 
     // EFFECTS: Creates username entry field with label
     private void createUsername() {
-        username = new JTextField("");
+        username = new JTextFieldModern("Username");
         username.setBounds(width / 2 - 100, 220, 200, 35);
         this.add(username);
-
-        JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(width / 2 - 100, 200, 100, 20);
-        usernameLabel.setFont(makeFont(12));
-        this.add(usernameLabel);
     }
 
     // EFFECTS: Creates password entry field with label
     private void createPassword() {
-        password = new JTextField("");
+        password = new JTextFieldModern("Password");
         password.setBounds(width / 2 - 100, 290, 200, 35);
         this.add(password);
-
-        JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(width / 2 - 100, 270, 100, 20);
-        passwordLabel.setFont(makeFont(12));
-        this.add(passwordLabel);
     }
 
     // EFFECTS: Creates login button triggering account authentication
     private void createLoginButton() {
-        JButton buttonLogin = new JButton("Login");
-        buttonLogin.setBounds(width / 2 - 50, 390, 100, 35);
+        JButton buttonLogin = new JButtonModern("LOGIN");
+        buttonLogin.setLocation(width / 2 - 100, 390);
         buttonLogin.addActionListener(arg0 -> {
             try {
                 udb.authUsername(username.getText());
@@ -93,12 +86,12 @@ public class LoginPanel extends JPanel {
 
     // EFFECTS: Creates registration button bringing user back to registration panel
     private void createRegisterButton() {
-        JLabel textDoNotHaveAccount = new JLabel("Don't have an account?");
-        textDoNotHaveAccount.setBounds(width / 2 - 220, 440, 200, 35);
+        JLabel textDoNotHaveAccount = new JLabelModern("Don't have an account?");
+        textDoNotHaveAccount.setBounds(width / 2 - 300, 500, 200, 35);
         this.add(textDoNotHaveAccount);
 
-        JButton buttonRegister = new JButton("Register");
-        buttonRegister.setBounds(width / 2 - 50, 440, 100, 35);
+        JButton buttonRegister = new JButtonModern("SIGN UP");
+        buttonRegister.setLocation(width / 2 - 100, 500);
         buttonRegister.addActionListener(arg0 -> {
             cl.show(container, "register");
             clearFields();
@@ -107,9 +100,11 @@ public class LoginPanel extends JPanel {
     }
 
     // HELPER METHODS ==================================================================================================
-    // EFFECTS: Clears user input from all fields
+    // EFFECTS: Clears user input from fields and resets to default prompts
     private void clearFields() {
-        username.setText("");
-        password.setText("");
+        username.setText("Username");
+        username.setForeground(Color.GRAY);
+        password.setText("Password");
+        password.setForeground(Color.GRAY);
     }
 }

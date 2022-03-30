@@ -1,7 +1,8 @@
-package persistence;
+package persistenceTest;
 
 import model.UserDatabase;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
 
 import java.io.IOException;
 
