@@ -1,4 +1,4 @@
-package ui.pages;
+package ui.modern;
 
 import javax.swing.*;
 import java.awt.*;

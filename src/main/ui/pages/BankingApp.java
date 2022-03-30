@@ -58,7 +58,6 @@ public class BankingApp {
         container.add(loginPanel, "login");
 
         // parent card layout setup
-
         cl.show(container, "registration");
         frame.add(container);
 

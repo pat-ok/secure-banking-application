@@ -4,6 +4,9 @@ import exceptions.RegistrationFailedException;
 import exceptions.RegistrationFailedMatchesHintException;
 import model.Account;
 import model.UserDatabase;
+import ui.modern.JButtonModern;
+import ui.modern.JLabelModern;
+import ui.modern.JTextFieldModern;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -20,6 +23,7 @@ import static ui.pages.BankingApp.*;
 public class RegisterPanel extends JPanel {
 
     private final int width = BankingApp.WIDTH;
+    private final int height = BankingApp.HEIGHT;
     private final UserDatabase udb;
 
     private JTextField newName;
@@ -32,20 +36,11 @@ public class RegisterPanel extends JPanel {
     private JLabel newPasswordConfirmAvailability;
     private JLabel registerStatus;
 
-//    @Override
-//    public void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        g.drawRect(0, 0, 500, 500);
-//        g.setColor(Color.CYAN);
-//        g.fillRect(0, 0, 500, 500);
-//    }
-
     // Constructor for registration panel
     public RegisterPanel(UserDatabase udb) {
         this.setLayout(null);
         this.setBackground(new Color(235, 235, 235));
         this.udb = udb;
-
 
         createTitle();
         createNewName();
@@ -54,28 +49,43 @@ public class RegisterPanel extends JPanel {
         createNewPasswordConfirm();
         createRegister();
         createLogin();
-
-        repaint();
-        revalidate();
     }
 
     // ELEMENT CREATION ================================================================================================
     // Creates registration title label
     private void createTitle() {
-        JLabel registrationTitle = new JLabel("Register for a new account!");
-        registrationTitle.setBounds(width / 2 - 50, 30, 300, 40);
-        registrationTitle.setFont(new Font("Segoe UI", Font.BOLD, 23));
+        JLabel registrationTitle = new JLabelModern("Register for a new account!");
+        registrationTitle.setBounds(width / 2 + 10, 30, 300, 40);
+        registrationTitle.setFont(new Font("Segoe UI", Font.PLAIN, 23));
         this.add(registrationTitle);
+
+        JLabel welcomeTitle = new JLabelModern("Welcome!");
+        welcomeTitle.setBounds(65, 100, 200, 60);
+        welcomeTitle.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        welcomeTitle.setForeground(Color.WHITE);
+        this.add(welcomeTitle);
+
+        JLabel companyTitle = new JLabelModern("BigDecimal");
+        companyTitle.setLocation(85, 300);
+        companyTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        companyTitle.setForeground(Color.WHITE);
+        this.add(companyTitle);
+
+        JLabel canadaTitle = new JLabelModern("Bank of Canada");
+        canadaTitle.setLocation(75, 350);
+        canadaTitle.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        canadaTitle.setForeground(Color.WHITE);
+        this.add(canadaTitle);
     }
 
     // Creates new name text field and availability status label
     private void createNewName() {
         newNameAvailability = new JLabelModern("");
-        newNameAvailability.setLocation(width / 2 + 220, 120);
+        newNameAvailability.setLocation(width / 2 + 280, 120);
         this.add(newNameAvailability);
 
         newName = new JTextFieldModern("Name");
-        newName.setLocation(width / 2, 120);
+        newName.setLocation(width / 2 + 60, 120);
         this.add(newName);
 
         createNewNameUpdate();
@@ -114,11 +124,11 @@ public class RegisterPanel extends JPanel {
     // Creates new username text field and availability status label
     private void createNewUsername() {
         newUsernameAvailability = new JLabelModern("");
-        newUsernameAvailability.setLocation(width / 2 + 220, 185);
+        newUsernameAvailability.setLocation(width / 2 + 280, 185);
         this.add(newUsernameAvailability);
 
         newUsername = new JTextFieldModern("New username");
-        newUsername.setLocation(width / 2, 185);
+        newUsername.setLocation(width / 2 + 60, 185);
         this.add(newUsername);
 
         createNewUsernameUpdate();
@@ -159,11 +169,11 @@ public class RegisterPanel extends JPanel {
     // Creates new password text field and availability status label
     private void createNewPassword() {
         newPasswordAvailability = new JLabelModern("");
-        newPasswordAvailability.setLocation(width / 2 + 220, 250);
+        newPasswordAvailability.setLocation(width / 2 + 280, 250);
         this.add(newPasswordAvailability);
 
         newPassword = new JTextFieldModern("New password");
-        newPassword.setLocation(width / 2, 250);
+        newPassword.setLocation(width / 2 + 60, 250);
         this.add(newPassword);
 
         createNewPasswordUpdate();
@@ -184,29 +194,34 @@ public class RegisterPanel extends JPanel {
             public void removeUpdate(DocumentEvent arg0) {
                 tryNewPasswordUpdate();
             }
-
-            // EFFECTS: Checks if new password is available to use, if field is default then no status is shown
-            private void tryNewPasswordUpdate() {
-                try {
-                    setRegisterClear();
-                    isValidEntry(newPassword.getText());
-                    matchesHintPassword(newPassword.getText());
-                    setAvailable(newPasswordAvailability);
-                } catch (RegistrationFailedException ex) {
-                    setLabel(newPasswordAvailability, ex.getMessage());
-                }
-            }
         });
+    }
+
+    // EFFECTS: Checks if new password is available to use, if field is default then no status is shown
+    private void tryNewPasswordUpdate() {
+        try {
+            setRegisterClear();
+            isValidEntry(newPassword.getText());
+            matchesHintPassword(newPassword.getText());
+            setAvailable(newPasswordAvailability);
+
+            matchesHintConfirmPassword(newPasswordConfirm.getText());
+            doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
+            setLabel(newPasswordConfirmAvailability, "Matching!");
+
+        } catch (RegistrationFailedException ex) {
+            setLabel(newPasswordAvailability, ex.getMessage());
+        }
     }
 
     // Creates new password confirmation text field and availability status label
     private void createNewPasswordConfirm() {
         newPasswordConfirmAvailability = new JLabelModern("");
-        newPasswordConfirmAvailability.setLocation(width / 2 + 220, 315);
+        newPasswordConfirmAvailability.setLocation(width / 2 + 280, 315);
         this.add(newPasswordConfirmAvailability);
 
         newPasswordConfirm = new JTextFieldModern("Confirm password");
-        newPasswordConfirm.setLocation(width / 2, 315);
+        newPasswordConfirm.setLocation(width / 2 + 60, 315);
         this.add(newPasswordConfirm);
 
         createNewPasswordConfirmUpdate();
@@ -232,8 +247,8 @@ public class RegisterPanel extends JPanel {
             private void tryNewPasswordConfirmUpdate() {
                 try {
                     setRegisterClear();
+                    matchesHintConfirmPassword(newPasswordConfirm.getText());
                     doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
-                    matchesHintConfirmPassword(newPassword.getText());
                     setLabel(newPasswordConfirmAvailability, "Matching!");
                 } catch (RegistrationFailedException ex) {
                     setLabel(newPasswordConfirmAvailability, ex.getMessage());
@@ -245,7 +260,7 @@ public class RegisterPanel extends JPanel {
     // EFFECTS: Creates register button label
     private void createRegister() {
         registerStatus = new JLabelModern("");
-        registerStatus.setLocation(width / 2 + 220, 405);
+        registerStatus.setLocation(width / 2 + 280, 405);
         this.add(registerStatus);
         createRegisterButton();
     }
@@ -253,7 +268,7 @@ public class RegisterPanel extends JPanel {
     // EFFECTS: Creates register button with functionality
     private void createRegisterButton() {
         JButton buttonRegister = new JButtonModern("REGISTER");
-        buttonRegister.setBounds(width / 2, 405, 200, 40);
+        buttonRegister.setBounds(width / 2 + 60, 405, 200, 40);
         buttonRegister.addActionListener(arg0 -> {
             try {
                 isValidName(newName.getText());
@@ -269,8 +284,8 @@ public class RegisterPanel extends JPanel {
                 setLabel(registerStatus, "Account registered!");
                 optionPane("Registration Success!");
             } catch (RegistrationFailedException ex) {
-                optionPane("Registration Failed! One or more fields invalid!");
                 setRegisterFailed();
+                optionPane("Registration Failed! One or more fields invalid!");
             }
         });
         this.add(buttonRegister);
@@ -279,17 +294,25 @@ public class RegisterPanel extends JPanel {
     // EFFECTS: Creates login button and label
     //          login button switches user to login authentication panel
     private void createLogin() {
-        JLabel textHaveAccount = new JLabelModern("Already have an account?");
-        textHaveAccount.setLocation(width / 2 + 220, 520);
-        this.add(textHaveAccount);
+        JLabel test = new JLabelModern("Have an account?");
+        test.setLocation(width / 2 + 280, 520);
+        this.add(test);
 
-        JButton buttonHaveAccount = new JButtonModern("LOGIN");
-        buttonHaveAccount.setBounds(width / 2, 520, 200, 40);
+
+        JButton buttonHaveAccount = new JButtonModern("SIGN IN");
+        buttonHaveAccount.setBounds(width / 2 + 60, 520, 200, 40);
         buttonHaveAccount.addActionListener(arg0 -> {
             cl.show(container, "login");
             clearFields();
         });
         this.add(buttonHaveAccount);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(new Color(17, 70, 144));
+        g.fillRect(0, 0, 330, height);
     }
 
     // HELPER METHODS ==================================================================================================

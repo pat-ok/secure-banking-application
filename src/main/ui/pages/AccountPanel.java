@@ -15,7 +15,7 @@ import static ui.pages.BankingApp.*;
 
 // Represents account UI after account login authentication
 // Child panel of LoginPanel card layout
-public class LoginPanelAccount extends JPanel {
+public class AccountPanel extends JPanel {
 
     private final UserDatabase udb;
     private final Account account;
@@ -50,7 +50,7 @@ public class LoginPanelAccount extends JPanel {
     private JButton buttonFour;
 
     // Constructor for account panel
-    public LoginPanelAccount(UserDatabase udb, Account account, Boolean admin) {
+    public AccountPanel(UserDatabase udb, Account account, Boolean admin) {
         this.setLayout(null);
         this.udb = udb;
         this.account = account;
@@ -196,7 +196,7 @@ public class LoginPanelAccount extends JPanel {
         JButton logoutButton = new JButton("Logout");
         logoutButton.setBounds(50, 535, 110, 40);
         logoutButton.addActionListener(arg0 -> {
-            LoginPanelAccount.this.setVisible(false);
+            AccountPanel.this.setVisible(false);
             cl.show(container, "login");
             revalidate();
             repaint();
