@@ -311,7 +311,7 @@ public class RegisterPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(new Color(17, 70, 144));
+        g.setColor(bluish);
         g.fillRect(0, 0, 330, height);
     }
 

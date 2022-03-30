@@ -1,6 +1,5 @@
 package ui.pages;
 
-
 import model.UserDatabase;
 import persistence.JsonReader;
 import persistence.JsonWriter;

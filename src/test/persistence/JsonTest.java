@@ -1,4 +1,4 @@
-package persistenceTest;
+package persistence;
 
 import model.Account;
 import model.UserDatabase;

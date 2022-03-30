@@ -6,6 +6,10 @@ import exceptions.AuthenticationFailedUsernameException;
 import exceptions.UnconfirmedException;
 import model.Account;
 import model.UserDatabase;
+import ui.modern.JButtonModern;
+import ui.modern.JLabelModern;
+import ui.modern.JTextAreaModern;
+import ui.modern.JTextFieldModern;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +23,7 @@ import static ui.pages.BankingApp.*;
 // Represents account UI after account login authentication
 // Child panel of LoginPanel card layout
 public class AccountPanel extends JPanel {
+    private final int height = BankingApp.HEIGHT;
 
     private final UserDatabase udb;
     private final Account account;
@@ -55,9 +60,9 @@ public class AccountPanel extends JPanel {
     // Constructor for account panel
     public AccountPanel(UserDatabase udb, Account account, Boolean admin) {
         this.setLayout(null);
+        this.setBackground(whitish);
         this.udb = udb;
         this.account = account;
-        this.setBackground(Color.MAGENTA);
 
         addFields();
 
@@ -66,7 +71,6 @@ public class AccountPanel extends JPanel {
         } else {
             setUser();
         }
-        this.setVisible(true);
     }
 
     // EFFECTS: adds all fields to the panel
@@ -89,78 +93,83 @@ public class AccountPanel extends JPanel {
         createLogoutButton();
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(bluish);
+        g.fillRect(660, 0, 340, height);
+    }
+
     // STATUS FIELDS ===================================================================================================
     // EFFECTS: creates label with welcome text
     private void createWelcomeLabel() {
         // status fields
-        JLabel welcomeLabel = new JLabel("Welcome back, " + account.getName() + "!");
-        welcomeLabel.setBounds(50, 50, 800, 40);
+        JLabel welcomeLabel = new JLabelModern("Welcome back, " + account.getName() + "!");
+        welcomeLabel.setBounds(50, 50, 610, 40);
         welcomeLabel.setFont(makeFont(30));
         this.add(welcomeLabel);
     }
 
     // EFFECTS: creates label with balance text
     private void createBalanceLabel() {
-        JLabel balanceLabel = new JLabel("Current Balance: ");
-        balanceLabel.setBounds(50, 120, 400, 40);
-        balanceLabel.setFont(makeFont(25));
+        JLabel balanceLabel = new JLabelModern("Current Balance: ");
+        balanceLabel.setLocation(50, 100);
+        balanceLabel.setFont(makeFont(20));
         this.add(balanceLabel);
     }
 
     // EFFECTS: creates label with actual balance
     private void createBalanceLabelActual() {
-        balanceLabelActual = new JLabel(account.getBalanceString());
-        balanceLabelActual.setBounds(250, 120, 400, 40);
-        balanceLabelActual.setFont(makeFont(25));
+        balanceLabelActual = new JLabelModern(account.getBalanceString());
+        balanceLabelActual.setLocation(200, 100);
+        balanceLabelActual.setFont(makeFontBold(25));
         this.add(balanceLabelActual);
     }
 
     // EFFECTS: creates label with notifications
     private void createNotificationsPanel() {
-        notificationsPanel = new JTextArea();
-        notificationsPanel.setEditable(false);
-        notificationsPanel.setFont(makeFont(16));
-        notificationsPanel.setLineWrap(true);
-        notificationsPanel.setWrapStyleWord(true);
+        notificationsPanel = new JTextAreaModern("");
         JScrollPane notifications = new JScrollPane(notificationsPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         notifications.setAutoscrolls(true);
-        notifications.setBounds(50, 200, 500, 200);
+        notifications.setBorder(BorderFactory.createEmptyBorder());
+        notifications.setBounds(50, 180, 540, 220);
         this.add(notifications);
     }
 
     // CHOICE BUTTONS ==================================================================================================
     // EFFECTS: creates four buttons
     private void createChoiceButtons() {
-        buttonOne = new JButton();
-        int buttonWidth = 110;
+        buttonOne = new JButtonModern("");
+        int buttonWidth = 120;
         int buttonHeight = 40;
         buttonOne.setBounds(50, 440, buttonWidth, buttonHeight);
         this.add(buttonOne);
 
-        buttonTwo = new JButton();
-        buttonTwo.setBounds(180, 440, buttonWidth, buttonHeight);
+        buttonTwo = new JButtonModern("");
+        buttonTwo.setBounds(190, 440, buttonWidth, buttonHeight);
         this.add(buttonTwo);
 
-        buttonThree = new JButton();
-        buttonThree.setBounds(310, 440, buttonWidth, buttonHeight);
+        buttonThree = new JButtonModern("");
+        buttonThree.setBounds(330, 440, buttonWidth, buttonHeight);
         this.add(buttonThree);
 
-        buttonFour = new JButton();
-        buttonFour.setBounds(440, 440, buttonWidth, buttonHeight);
+        buttonFour = new JButtonModern("");
+        buttonFour.setBounds(470, 440, buttonWidth, buttonHeight);
         this.add(buttonFour);
     }
 
     // CHOICE FIELDS ===================================================================================================
     // EFFECTS: Creates first set of label and text field, primarily used for entering account usernames
     private void createSetOne() {
-        labelOne = new JLabel("");
-        labelOne.setBounds(700, 120, 200, 40);
+        labelOne = new JLabelModern("");
+        labelOne.setLocation(725, 120);
         labelOne.setFont(makeFont(17));
+        labelOne.setForeground(Color.WHITE);
         this.add(labelOne);
 
-        fieldOne = new JTextField();
-        fieldOne.setBounds(700, 160, 200, 40);
+        fieldOne = new JTextFieldModern("");
+        fieldOne.setLocation(725, 160);
         fieldOne.setFont(makeFont(25));
         this.add(fieldOne);
         fieldOne.setVisible(false);
@@ -168,18 +177,20 @@ public class AccountPanel extends JPanel {
 
     // EFFECTS: Creates second set of labels and text field, primarily used for entering amounts
     private void createSetTwo() {
-        labelTwo = new JLabel("");
-        labelTwo.setBounds(700, 210, 230, 40);
+        labelTwo = new JLabelModern("");
+        labelTwo.setBounds(725, 210, 230, 40);
         labelTwo.setFont(makeFont(17));
+        labelTwo.setForeground(Color.WHITE);
         this.add(labelTwo);
 
-        labelTwoDollar = new JLabel("");
-        labelTwoDollar.setBounds(670, 250, 200, 40);
+        labelTwoDollar = new JLabelModern("");
+        labelTwoDollar.setLocation(695, 250);
         labelTwoDollar.setFont(makeFont(25));
+        labelTwoDollar.setForeground(Color.WHITE);
         this.add(labelTwoDollar);
 
-        fieldTwo = new JTextField();
-        fieldTwo.setBounds(700, 250, 200, 40);
+        fieldTwo = new JTextFieldModern("");
+        fieldTwo.setLocation(725, 250);
         fieldTwo.setFont(makeFont(25));
         this.add(fieldTwo);
         fieldTwo.setVisible(false);
@@ -187,8 +198,9 @@ public class AccountPanel extends JPanel {
 
     // EFFECTS: Creates a confirmation button
     private void createConfirmButton() {
-        confirmButton = new JButton("Confirm");
-        confirmButton.setBounds(700, 320, 110, 40);
+        confirmButton = new JButtonModern("CONFIRM");
+        confirmButton.setLocation(725, 350);
+        confirmButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.WHITE));
         this.add(confirmButton);
         confirmButton.setVisible(false);
     }
@@ -196,8 +208,11 @@ public class AccountPanel extends JPanel {
     // LOGOUT BUTTON ===================================================================================================
     // EFFECTS: Creates a logout button
     private void createLogoutButton() {
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.setBounds(50, 535, 110, 40);
+        JButton logoutButton = new JButtonModern("Logout");
+        logoutButton.setBounds(50, 535, 120, 40);
+        logoutButton.setBackground(Color.WHITE);
+        logoutButton.setForeground(Color.BLACK);
+        logoutButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         logoutButton.addActionListener(arg0 -> {
             AccountPanel.this.setVisible(false);
             cl.show(container, "login");
@@ -215,8 +230,7 @@ public class AccountPanel extends JPanel {
     //          view user database
     private void setAdmin() {
         balanceLabelActual.setText("N/A");
-        notificationsPanel.setText("Admin Access: GRANTED\n\n"
-                + "Please select from the following options:\n\n"
+        notificationsPanel.setText("Please select from the following options:\n\n"
                 + "[1] Lock a registered account to prevent access\n"
                 + "[2] Unlock a registered account to regain access\n"
                 + "[3] View a registered account's information\n"
@@ -227,6 +241,15 @@ public class AccountPanel extends JPanel {
         setAdminViewButton();
         setAdminDatabaseButton();
         setAdminConfirmButton();
+
+        JLabel adminAccess = new JLabelModern("Admin Access: ");
+        adminAccess.setLocation(50, 145);
+        this.add(adminAccess);
+
+        JLabel granted = new JLabelModern("GRANTED");
+        granted.setForeground(Color.RED);
+        granted.setLocation(170, 145);
+        this.add(granted);
     }
 
     // EFFECTS: Sets first button to trigger fields to change for user input to lock accounts
@@ -278,7 +301,7 @@ public class AccountPanel extends JPanel {
                 accountList.append("Username: ").append(k).append("  Password: ").append(v.getPassword()).append("\n");
             }
             createPopFrame("Account Database",
-                    "Accounts stored in database:\n\n" + accountList);
+                    ">>Accounts stored in database:\n\n" + accountList, true);
         });
     }
 
@@ -330,13 +353,13 @@ public class AccountPanel extends JPanel {
         try {
             udb.authUsername(fieldOne.getText());
             Account user = udb.getUserDatabase().get(fieldOne.getText());
-            String content = "Account: " + fieldOne.getText()
-                    + "\n\nLocked status: " + user.getLock()
-                    + "\nName: " + user.getName()
-                    + "\nBalance: " + user.getBalanceString()
-                    + "\nNotifications: " + user.getNotificationsString()
-                    + "\nTransactions: " + user.transactionHistory();
-            createPopFrame("Account Information", content);
+            String content = ">>Account: " + fieldOne.getText()
+                    + "\n>Locked status: " + user.getLock()
+                    + "\n\n>Name: " + user.getName()
+                    + "\n>Balance: " + user.getBalanceString()
+                    + "\n>Notifications: " + user.getNotificationsString()
+                    + "\n>Transactions: " + user.transactionHistory();
+            createPopFrame("Account Information", content, true);
         } catch (AuthenticationFailedUsernameException ex) {
             optionPane(ex.getMessage());
         }
@@ -368,7 +391,6 @@ public class AccountPanel extends JPanel {
             labelTwoDollar.setText(dollarSign);
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
-            notificationsPanel.setVisible(false);
         });
     }
 
@@ -381,7 +403,6 @@ public class AccountPanel extends JPanel {
             labelTwoDollar.setText(dollarSign);
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
-            notificationsPanel.setVisible(true);
         });
     }
 
@@ -404,7 +425,7 @@ public class AccountPanel extends JPanel {
         buttonFour.setText("History");
         buttonFour.addActionListener(arg0 -> {
             clearFields();
-            createPopFrame("Transaction History", account.transactionHistory());
+            createPopFrame("Transaction History", account.transactionHistory(), false);
         });
     }
 
@@ -482,22 +503,24 @@ public class AccountPanel extends JPanel {
     }
 
     // EFFECTS: Creates pop-up JFrame with a title and scrollable content
-    private void createPopFrame(String title, String content) {
+    private void createPopFrame(String title, String content, boolean admin) {
         JFrame frame = new JFrame(title);
-        frame.setSize(500, 500);
+        frame.setSize(700, 400);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JTextArea text = new JTextArea(content);
-        text.setEditable(false);
-        text.setFont(makeFont(16));
-        text.setLineWrap(true);
-        text.setWrapStyleWord(true);
+        JTextArea text = new JTextAreaModern(content);
         JScrollPane scroll =
-                new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setAutoscrolls(true);
         scroll.setBounds(50, 200, 500, 200);
         frame.add(scroll);
+
+        if (admin) {
+            text.setFont(new Font("Monospaced", Font.PLAIN, 18));
+            text.setForeground(Color.GREEN);
+            text.setBackground(Color.BLACK);
+        }
 
         frame.setVisible(true);
     }
