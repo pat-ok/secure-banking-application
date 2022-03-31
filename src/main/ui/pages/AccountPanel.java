@@ -1,9 +1,6 @@
 package ui.pages;
 
-import exceptions.AmountFailedException;
-import exceptions.AmountFailedInvalidEntryException;
-import exceptions.AuthenticationFailedUsernameException;
-import exceptions.UnconfirmedException;
+import exceptions.*;
 import model.Account;
 import model.UserDatabase;
 import ui.modern.JButtonModern;
@@ -331,7 +328,7 @@ public class AccountPanel extends JPanel {
             confirmationTrue(fieldTwo.getText());
             udb.getUserDatabase().get(fieldOne.getText()).lockAccount();
             optionPane(fieldOne.getText() + " has been locked!");
-        } catch (AuthenticationFailedUsernameException | UnconfirmedException ex) {
+        } catch (AuthenticationFailedUsernameException | UnconfirmedException | CannotLockAdminException ex) {
             optionPane(ex.getMessage());
         }
     }

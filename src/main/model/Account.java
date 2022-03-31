@@ -1,5 +1,8 @@
 package model;
 
+import exceptions.AuthenticationFailedAccountLockedException;
+import exceptions.CannotLockAdminException;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -198,8 +201,12 @@ public class Account {
     // REQUIRES: nothing
     // MODIFIES: nothing
     // EFFECTS: sets locked status to true
-    public void lockAccount() {
-        this.lock = true;
+    public void lockAccount() throws CannotLockAdminException {
+        if (name.equals("Admin")) {
+            throw new CannotLockAdminException();
+        } else {
+            this.lock = true;
+        }
     }
 
     // REQUIRES: nothing
@@ -207,5 +214,11 @@ public class Account {
     // EFFECTS: sets locked status to false
     public void unlockAccount() {
         this.lock = false;
+    }
+
+    public void isAccountLocked() throws AuthenticationFailedAccountLockedException {
+        if (lock) {
+            throw new AuthenticationFailedAccountLockedException();
+        }
     }
 }

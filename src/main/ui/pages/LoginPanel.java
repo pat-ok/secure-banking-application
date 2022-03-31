@@ -1,5 +1,6 @@
 package ui.pages;
 
+import exceptions.AuthenticationFailedAccountLockedException;
 import exceptions.AuthenticationFailedException;
 import model.Account;
 import model.UserDatabase;
@@ -72,11 +73,14 @@ public class LoginPanel extends JPanel {
                 if (username.getText().equals("admin")) {
                     accountPanel = new AccountPanel(udb, account, true);
                 } else {
+                    account.isAccountLocked();
                     accountPanel = new AccountPanel(udb, account, false);
                 }
                 container.add(accountPanel, "account");
                 cl.show(container, "account");
                 clearFields();
+            } catch (AuthenticationFailedAccountLockedException ex) {
+                optionPane(ex.getMessage());
             } catch (AuthenticationFailedException afe) {
                 optionPane("Username or password is incorrect!");
             }
