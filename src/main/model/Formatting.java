@@ -46,11 +46,15 @@ public class Formatting {
     //           empty,
     //           only whitespace,
     //           has non-alphabetical characters
+    //           over 20 characters long (not including whitespace)
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public static void isValidName(String name) throws RegistrationFailedInvalidNameException {
+    public static void isValidName(String name)
+            throws RegistrationFailedInvalidNameException, RegistrationFailedNameTooLongException {
         if (name.matches(".{0}|( )*") || !name.matches("(( )*[A-Za-z]*( )*)*")) {
             throw new RegistrationFailedInvalidNameException();
+        } else if (name.replaceAll(" ", "").length() > 20) {
+            throw new RegistrationFailedNameTooLongException();
         }
     }
 

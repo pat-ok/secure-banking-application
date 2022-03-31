@@ -2,6 +2,8 @@ package ui.pages;
 
 import exceptions.RegistrationFailedException;
 import exceptions.RegistrationFailedMatchesHintException;
+import exceptions.RegistrationFailedMatchesHintPasswordConfirmException;
+import exceptions.RegistrationFailedPasswordsDoNotMatchException;
 import model.Account;
 import model.UserDatabase;
 import ui.modern.JButtonModern;
@@ -112,6 +114,7 @@ public class RegisterPanel extends JPanel {
                 try {
                     setRegisterClear();
                     isValidName(newName.getText());
+
                     matchesHintName(newName.getText());
                     setAvailable(newNameAvailability);
                 } catch (RegistrationFailedException ex) {
@@ -205,10 +208,13 @@ public class RegisterPanel extends JPanel {
             matchesHintPassword(newPassword.getText());
             setAvailable(newPasswordAvailability);
 
-            matchesHintConfirmPassword(newPasswordConfirm.getText());
+            matchesHintPasswordConfirm(newPasswordConfirm.getText());
             doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
             setLabel(newPasswordConfirmAvailability, "Matching!");
 
+        } catch (RegistrationFailedPasswordsDoNotMatchException
+                | RegistrationFailedMatchesHintPasswordConfirmException ex) {
+            setLabel(newPasswordConfirmAvailability, ex.getMessage());
         } catch (RegistrationFailedException ex) {
             setLabel(newPasswordAvailability, ex.getMessage());
         }
@@ -247,7 +253,7 @@ public class RegisterPanel extends JPanel {
             private void tryNewPasswordConfirmUpdate() {
                 try {
                     setRegisterClear();
-                    matchesHintConfirmPassword(newPasswordConfirm.getText());
+                    matchesHintPasswordConfirm(newPasswordConfirm.getText());
                     doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
                     setLabel(newPasswordConfirmAvailability, "Matching!");
                 } catch (RegistrationFailedException ex) {
@@ -350,12 +356,16 @@ public class RegisterPanel extends JPanel {
     // EFFECTS: Clears user input from all fields
     private void clearFields() {
         newName.setText("Name");
+        newName.setForeground(Color.GRAY);
         newNameAvailability.setText("");
         newUsername.setText("New username");
+        newUsername.setForeground(Color.GRAY);
         newUsernameAvailability.setText("");
         newPassword.setText("New password");
+        newPassword.setForeground(Color.GRAY);
         newPasswordAvailability.setText("");
         newPasswordConfirm.setText("Confirm password");
+        newPasswordConfirm.setForeground(Color.GRAY);
         newPasswordConfirmAvailability.setText("");
     }
 
@@ -381,9 +391,9 @@ public class RegisterPanel extends JPanel {
     }
 
     // EFFECTS: Checks if string matches Confirm password
-    private void matchesHintConfirmPassword(String name) throws RegistrationFailedMatchesHintException {
+    private void matchesHintPasswordConfirm(String name) throws RegistrationFailedMatchesHintPasswordConfirmException {
         if (name.equals("Confirm password")) {
-            throw new RegistrationFailedMatchesHintException();
+            throw new RegistrationFailedMatchesHintPasswordConfirmException();
         }
     }
 
@@ -392,6 +402,6 @@ public class RegisterPanel extends JPanel {
         matchesHintName(newName.getText());
         matchesHintUsername(newUsername.getText());
         matchesHintPassword(newPassword.getText());
-        matchesHintConfirmPassword(newPasswordConfirm.getText());
+        matchesHintPasswordConfirm(newPasswordConfirm.getText());
     }
 }

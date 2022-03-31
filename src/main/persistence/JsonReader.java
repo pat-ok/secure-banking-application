@@ -63,7 +63,7 @@ public class JsonReader {
 
     // REQUIRES: nothing
     // MODIFIES: nothing
-    // EFFECTS: helper method for parser that creates an arraylist of usernames from source file
+    // EFFECTS: helper method that creates an arraylist of usernames from source file
     private ArrayList<String> jsonToUsernames(JSONObject jsonObject) {
         JSONArray jsonKeyArray = jsonObject.getJSONArray("keys");
         ArrayList<String> usernames = new ArrayList<>();
@@ -76,31 +76,28 @@ public class JsonReader {
 
     // REQUIRES: nothing
     // MODIFIES: nothing
-    // EFFECTS: helper method for parser that creates an arraylist of accounts from source file
+    // EFFECTS: helper method that creates an arraylist of accounts from source file
     private ArrayList<Account> jsonToAccounts(JSONObject jsonObject) {
         JSONArray jsonValueArray = jsonObject.getJSONArray("values");
         ArrayList<Account> accounts = new ArrayList<>();
+
         for (Object jsonAccount : jsonValueArray) {
             JSONObject nextAccount = (JSONObject) jsonAccount;
             String pass = nextAccount.getString("password");
             String name = nextAccount.getString("name");
             String balance = nextAccount.getString("balanceString");
 
-            // create arraylist of notifications
             ArrayList<String> notifications = new ArrayList<>();
             JSONArray jsonNotifications = nextAccount.getJSONArray("notifications");
             for (Object jsonNotification : jsonNotifications) {
                 notifications.add(jsonNotification.toString());
             }
 
-            // create arraylist of transactions
             ArrayList<String> transactions = new ArrayList<>();
             JSONArray jsonTransactions = nextAccount.getJSONArray("transactions");
             for (Object jsonTransaction : jsonTransactions) {
                 transactions.add(jsonTransaction.toString());
             }
-
-            // add account to arraylist of accounts
             accounts.add(new Account(pass, name, balance, notifications, transactions));
         }
         return accounts;

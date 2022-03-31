@@ -81,6 +81,8 @@ public class FormattingTest {
         try {
             isValidName("123");
             fail("Name is illegal");
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             // pass
         }
@@ -91,6 +93,8 @@ public class FormattingTest {
         try {
             isValidName("");
             fail("Name is illegal");
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             // pass
         }
@@ -101,6 +105,8 @@ public class FormattingTest {
         try {
             isValidName(" ");
             fail("Name is illegal");
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             // pass
         }
@@ -111,6 +117,8 @@ public class FormattingTest {
         try {
             isValidName("123test");
             fail("Name is illegal");
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             // pass
         }
@@ -121,6 +129,8 @@ public class FormattingTest {
         try {
             isValidName("test");
             // pass
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
@@ -131,6 +141,8 @@ public class FormattingTest {
         try {
             isValidName(" test");
             // pass
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
@@ -141,6 +153,8 @@ public class FormattingTest {
         try {
             isValidName("test ");
             // pass
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
@@ -151,6 +165,8 @@ public class FormattingTest {
         try {
             isValidName("first last");
             // pass
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
@@ -161,6 +177,8 @@ public class FormattingTest {
         try {
             isValidName("first middle last");
             // pass
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
         }
@@ -171,8 +189,44 @@ public class FormattingTest {
         try {
             isValidName("first    middle    last");
             // pass
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
         } catch (RegistrationFailedInvalidNameException ine) {
             fail("Name is legal");
+        }
+    }
+
+    @Test
+    void testIsValidNameUnderBoundary() {
+        try {
+            isValidName("QWERTYUIOP QWERTYUIO");
+        } catch (RegistrationFailedInvalidNameException ex) {
+            fail("Characters are legal");
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
+        }
+    }
+
+    @Test
+    void testIsValidNameOnBoundary() {
+        try {
+            isValidName("QWERTYUIOP QWERTYUIOP");
+        } catch (RegistrationFailedInvalidNameException ex) {
+            fail("Characters are legal");
+        } catch (RegistrationFailedNameTooLongException ex) {
+            fail("Name is not too long");
+        }
+    }
+
+    @Test
+    void testIsValidNameOverBoundary() {
+        try {
+            isValidName("QWERTYUIOP QWERTYUIOP Q");
+            fail("Name is too long");
+        } catch (RegistrationFailedInvalidNameException ex) {
+            fail("Characters are legal");
+        } catch (RegistrationFailedNameTooLongException ex) {
+            // pass
         }
     }
 
