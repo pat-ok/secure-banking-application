@@ -1,8 +1,7 @@
 package ui.pages;
 
-import exceptions.AuthenticationFailedAccountLockedException;
-import exceptions.AuthenticationFailedException;
-import model.Account;
+import exceptions.authentication.AuthenticationFailedAccountLockedException;
+import exceptions.authentication.AuthenticationFailedException;
 import model.UserDatabase;
 import ui.modern.JButtonModern;
 import ui.modern.JLabelModern;
@@ -14,13 +13,13 @@ import java.awt.*;
 import static ui.pages.BankingApp.*;
 
 // Represents authentication UI for account login authentication
-// Child panel of LoginPanel card layout
+// Child panel of container panel card layout
 public class LoginPanel extends JPanel {
 
     private final int width = BankingApp.WIDTH;
     private final UserDatabase udb;
 
-    // FIELDS
+    // Text fields
     private JTextField username;
     private JTextField password;
 
@@ -41,22 +40,22 @@ public class LoginPanel extends JPanel {
     // EFFECTS: Creates login title label
     private void createTitle() {
         JLabel loginTitle = new JLabelModern("Login to your account!");
-        loginTitle.setBounds(width / 2 - 110, 130, 300, 40);
+        loginTitle.setLocation(width / 2 - 110, 120);
         loginTitle.setFont(makeFont(23));
         this.add(loginTitle);
     }
 
-    // EFFECTS: Creates username entry field with label
+    // EFFECTS: Creates username entry field with prompt
     private void createUsername() {
         username = new JTextFieldModern("Username");
-        username.setBounds(width / 2 - 100, 220, 200, 35);
+        username.setLocation(width / 2 - 100, 210);
         this.add(username);
     }
 
-    // EFFECTS: Creates password entry field with label
+    // EFFECTS: Creates password entry field with prompt
     private void createPassword() {
         password = new JTextFieldModern("Password");
-        password.setBounds(width / 2 - 100, 290, 200, 35);
+        password.setLocation(width / 2 - 100, 290);
         this.add(password);
     }
 
@@ -66,18 +65,17 @@ public class LoginPanel extends JPanel {
         buttonLogin.setLocation(width / 2 - 100, 390);
         buttonLogin.addActionListener(arg0 -> {
             try {
-                udb.authUsername(username.getText());
-                udb.authPassword(username.getText(), password.getText());
                 JPanel accountPanel;
-                Account account = udb.getUserDatabase().get(username.getText());
                 if (username.getText().equals("admin")) {
-                    accountPanel = new AccountPanel(udb, account, true);
+                    accountPanel = new AccountPanel(udb, udb.getUserDatabase().get(username.getText()), true);
                 } else {
-                    account.isAccountLocked();
-                    accountPanel = new AccountPanel(udb, account, false);
+                    udb.authUsername(username.getText());
+                    udb.authPassword(username.getText(), password.getText());
+                    udb.getUserDatabase().get(username.getText()).confirmAccountNotLocked();
+                    accountPanel = new AccountPanel(udb, udb.getUserDatabase().get(username.getText()), false);
                 }
-                container.add(accountPanel, "account");
-                cl.show(container, "account");
+                container.add(accountPanel, "account page");
+                cl.show(container, "account page");
                 clearFields();
             } catch (AuthenticationFailedAccountLockedException ex) {
                 optionPane(ex.getMessage());
@@ -91,13 +89,13 @@ public class LoginPanel extends JPanel {
     // EFFECTS: Creates registration button bringing user back to registration panel
     private void createRegisterButton() {
         JLabel textDoNotHaveAccount = new JLabelModern("Don't have an account?");
-        textDoNotHaveAccount.setBounds(width / 2 - 300, 500, 200, 35);
+        textDoNotHaveAccount.setLocation(width / 2 - 300, 500);
         this.add(textDoNotHaveAccount);
 
         JButton buttonRegister = new JButtonModern("SIGN UP");
         buttonRegister.setLocation(width / 2 - 100, 500);
         buttonRegister.addActionListener(arg0 -> {
-            cl.show(container, "register");
+            cl.show(container, "register page");
             clearFields();
         });
         this.add(buttonRegister);

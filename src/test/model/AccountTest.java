@@ -1,21 +1,26 @@
 package model;
 
+import exceptions.CannotLockAdminException;
+import exceptions.authentication.AuthenticationFailedAccountLockedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
     private Account foo;
     private Account bar;
+    private Account admin;
 
     @BeforeEach
     void runBefore() {
         foo = new Account("pass123", "Foo");
         bar = new Account("pass123", "Bar");
+
+        admin = new Account("pass123", "Admin");
     }
 
     @Test
@@ -27,21 +32,23 @@ class AccountTest {
         assertEquals(testBalance, foo.getBalance());
         assertEquals(3, foo.getNotifications().size());
         assertEquals(0, foo.getTransactions().size());
+        assertFalse(foo.getLock());
     }
 
     @Test
-    void testReaderConstructor() {
+    void testJsonReaderConstructor() {
         ArrayList<String> jsonNotifications = new ArrayList<>();
         ArrayList<String> jsonTransactions = new ArrayList<>();
         BigDecimal jsonBalance = new BigDecimal("50");
         Account jsonAccount =
-                new Account("jsonpass", "Jason", "50", jsonNotifications, jsonTransactions);
+                new Account("jsonpass", "Jason", "50", jsonNotifications, jsonTransactions, true);
 
         assertEquals("jsonpass", jsonAccount.getPassword());
         assertEquals("Jason", jsonAccount.getName());
         assertEquals(jsonBalance, jsonAccount.getBalance());
         assertEquals(0, jsonAccount.getNotifications().size());
         assertEquals(0, jsonAccount.getTransactions().size());
+        assertTrue(jsonAccount.getLock());
 
     }
 
@@ -159,5 +166,60 @@ class AccountTest {
         assertEquals(testTransactionsFoo, foo.transactionHistory());
         assertEquals("Transaction history for Bar:\n\nNo transactions to show.", bar.transactionHistory());
 
+    }
+
+    @Test
+    void testLockAccountAdmin() {
+        try {
+            admin.lockAccount();
+            fail("Cannot lock admin");
+        } catch (CannotLockAdminException ex) {
+            // pass
+        }
+    }
+
+    @Test
+    void testLockAccountUser() {
+        try {
+            foo.lockAccount();
+            assertTrue(foo.getLock());
+            // pass
+        } catch (CannotLockAdminException ex) {
+            fail("Account is not admin");
+        }
+    }
+
+    @Test
+    void testUnlockAccountUser() {
+        try {
+            foo.lockAccount();
+        } catch (CannotLockAdminException ex) {
+            fail("Account is not admin");
+        }
+        foo.unlockAccount();
+        assertFalse(foo.getLock());
+    }
+
+    @Test
+    void testConfirmAccountNotLockedThrows() {
+        try {
+            foo.lockAccount();
+            foo.confirmAccountNotLocked();
+            fail("Account is locked");
+        } catch (CannotLockAdminException ex) {
+            fail("Account is not admin");
+        } catch (AuthenticationFailedAccountLockedException ex) {
+            // pass
+        }
+    }
+
+    @Test
+    void testConfirmAccountNotLockedDoesNotThrow() {
+        try {
+            foo.confirmAccountNotLocked();
+            // pass
+        } catch (AuthenticationFailedAccountLockedException ex) {
+            fail("Account is locked");
+        }
     }
 }

@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.amount;
 
 public class AmountFailedInvalidEntryException extends AmountFailedException {
     public AmountFailedInvalidEntryException() {

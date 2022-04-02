@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class JLabelModern extends JLabel {
-    public JLabelModern(String msg) {
-        this.setText(msg);
+    public JLabelModern(String message) {
+        this.setText(message);
         this.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        this.setSize(200, 40);
+        this.setSize(300, 40);
     }
 }

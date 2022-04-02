@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.registration;
 
 public class RegistrationFailedNameTooLongException extends RegistrationFailedException {
     public RegistrationFailedNameTooLongException() {

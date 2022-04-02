@@ -1,6 +1,11 @@
 package model;
 
-import exceptions.*;
+import exceptions.amount.AmountFailedInsufficientFundsException;
+import exceptions.amount.AmountFailedInvalidEntryException;
+import exceptions.registration.RegistrationFailedInvalidEntryException;
+import exceptions.registration.RegistrationFailedInvalidNameException;
+import exceptions.registration.RegistrationFailedNameTooLongException;
+import exceptions.registration.RegistrationFailedPasswordsDoNotMatchException;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -87,7 +92,8 @@ public class Formatting {
     // REQUIRES: password matches confirmation password
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public static void doPasswordsMatch(String password, String passwordConfirm) throws RegistrationFailedPasswordsDoNotMatchException {
+    public static void doPasswordsMatch(String password, String passwordConfirm)
+            throws RegistrationFailedPasswordsDoNotMatchException {
         if (!password.equals(passwordConfirm)) {
             throw new RegistrationFailedPasswordsDoNotMatchException();
         }
@@ -103,7 +109,8 @@ public class Formatting {
     // REQUIRES: outgoing <= balance
     // MODIFIES: nothing
     // EFFECTS: nothing
-    public static void hasSufficientFunds(BigDecimal outgoing, BigDecimal balance) throws AmountFailedInsufficientFundsException {
+    public static void hasSufficientFunds(BigDecimal outgoing, BigDecimal balance)
+            throws AmountFailedInsufficientFundsException {
         if (!(outgoing.compareTo(balance) <= 0)) {
             throw new AmountFailedInsufficientFundsException();
         }

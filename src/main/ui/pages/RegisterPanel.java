@@ -1,9 +1,9 @@
 package ui.pages;
 
-import exceptions.RegistrationFailedException;
-import exceptions.RegistrationFailedMatchesHintException;
-import exceptions.RegistrationFailedMatchesHintPasswordConfirmException;
-import exceptions.RegistrationFailedPasswordsDoNotMatchException;
+import exceptions.registration.RegistrationFailedException;
+import exceptions.registration.RegistrationFailedMatchesHintException;
+import exceptions.registration.RegistrationFailedMatchesHintPasswordConfirmException;
+import exceptions.registration.RegistrationFailedPasswordsDoNotMatchException;
 import model.Account;
 import model.UserDatabase;
 import ui.modern.JButtonModern;
@@ -21,21 +21,30 @@ import static model.Security.salt;
 import static ui.pages.BankingApp.*;
 
 // Represents registration UI for account creation
-// Child panel of container panel from BankingApp
+// Child panel of container panel card layout
 public class RegisterPanel extends JPanel {
 
-    private final int width = BankingApp.WIDTH;
-    private final int height = BankingApp.HEIGHT;
+    private static final int width = BankingApp.WIDTH;
+    private static final int height = BankingApp.HEIGHT;
     private final UserDatabase udb;
 
+    // Text fields and availability statuses
     private JTextField newName;
-    private JLabel newNameAvailability;
+    private final String newNameHint = "Name";
+    private JLabel newNameStatus;
+
     private JTextField newUsername;
-    private JLabel newUsernameAvailability;
+    private final String newUsernameHint = "New username";
+    private JLabel newUsernameStatus;
+
     private JTextField newPassword;
-    private JLabel newPasswordAvailability;
+    private final String newPasswordHint = "New password";
+    private JLabel newPasswordStatus;
+
     private JTextField newPasswordConfirm;
-    private JLabel newPasswordConfirmAvailability;
+    private final String newPasswordConfirmHint = "Confirm password";
+    private JLabel newPasswordConfirmStatus;
+
     private JLabel registerStatus;
 
     // Constructor for registration panel
@@ -53,8 +62,15 @@ public class RegisterPanel extends JPanel {
         createLogin();
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(bluish);
+        g.fillRect(0, 0, 330, height);
+    }
+
     // ELEMENT CREATION ================================================================================================
-    // Creates registration title label
+    // EFFECTS: Creates registration title and bank label
     private void createTitle() {
         JLabel registrationTitle = new JLabelModern("Register for a new account!");
         registrationTitle.setBounds(width / 2 + 15, 30, 300, 40);
@@ -80,21 +96,22 @@ public class RegisterPanel extends JPanel {
         this.add(canadaTitle);
     }
 
-    // Creates new name text field and availability status label
+    // NEW NAME ========================================================================================================
+    // EFFECTS: Creates new name text field and availability status label
     private void createNewName() {
-        newNameAvailability = new JLabelModern("");
-        newNameAvailability.setLocation(width / 2 + 280, 120);
-        this.add(newNameAvailability);
+        newNameStatus = new JLabelModern("");
+        newNameStatus.setLocation(width / 2 + 280, 120);
+        this.add(newNameStatus);
 
-        newName = new JTextFieldModern("Name");
+        newName = new JTextFieldModern(newNameHint);
         newName.setLocation(width / 2 + 60, 120);
         this.add(newName);
 
-        createNewNameUpdate();
+        updateNewNameStatus();
     }
 
-    // Adds new name text field availability functionality
-    private void createNewNameUpdate() {
+    // EFFECTS: Updates availability status label for new name
+    private void updateNewNameStatus() {
         newName.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent arg0) {}
@@ -112,33 +129,33 @@ public class RegisterPanel extends JPanel {
             // EFFECTS: Checks if new name is available to use, if field is default then no status is shown
             private void tryNewNameUpdate() {
                 try {
-                    setRegisterClear();
+                    clearRegisterStatus();
                     isValidName(newName.getText());
-
                     matchesHintName(newName.getText());
-                    setAvailable(newNameAvailability);
+                    setAvailable(newNameStatus);
                 } catch (RegistrationFailedException ex) {
-                    setLabel(newNameAvailability, ex.getMessage());
+                    newNameStatus.setText(ex.getMessage());
                 }
             }
         });
     }
 
-    // Creates new username text field and availability status label
+    // NEW USERNAME ====================================================================================================
+    // EFFECTS: Creates new username text field and availability status label
     private void createNewUsername() {
-        newUsernameAvailability = new JLabelModern("");
-        newUsernameAvailability.setLocation(width / 2 + 280, 185);
-        this.add(newUsernameAvailability);
+        newUsernameStatus = new JLabelModern("");
+        newUsernameStatus.setLocation(width / 2 + 280, 185);
+        this.add(newUsernameStatus);
 
-        newUsername = new JTextFieldModern("New username");
+        newUsername = new JTextFieldModern(newUsernameHint);
         newUsername.setLocation(width / 2 + 60, 185);
         this.add(newUsername);
 
-        createNewUsernameUpdate();
+        updateNewUsernameStatus();
     }
 
-    // Adds new username text field availability functionality
-    private void createNewUsernameUpdate() {
+    // EFFECTS: Updates availability status label for new username
+    private void updateNewUsernameStatus() {
         newUsername.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
@@ -157,33 +174,34 @@ public class RegisterPanel extends JPanel {
             // EFFECTS: Checks if new username is available to use, if field is default then no status is shown
             private void tryNewUsernameUpdate() {
                 try {
-                    setRegisterClear();
+                    clearRegisterStatus();
                     isValidEntry(newUsername.getText());
                     udb.isUsernameFree(newUsername.getText());
                     matchesHintUsername(newUsername.getText());
-                    setAvailable(newUsernameAvailability);
+                    setAvailable(newUsernameStatus);
                 } catch (RegistrationFailedException ex) {
-                    setLabel(newUsernameAvailability, ex.getMessage());
+                    newUsernameStatus.setText(ex.getMessage());
                 }
             }
         });
     }
 
-    // Creates new password text field and availability status label
+    // NEW PASSWORD ====================================================================================================
+    // EFFECTS: Creates new password text field and availability status label
     private void createNewPassword() {
-        newPasswordAvailability = new JLabelModern("");
-        newPasswordAvailability.setLocation(width / 2 + 280, 250);
-        this.add(newPasswordAvailability);
+        newPasswordStatus = new JLabelModern("");
+        newPasswordStatus.setLocation(width / 2 + 280, 250);
+        this.add(newPasswordStatus);
 
-        newPassword = new JTextFieldModern("New password");
+        newPassword = new JTextFieldModern(newPasswordHint);
         newPassword.setLocation(width / 2 + 60, 250);
         this.add(newPassword);
 
-        createNewPasswordUpdate();
+        updateNewPasswordStatus();
     }
 
-    // Adds new password text field availability functionality
-    private void createNewPasswordUpdate() {
+    // EFFECTS: Updates availability status label for new password
+    private void updateNewPasswordStatus() {
         newPassword.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent arg0) {}
@@ -203,38 +221,39 @@ public class RegisterPanel extends JPanel {
     // EFFECTS: Checks if new password is available to use, if field is default then no status is shown
     private void tryNewPasswordUpdate() {
         try {
-            setRegisterClear();
+            clearRegisterStatus();
             isValidEntry(newPassword.getText());
             matchesHintPassword(newPassword.getText());
-            setAvailable(newPasswordAvailability);
+            setAvailable(newPasswordStatus);
 
             matchesHintPasswordConfirm(newPasswordConfirm.getText());
             doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
-            setLabel(newPasswordConfirmAvailability, "Matching!");
+            newPasswordConfirmStatus.setText("Matching!");
 
         } catch (RegistrationFailedPasswordsDoNotMatchException
                 | RegistrationFailedMatchesHintPasswordConfirmException ex) {
-            setLabel(newPasswordConfirmAvailability, ex.getMessage());
+            newPasswordConfirmStatus.setText(ex.getMessage());
         } catch (RegistrationFailedException ex) {
-            setLabel(newPasswordAvailability, ex.getMessage());
+            newPasswordStatus.setText(ex.getMessage());
         }
     }
 
-    // Creates new password confirmation text field and availability status label
+    // NEW PASSWORD CONFIRMATION =======================================================================================
+    // EFFECTS: Creates new password confirmation text field and availability status label
     private void createNewPasswordConfirm() {
-        newPasswordConfirmAvailability = new JLabelModern("");
-        newPasswordConfirmAvailability.setLocation(width / 2 + 280, 315);
-        this.add(newPasswordConfirmAvailability);
+        newPasswordConfirmStatus = new JLabelModern("");
+        newPasswordConfirmStatus.setLocation(width / 2 + 280, 315);
+        this.add(newPasswordConfirmStatus);
 
-        newPasswordConfirm = new JTextFieldModern("Confirm password");
+        newPasswordConfirm = new JTextFieldModern(newPasswordConfirmHint);
         newPasswordConfirm.setLocation(width / 2 + 60, 315);
         this.add(newPasswordConfirm);
 
-        createNewPasswordConfirmUpdate();
+        updateNewPasswordConfirmStatus();
     }
 
-    // Adds new password confirm text field availability functionality
-    private void createNewPasswordConfirmUpdate() {
+    // EFFECTS: Updates availability status label for new password confirmation
+    private void updateNewPasswordConfirmStatus() {
         newPasswordConfirm.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent arg0) {}
@@ -252,17 +271,18 @@ public class RegisterPanel extends JPanel {
             // EFFECTS: Checks if new password confirmation is the same, if field is default then no status is shown
             private void tryNewPasswordConfirmUpdate() {
                 try {
-                    setRegisterClear();
+                    clearRegisterStatus();
                     matchesHintPasswordConfirm(newPasswordConfirm.getText());
                     doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
-                    setLabel(newPasswordConfirmAvailability, "Matching!");
+                    newPasswordConfirmStatus.setText("Matching!");
                 } catch (RegistrationFailedException ex) {
-                    setLabel(newPasswordConfirmAvailability, ex.getMessage());
+                    newPasswordConfirmStatus.setText(ex.getMessage());
                 }
             }
         });
     }
 
+    // REGISTER BUTTON =================================================================================================
     // EFFECTS: Creates register button label
     private void createRegister() {
         registerStatus = new JLabelModern("");
@@ -277,26 +297,29 @@ public class RegisterPanel extends JPanel {
         buttonRegister.setBounds(width / 2 + 60, 405, 200, 40);
         buttonRegister.addActionListener(arg0 -> {
             try {
+                // all fields valid and are not default prompts
                 isValidName(newName.getText());
                 isValidEntry(newUsername.getText());
                 udb.isUsernameFree(newUsername.getText());
                 isValidEntry(newPassword.getText());
                 doPasswordsMatch(newPassword.getText(), newPasswordConfirm.getText());
-                matchesCheck();
+                confirmNoFieldsMatchHints();
 
+                // create new account and trigger confirmation pop-up
                 Account acc = new Account(createPassword(newPassword.getText()), capitalizeName(newName.getText()));
                 udb.storeAccount(newUsername.getText(), acc);
                 clearFields();
-                setLabel(registerStatus, "Account registered!");
+                registerStatus.setText("Account registered!");
                 optionPane("Registration Success!");
             } catch (RegistrationFailedException ex) {
-                setRegisterFailed();
+                registerStatus.setText("Registration Failed!");
                 optionPane("Registration Failed! One or more fields invalid!");
             }
         });
         this.add(buttonRegister);
     }
 
+    // LOGIN BUTTON ====================================================================================================
     // EFFECTS: Creates login button and label
     //          login button switches user to login authentication panel
     private void createLogin() {
@@ -304,25 +327,17 @@ public class RegisterPanel extends JPanel {
         test.setLocation(width / 2 - 100, 520);
         this.add(test);
 
-
         JButton buttonHaveAccount = new JButtonModern("SIGN IN");
         buttonHaveAccount.setBounds(width / 2 + 60, 520, 200, 40);
         buttonHaveAccount.addActionListener(arg0 -> {
-            cl.show(container, "login");
+            cl.show(container, "login page");
             clearFields();
         });
         this.add(buttonHaveAccount);
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(bluish);
-        g.fillRect(0, 0, 330, height);
-    }
-
     // HELPER METHODS ==================================================================================================
-    // EFFECTS: creates a new hashed password from a clear text password
+    // EFFECTS: creates a new salted and hashed password from a clear text password
     private String createPassword(String newPassword) {
         String salt = salt();
         return salt + hashFunction(salt + newPassword);
@@ -333,72 +348,57 @@ public class RegisterPanel extends JPanel {
         label.setText("Available!");
     }
 
-    // EFFECTS: Clears label text
-    private void clearLabel(JLabel label) {
-        label.setText("");
-    }
-
-    // EFFECTS: Sets label to custom string
-    private void setLabel(JLabel label, String message) {
-        label.setText(message);
-    }
-
-    // EFFECTS: Sets registration status label to failed
-    private void setRegisterFailed() {
-        registerStatus.setText("Registration Failed!");
-    }
-
     // EFFECTS: Clears registration status
-    private void setRegisterClear() {
+    private void clearRegisterStatus() {
         registerStatus.setText("");
     }
 
-    // EFFECTS: Clears user input from all fields
+    // EFFECTS: Clears user input from all fields and sets to default prompts
     private void clearFields() {
-        newName.setText("Name");
+        newName.setText(newNameHint);
         newName.setForeground(Color.GRAY);
-        newNameAvailability.setText("");
-        newUsername.setText("New username");
+        newNameStatus.setText("");
+        newUsername.setText(newUsernameHint);
         newUsername.setForeground(Color.GRAY);
-        newUsernameAvailability.setText("");
-        newPassword.setText("New password");
+        newUsernameStatus.setText("");
+        newPassword.setText(newPasswordHint);
         newPassword.setForeground(Color.GRAY);
-        newPasswordAvailability.setText("");
-        newPasswordConfirm.setText("Confirm password");
+        newPasswordStatus.setText("");
+        newPasswordConfirm.setText(newPasswordConfirmHint);
         newPasswordConfirm.setForeground(Color.GRAY);
-        newPasswordConfirmAvailability.setText("");
+        newPasswordConfirmStatus.setText("");
     }
 
-    // EFFECTS: Checks if string matches Name
+    // EFFECTS: Checks if string matches name hint
     private void matchesHintName(String name) throws RegistrationFailedMatchesHintException {
-        if (name.equals("Name")) {
+        if (name.equals(newNameHint)) {
             throw new RegistrationFailedMatchesHintException();
         }
     }
 
-    // EFFECTS: Checks if string matches New username
+    // EFFECTS: Checks if string matches new username hint
     private void matchesHintUsername(String name) throws RegistrationFailedMatchesHintException {
-        if (name.equals("New username")) {
+        if (name.equals(newUsernameHint)) {
             throw new RegistrationFailedMatchesHintException();
         }
     }
 
-    // EFFECTS: Checks if string matches New password
+    // EFFECTS: Checks if string matches new password hint
     private void matchesHintPassword(String name) throws RegistrationFailedMatchesHintException {
-        if (name.equals("New password")) {
+        if (name.equals(newPasswordHint)) {
             throw new RegistrationFailedMatchesHintException();
         }
     }
 
-    // EFFECTS: Checks if string matches Confirm password
+    // EFFECTS: Checks if string matches password confirmation hint
     private void matchesHintPasswordConfirm(String name) throws RegistrationFailedMatchesHintPasswordConfirmException {
-        if (name.equals("Confirm password")) {
+        if (name.equals(newPasswordConfirmHint)) {
             throw new RegistrationFailedMatchesHintPasswordConfirmException();
         }
     }
 
-    // EFFECTS: Checks if all fields match hints
-    private void matchesCheck() throws RegistrationFailedMatchesHintException {
+    // EFFECTS: Confirms that no fields match hints
+    private void confirmNoFieldsMatchHints() throws RegistrationFailedMatchesHintException {
         matchesHintName(newName.getText());
         matchesHintUsername(newUsername.getText());
         matchesHintPassword(newPassword.getText());

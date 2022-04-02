@@ -17,7 +17,8 @@ public class JsonTest {
                                 String name,
                                 String balance,
                                 int notifications,
-                                int transactions) {
+                                int transactions,
+                                boolean lock) {
         HashMap<String, Account> testUserInfo = userDatabase.getUserDatabase();
         Account testAccount = testUserInfo.get(user);
 
@@ -26,6 +27,7 @@ public class JsonTest {
         checkBalance(testAccount, balance);
         checkNotifications(testAccount, notifications);
         checkTransactions(testAccount, transactions);
+        checkLock(testAccount, lock);
     }
 
     private void checkPassword(Account account, String password) {
@@ -52,5 +54,9 @@ public class JsonTest {
 
     private void checkTransactions(Account account, int transactions) {
         assertEquals(transactions, account.getTransactions().size());
+    }
+
+    private void checkLock(Account account, boolean lock) {
+        assertEquals(lock, account.getLock());
     }
 }

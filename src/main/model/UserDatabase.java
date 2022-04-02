@@ -1,8 +1,8 @@
 package model;
 
-import exceptions.AuthenticationFailedPasswordException;
-import exceptions.AuthenticationFailedUsernameException;
-import exceptions.RegistrationFailedUsernameNotFreeException;
+import exceptions.authentication.AuthenticationFailedPasswordException;
+import exceptions.authentication.AuthenticationFailedUsernameException;
+import exceptions.registration.RegistrationFailedUsernameNotFreeException;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -19,8 +19,8 @@ public class UserDatabase implements Writable {
 
     // REQUIRES: nothing
     // MODIFIES: this is a constructor
-    // EFFECTS: constructs new database,
-    //          and if true, adds two accounts for demo purposes
+    // EFFECTS: constructs new database with admin account and demo status,
+    //          if true, adds two accounts for demo purposes
     public UserDatabase(boolean demo) {
         databaseInfo = new HashMap<>();
 
@@ -38,9 +38,7 @@ public class UserDatabase implements Writable {
         }
 
         // adding admin account
-        String saltAdmin = salt();
-        String passAdmin = saltAdmin + hashFunction(saltAdmin + "admin");
-        databaseInfo.put("admin", new Account(passAdmin, "Admin"));
+        databaseInfo.put("admin", new Account("admin", "Admin"));
     }
 
     // getter for database
@@ -88,9 +86,9 @@ public class UserDatabase implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         List<String> keys = new ArrayList<>(databaseInfo.keySet());
-        List<Account> accounts = new ArrayList<>(databaseInfo.values());
+        List<Account> values = new ArrayList<>(databaseInfo.values());
         json.put("keys", keys);
-        json.put("values", accounts);
+        json.put("values", values);
         return json;
     }
 }

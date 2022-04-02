@@ -1,6 +1,9 @@
 package ui.pages;
 
 import exceptions.*;
+import exceptions.amount.AmountFailedException;
+import exceptions.amount.AmountFailedInvalidEntryException;
+import exceptions.authentication.AuthenticationFailedUsernameException;
 import model.Account;
 import model.UserDatabase;
 import ui.modern.JButtonModern;
@@ -17,10 +20,9 @@ import static model.Formatting.hasSufficientFunds;
 import static model.Formatting.isValidAmount;
 import static ui.pages.BankingApp.*;
 
-// Represents account UI after account login authentication
-// Child panel of LoginPanel card layout
+// Represents account UI after login authentication
+// Child panel of container panel card layout
 public class AccountPanel extends JPanel {
-    private final int height = BankingApp.HEIGHT;
 
     private final UserDatabase udb;
     private final Account account;
@@ -48,11 +50,13 @@ public class AccountPanel extends JPanel {
     private JTextField fieldTwo;
     private JButton confirmButton;
 
-    // choice buttons
+    // main buttons
     private JButton buttonOne;
     private JButton buttonTwo;
     private JButton buttonThree;
     private JButton buttonFour;
+
+    private String action;
 
     // Constructor for account panel
     public AccountPanel(UserDatabase udb, Account account, Boolean admin) {
@@ -70,7 +74,7 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    // EFFECTS: adds all fields to the panel
+    // EFFECTS: Adds all fields to the panel initiating them as non-visible
     private void addFields() {
         // status fields
         createWelcomeLabel();
@@ -94,20 +98,20 @@ public class AccountPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(bluish);
+        int height = BankingApp.HEIGHT;
         g.fillRect(660, 0, 340, height);
     }
 
     // STATUS FIELDS ===================================================================================================
-    // EFFECTS: creates label with welcome text
+    // EFFECTS: Creates label with welcome text
     private void createWelcomeLabel() {
-        // status fields
         JLabel welcomeLabel = new JLabelModern("Welcome back, " + account.getName() + "!");
         welcomeLabel.setBounds(50, 50, 610, 40);
         welcomeLabel.setFont(makeFont(30));
         this.add(welcomeLabel);
     }
 
-    // EFFECTS: creates label with balance text
+    // EFFECTS: Creates label with balance text
     private void createBalanceLabel() {
         JLabel balanceLabel = new JLabelModern("Current Balance: ");
         balanceLabel.setLocation(50, 100);
@@ -115,7 +119,7 @@ public class AccountPanel extends JPanel {
         this.add(balanceLabel);
     }
 
-    // EFFECTS: creates label with actual balance
+    // EFFECTS: Creates label with actual balance
     private void createBalanceLabelActual() {
         balanceLabelActual = new JLabelModern(account.getBalanceString());
         balanceLabelActual.setLocation(200, 100);
@@ -123,7 +127,7 @@ public class AccountPanel extends JPanel {
         this.add(balanceLabelActual);
     }
 
-    // EFFECTS: creates label with notifications
+    // EFFECTS: Creates label with notifications
     private void createNotificationsPanel() {
         notificationsPanel = new JTextAreaModern("");
         JScrollPane notifications = new JScrollPane(notificationsPanel,
@@ -134,26 +138,43 @@ public class AccountPanel extends JPanel {
         this.add(notifications);
     }
 
-    // CHOICE BUTTONS ==================================================================================================
-    // EFFECTS: creates four buttons
+    // MAIN CHOICE BUTTONS =============================================================================================
+    // EFFECTS: Creates four buttons initiating as empty
     private void createChoiceButtons() {
+        int width = 120;
+        int height = 40;
+        int y = 440;
+
         buttonOne = new JButtonModern("");
-        int buttonWidth = 120;
-        int buttonHeight = 40;
-        buttonOne.setBounds(50, 440, buttonWidth, buttonHeight);
+        buttonOne.setBounds(50, y, width, height);
         this.add(buttonOne);
 
         buttonTwo = new JButtonModern("");
-        buttonTwo.setBounds(190, 440, buttonWidth, buttonHeight);
+        buttonTwo.setBounds(190, y, width, height);
         this.add(buttonTwo);
 
         buttonThree = new JButtonModern("");
-        buttonThree.setBounds(330, 440, buttonWidth, buttonHeight);
+        buttonThree.setBounds(330, y, width, height);
         this.add(buttonThree);
 
         buttonFour = new JButtonModern("");
-        buttonFour.setBounds(470, 440, buttonWidth, buttonHeight);
+        buttonFour.setBounds(470, y, width, height);
         this.add(buttonFour);
+    }
+
+    // EFFECTS: Creates a logout button
+    private void createLogoutButton() {
+        JButton logoutButton = new JButtonModern("LOGOUT");
+        logoutButton.setBounds(50, 535, 120, 40);
+        logoutButton.setBackground(Color.WHITE);
+        logoutButton.setForeground(Color.BLACK);
+        logoutButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        logoutButton.addActionListener(arg0 -> {
+            cl.show(container, "login page");
+            revalidate();
+            repaint();
+        });
+        this.add(logoutButton);
     }
 
     // CHOICE FIELDS ===================================================================================================
@@ -202,23 +223,6 @@ public class AccountPanel extends JPanel {
         confirmButton.setVisible(false);
     }
 
-    // LOGOUT BUTTON ===================================================================================================
-    // EFFECTS: Creates a logout button
-    private void createLogoutButton() {
-        JButton logoutButton = new JButtonModern("Logout");
-        logoutButton.setBounds(50, 535, 120, 40);
-        logoutButton.setBackground(Color.WHITE);
-        logoutButton.setForeground(Color.BLACK);
-        logoutButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-        logoutButton.addActionListener(arg0 -> {
-            AccountPanel.this.setVisible(false);
-            cl.show(container, "login");
-            revalidate();
-            repaint();
-        });
-        this.add(logoutButton);
-    }
-
     // ADMIN ACCOUNT ===================================================================================================
     // EFFECTS: Sets status and choice buttons to admin options, including
     //          lock accounts,
@@ -239,6 +243,7 @@ public class AccountPanel extends JPanel {
         setAdminDatabaseButton();
         setAdminConfirmButton();
 
+        // Visuals
         JLabel adminAccess = new JLabelModern("Admin Access: ");
         adminAccess.setLocation(50, 145);
         this.add(adminAccess);
@@ -249,9 +254,10 @@ public class AccountPanel extends JPanel {
         this.add(granted);
     }
 
-    // EFFECTS: Sets first button to trigger fields to change for user input to lock accounts
+    // EFFECTS: Sets first button to trigger fields to change for user input to lock accounts,
+    //          sets action to lock account
     private void setAdminLockButton() {
-        buttonOne.setText("Lock");
+        buttonOne.setText("LOCK");
         buttonOne.addActionListener(arg0 -> {
             clearFields();
             labelOne.setText(lockText);
@@ -259,12 +265,14 @@ public class AccountPanel extends JPanel {
             labelTwo.setText("Enter 'confirm' to proceed");
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
+            action = "lock account";
         });
     }
 
-    // EFFECTS: Sets second button to trigger fields to change for user input to unlock accounts
+    // EFFECTS: Sets second button to trigger fields to change for user input to unlock accounts,
+    //          sets action to unlock account
     private void setAdminUnlockButton() {
-        buttonTwo.setText("Unlock");
+        buttonTwo.setText("UNLOCK");
         buttonTwo.addActionListener(arg0 -> {
             clearFields();
             labelOne.setText(unlockText);
@@ -272,23 +280,26 @@ public class AccountPanel extends JPanel {
             labelTwo.setText("Enter 'confirm' to proceed");
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
+            action = "unlock account";
         });
     }
 
-    // EFFECTS: Sets third button to trigger fields to change for user input to view accounts
+    // EFFECTS: Sets third button to trigger fields to change for user input to view accounts,
+    //          sets action to view account
     private void setAdminViewButton() {
-        buttonThree.setText("View");
+        buttonThree.setText("VIEW");
         buttonThree.addActionListener(arg0 -> {
             clearFields();
             labelOne.setText(viewText);
             fieldOne.setVisible(true);
             confirmButton.setVisible(true);
+            action = "view account";
         });
     }
 
     // EFFECTS: Sets fourth button to trigger pop up showing account database
     private void setAdminDatabaseButton() {
-        buttonFour.setText("Database");
+        buttonFour.setText("DATABASE");
         buttonFour.addActionListener(arg0 -> {
             clearFields();
             StringBuilder accountList = new StringBuilder();
@@ -308,11 +319,11 @@ public class AccountPanel extends JPanel {
     //          view account
     private void setAdminConfirmButton() {
         confirmButton.addActionListener(arg0 -> {
-            switch (labelOne.getText()) {
-                case lockText:
+            switch (action) {
+                case "lock account":
                     actionLock();
                     break;
-                case unlockText:
+                case "unlock account":
                     actionUnlock();
                     break;
                 default:
@@ -321,7 +332,7 @@ public class AccountPanel extends JPanel {
         });
     }
 
-    // EFFECTS: Locks an account
+    // EFFECTS: Locks an account with confirmation pop-up
     private void actionLock() {
         try {
             udb.authUsername(fieldOne.getText());
@@ -333,7 +344,7 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    // EFFECTS: Unlocks an account
+    // EFFECTS: Unlocks an account with confirmation pop-up
     private void actionUnlock() {
         try {
             udb.authUsername(fieldOne.getText());
@@ -345,7 +356,7 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    // EFFECTS: Views details of an account
+    // EFFECTS: Views details of an account with confirmation pop-up
     private void actionView() {
         try {
             udb.authUsername(fieldOne.getText());
@@ -379,7 +390,8 @@ public class AccountPanel extends JPanel {
         setUserConfirmButton();
     }
 
-    // EFFECTS: Sets first button to trigger fields to change for user input to deposit money
+    // EFFECTS: Sets first button to trigger fields to change for user input to deposit money,
+    //          sets action to deposit
     private void setUserDepositButton() {
         buttonOne.setText("Deposit");
         buttonOne.addActionListener(arg0 -> {
@@ -388,10 +400,12 @@ public class AccountPanel extends JPanel {
             labelTwoDollar.setText(dollarSign);
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
+            action = "deposit";
         });
     }
 
-    // EFFECTS: Sets second button to trigger fields to change for user input to withdraw money
+    // EFFECTS: Sets second button to trigger fields to change for user input to withdraw money,
+    //          sets action to withdraw
     private void setUserWithdrawButton() {
         buttonTwo.setText("Withdraw");
         buttonTwo.addActionListener(arg0 -> {
@@ -400,10 +414,12 @@ public class AccountPanel extends JPanel {
             labelTwoDollar.setText(dollarSign);
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
+            action = "withdraw";
         });
     }
 
-    // EFFECTS: Sets third button to trigger fields to change for user input to transfer money
+    // EFFECTS: Sets third button to trigger fields to change for user input to transfer money,
+    //          sets action to transfer
     private void setUserTransferButton() {
         buttonThree.setText("Transfer");
         buttonThree.addActionListener(arg0 -> {
@@ -414,6 +430,7 @@ public class AccountPanel extends JPanel {
             fieldOne.setVisible(true);
             fieldTwo.setVisible(true);
             confirmButton.setVisible(true);
+            action = "transfer";
         });
     }
 
@@ -432,11 +449,11 @@ public class AccountPanel extends JPanel {
     //          transfer money
     private void setUserConfirmButton() {
         confirmButton.addActionListener(arg0 -> {
-            switch (labelTwo.getText()) {
-                case depositText:
+            switch (action) {
+                case "deposit":
                     actionDeposit();
                     break;
-                case withdrawText:
+                case "withdraw":
                     actionWithdraw();
                     break;
                 default:
@@ -445,7 +462,7 @@ public class AccountPanel extends JPanel {
         });
     }
 
-    // EFFECTS: Deposits money in user account and updates actual balance text
+    // EFFECTS: Deposits money in user account and updates actual balance text with confirmation pop-up
     private void actionDeposit() {
         try {
             isValidAmount(fieldTwo.getText());
@@ -457,7 +474,7 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    // EFFECTS: Withdraws money from user account and updates actual balance text
+    // EFFECTS: Withdraws money from user account and updates actual balance text with confirmation pop-up
     private void actionWithdraw() {
         try {
             isValidAmount(fieldTwo.getText());
@@ -470,7 +487,7 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    // EFFECTS: Transfers money from user account to recipient account and updates actual balance text
+    // EFFECTS: Transfers money from user to recipient and updates actual balance text with confirmation pop-up
     private void actionTransfer() {
         try {
             udb.authUsername(fieldOne.getText());
@@ -487,7 +504,7 @@ public class AccountPanel extends JPanel {
     }
 
     // HELPER METHODS ==================================================================================================
-    // EFFECTS: Clears all choice fields and sets text fields to non-visible
+    // EFFECTS: Clears all choice fields and sets them to non-visible
     private void clearFields() {
         labelOne.setText("");
         fieldOne.setText("");
@@ -499,7 +516,9 @@ public class AccountPanel extends JPanel {
         confirmButton.setVisible(false);
     }
 
-    // EFFECTS: Creates pop-up JFrame with a title and scrollable content
+    // EFFECTS: Creates pop-up JFrame with a title and scrollable content,
+    //          if admin status is true, set them to green text on black background
+    //          otherwise, remain black text on white background
     private void createPopFrame(String title, String content, boolean admin) {
         JFrame frame = new JFrame(title);
         frame.setSize(700, 400);
@@ -518,7 +537,6 @@ public class AccountPanel extends JPanel {
             text.setForeground(Color.GREEN);
             text.setBackground(Color.BLACK);
         }
-
         frame.setVisible(true);
     }
 

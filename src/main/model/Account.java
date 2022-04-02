@@ -1,7 +1,7 @@
 package model;
 
-import exceptions.AuthenticationFailedAccountLockedException;
 import exceptions.CannotLockAdminException;
+import exceptions.authentication.AuthenticationFailedAccountLockedException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class Account {
     private BigDecimal balance;                          // current balance of account owner
     private final ArrayList<String> notifications;       // stack of notification messages received
     private final ArrayList<String> transactions;        // stack of transactions recorded
-    private boolean lock;                                // account locking status
+    private boolean lock;                                // account locked status
 
     // REQUIRES: account password and account name must be valid entries
     //           (non-empty, not only consisting of spaces, no leading or trailing spaces)
@@ -41,23 +41,25 @@ public class Account {
 
     // REQUIRES: nothing
     // MODIFIES: this is a constructor
-    // EFFECTS: secondary constructor for JsonReader that constructs an account with...
+    // EFFECTS: secondary constructor for JsonReader that constructs an account from all strings with...
     //          password is set to pass,
     //          name is set to name,
     //          balance is set to balance,
     //          notifications is set to notifications,
     //          transactions is set to transactions
+    //          lock status is set to lock
     public Account(String pass,
                    String name,
                    String balance,
                    ArrayList<String> notifications,
-                   ArrayList<String> transactions) {
+                   ArrayList<String> transactions,
+                   boolean lock) {
         this.password = pass;
         this.name = name;
         this.balance = new BigDecimal(balance.replaceAll("\\$", ""));
         this.notifications = notifications;
         this.transactions = transactions;
-        this.lock = false;
+        this.lock = lock;
     }
 
     // getter for password
@@ -102,9 +104,6 @@ public class Account {
     public ArrayList<String> getTransactions() {
         return transactions;
     }
-
-    // getter for transactions as string
-
 
     // getter for locked status
     public boolean getLock() {
@@ -200,7 +199,8 @@ public class Account {
 
     // REQUIRES: nothing
     // MODIFIES: nothing
-    // EFFECTS: sets locked status to true
+    // EFFECTS: if user is not an admin, sets locked status to true,
+    //          otherwise, throws exception
     public void lockAccount() throws CannotLockAdminException {
         if (name.equals("Admin")) {
             throw new CannotLockAdminException();
@@ -216,7 +216,11 @@ public class Account {
         this.lock = false;
     }
 
-    public void isAccountLocked() throws AuthenticationFailedAccountLockedException {
+    // REQUIRES: nothing
+    // MODIFIES: nothing
+    // EFFECTS: confirms that account is not locked,
+    //          otherwise, throws exception
+    public void confirmAccountNotLocked() throws AuthenticationFailedAccountLockedException {
         if (lock) {
             throw new AuthenticationFailedAccountLockedException();
         }

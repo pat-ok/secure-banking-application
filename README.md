@@ -10,6 +10,7 @@ Users may also view their notifications and transaction history. Additional feat
 - Passwords are salted and hashed before being stored
 - All monetary transactions performed using BigDecimal objects
 - Data persistence implemented using JSON file format interchanging
+- GUI using Swing
 
 
 ## Who will use it?

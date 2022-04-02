@@ -8,9 +8,9 @@ import java.awt.event.FocusEvent;
 public class JTextFieldModern extends JTextField {
     private String content;
 
-    public JTextFieldModern(String content) {
-        this.content = content;
-        this.setText(content);
+    public JTextFieldModern(String prompt) {
+        this.content = prompt;
+        this.setText(prompt);
         this.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         this.setForeground(Color.GRAY);
         this.setSize(200, 40);

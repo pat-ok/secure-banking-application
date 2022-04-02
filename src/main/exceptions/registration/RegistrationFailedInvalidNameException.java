@@ -1,7 +1,7 @@
-package exceptions;
+package exceptions.registration;
 
 public class RegistrationFailedInvalidNameException extends RegistrationFailedException {
     public RegistrationFailedInvalidNameException() {
-        super("Name is invalid!");
+        super("Invalid name!");
     }
 }

@@ -16,30 +16,24 @@ public class BankingApp {
     private static final String JSON_STORE = "./data/database.json";
     public static final Color whitish = new Color(235, 235, 235);
     public static final Color bluish = new Color(17, 70, 144);
-
-    protected UserDatabase database;
-
     protected static final int WIDTH = 1000;
     protected static final int HEIGHT = 650;
+
+    protected UserDatabase database;
 
     protected JFrame frame;
     protected static JPanel container;
     protected static CardLayout cl;
 
-    // EFFECTS: initiates Banking Application
+    // EFFECTS: Initiates Banking Application
     public BankingApp() {
+        // Option to load from save
         loadUserDatabaseOption();
     }
 
-    public static Font makeFont(int size) {
-        return new Font("Segoe UI", Font.PLAIN, size);
-    }
-
-    public static Font makeFontBold(int size) {
-        return new Font("Segoe UI", Font.BOLD, size);
-    }
-
+    // EFFECTS: Initiates main window and elements
     private void initiateFrame() {
+        // frame setup
         frame = new JFrame("Banking Application");
         frame.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
@@ -51,25 +45,27 @@ public class BankingApp {
             }
         });
 
+        // container panel as card layout
         container = new JPanel();
         cl = new CardLayout();
         container.setLayout(cl);
 
         // child registration panel
         JPanel registerPanel = new RegisterPanel(database);
-        container.add(registerPanel, "register");
+        container.add(registerPanel, "register page");
 
-        // child login container panel
+        // child login panel
         JPanel loginPanel = new LoginPanel(database);
-        container.add(loginPanel, "login");
+        container.add(loginPanel, "login page");
 
         // parent card layout setup
-        cl.show(container, "registration");
+        cl.show(container, "register page");
         frame.add(container);
 
         frame.setVisible(true);
     }
 
+    // DATA PERSISTENCE ================================================================================================
     // EFFECTS: Prompts user for choice to load from saved file
     private void loadUserDatabaseOption() {
         int choice = JOptionPane.showConfirmDialog(null, "Do you want to load from save?");
@@ -87,8 +83,7 @@ public class BankingApp {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: loads user database from file
+    // EFFECTS: Loads user database from file
     private void loadUserDatabase() {
         JsonReader jsonReader = new JsonReader(JSON_STORE);
         try {
@@ -116,7 +111,7 @@ public class BankingApp {
         }
     }
 
-    // EFFECTS: saves user database to file
+    // EFFECTS: Saves user database to file
     private void saveUserDatabase() {
         JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
         try {
@@ -129,8 +124,19 @@ public class BankingApp {
         }
     }
 
+    // HELPER METHODS ==================================================================================================
     // EFFECTS: Creates a pop-up JOptionPane with a message
     public static void optionPane(String message) {
         JOptionPane.showMessageDialog(null, message, "Banking Application", JOptionPane.WARNING_MESSAGE);
+    }
+
+    // EFFECTS: Creates a plain Segoe UI font in specified size
+    public static Font makeFont(int size) {
+        return new Font("Segoe UI", Font.PLAIN, size);
+    }
+
+    // EFFECTS: Creates a bold Segoe UI font in specified size
+    public static Font makeFontBold(int size) {
+        return new Font("Segoe UI", Font.BOLD, size);
     }
 }

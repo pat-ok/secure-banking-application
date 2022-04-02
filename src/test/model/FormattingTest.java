@@ -1,6 +1,11 @@
 package model;
 
-import exceptions.*;
+import exceptions.amount.AmountFailedInsufficientFundsException;
+import exceptions.amount.AmountFailedInvalidEntryException;
+import exceptions.registration.RegistrationFailedInvalidEntryException;
+import exceptions.registration.RegistrationFailedInvalidNameException;
+import exceptions.registration.RegistrationFailedNameTooLongException;
+import exceptions.registration.RegistrationFailedPasswordsDoNotMatchException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

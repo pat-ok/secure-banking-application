@@ -1,7 +1,7 @@
-package exceptions;
+package exceptions.authentication;
 
 public class AuthenticationFailedException extends Exception {
     public AuthenticationFailedException(String msg) {
-        super("Username or password is incorrect!");
+        super(msg);
     }
 }

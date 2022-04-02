@@ -86,6 +86,7 @@ public class JsonReader {
             String pass = nextAccount.getString("password");
             String name = nextAccount.getString("name");
             String balance = nextAccount.getString("balanceString");
+            boolean lock = nextAccount.getBoolean("lock");
 
             ArrayList<String> notifications = new ArrayList<>();
             JSONArray jsonNotifications = nextAccount.getJSONArray("notifications");
@@ -98,7 +99,7 @@ public class JsonReader {
             for (Object jsonTransaction : jsonTransactions) {
                 transactions.add(jsonTransaction.toString());
             }
-            accounts.add(new Account(pass, name, balance, notifications, transactions));
+            accounts.add(new Account(pass, name, balance, notifications, transactions, lock));
         }
         return accounts;
     }

@@ -1,6 +1,8 @@
 package model;
 
-import exceptions.*;
+import exceptions.authentication.AuthenticationFailedPasswordException;
+import exceptions.authentication.AuthenticationFailedUsernameException;
+import exceptions.registration.RegistrationFailedUsernameNotFreeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,13 +27,14 @@ public class UserDatabaseTest {
         testDB = emptyDatabase.getUserDatabase();
 
         assertEquals(1, testDB.size());
+        assertTrue(testDB.containsKey("admin"));
         assertFalse(testDB.containsKey("foo") || testDB.containsKey("bar"));
     }
 
     @Test
     void testConstructorDemo() {
         assertEquals(3, testDB.size());
-        assertTrue(testDB.containsKey("foo") && testDB.containsKey("bar"));
+        assertTrue(testDB.containsKey("foo") && testDB.containsKey("bar") && testDB.containsKey("admin"));
     }
 
     @Test

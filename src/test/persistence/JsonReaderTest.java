@@ -36,9 +36,23 @@ public class JsonReaderTest extends JsonTest {
         JsonReader reader = new JsonReader("./data/testReaderGeneralUserDatabase.json");
         try {
             UserDatabase udb = reader.read();
-            checkAccount(udb, "foo", "pass123", "Mr. Foo", "100.00", 3, 0);
+            checkAccount(udb,
+                    "foo",
+                    "pass123",
+                    "Mr. Foo",
+                    "100.00",
+                    3,
+                    2,
+                    false);
 
-            checkAccount(udb, "bar", "pass123", "Mr. Bar", "100.00", 3, 0);
+            checkAccount(udb,
+                    "bar",
+                    "pass123",
+                    "Mr. Bar",
+                    "100.00",
+                    3,
+                    0,
+                    false);
         } catch (IOException e) {
             fail("Couldn't read from file");
         }

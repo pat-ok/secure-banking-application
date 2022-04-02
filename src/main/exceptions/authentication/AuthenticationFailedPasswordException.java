@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.authentication;
 
 public class AuthenticationFailedPasswordException extends AuthenticationFailedException {
     public AuthenticationFailedPasswordException() {

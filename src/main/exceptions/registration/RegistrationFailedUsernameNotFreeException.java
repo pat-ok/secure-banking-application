@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.registration;
 
 public class RegistrationFailedUsernameNotFreeException extends RegistrationFailedException {
     public RegistrationFailedUsernameNotFreeException() {
