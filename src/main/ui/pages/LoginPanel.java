@@ -5,6 +5,7 @@ import exceptions.authentication.AuthenticationFailedException;
 import model.UserDatabase;
 import ui.modern.JButtonModern;
 import ui.modern.JLabelModern;
+import ui.modern.JPasswordFieldModern;
 import ui.modern.JTextFieldModern;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class LoginPanel extends JPanel {
 
     // Text fields
     private JTextField username;
-    private JTextField password;
+    private JPasswordField password;
 
     // Constructor for authentication panel
     public LoginPanel(UserDatabase udb) {
@@ -54,7 +55,7 @@ public class LoginPanel extends JPanel {
 
     // EFFECTS: Creates password entry field with prompt
     private void createPassword() {
-        password = new JTextFieldModern("Password");
+        password = new JPasswordFieldModern("Password");
         password.setLocation(width / 2 - 100, 290);
         this.add(password);
     }
@@ -70,7 +71,7 @@ public class LoginPanel extends JPanel {
                     accountPanel = new AccountPanel(udb, udb.getUserDatabase().get(username.getText()), true);
                 } else {
                     udb.authUsername(username.getText());
-                    udb.authPassword(username.getText(), password.getText());
+                    udb.authPassword(username.getText(), String.valueOf(password.getPassword()));
                     udb.getUserDatabase().get(username.getText()).confirmAccountNotLocked();
                     accountPanel = new AccountPanel(udb, udb.getUserDatabase().get(username.getText()), false);
                 }
@@ -78,9 +79,9 @@ public class LoginPanel extends JPanel {
                 cl.show(container, "account page");
                 clearFields();
             } catch (AuthenticationFailedAccountLockedException ex) {
-                optionPane(ex.getMessage());
+                warningPane(ex.getMessage());
             } catch (AuthenticationFailedException afe) {
-                optionPane("Username or password is incorrect!");
+                warningPane("Username or password is incorrect!");
             }
         });
         this.add(buttonLogin);
@@ -106,6 +107,7 @@ public class LoginPanel extends JPanel {
     private void clearFields() {
         username.setText("Username");
         username.setForeground(Color.GRAY);
+        password.setEchoChar((char)0);
         password.setText("Password");
         password.setForeground(Color.GRAY);
     }

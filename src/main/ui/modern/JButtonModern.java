@@ -5,6 +5,7 @@ import java.awt.*;
 
 import static ui.pages.BankingApp.bluish;
 
+// Represents a modernized JButton
 public class JButtonModern extends JButton {
     public JButtonModern(String content) {
         this.setText(content);

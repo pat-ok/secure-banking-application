@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import static ui.pages.BankingApp.makeFont;
 
+// Represents a modernized JTextArea
 public class JTextAreaModern extends JTextArea {
     public JTextAreaModern(String msg) {
         this.setText(msg);

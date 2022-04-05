@@ -76,7 +76,7 @@ public class BankingApp {
                 break;
             case JOptionPane.NO_OPTION:
                 database = new UserDatabase(true);
-                optionPane("Creating new database.");
+                warningPane("Creating new database.");
                 initiateFrame();
                 break;
             default:
@@ -88,9 +88,9 @@ public class BankingApp {
         JsonReader jsonReader = new JsonReader(JSON_STORE);
         try {
             database = jsonReader.read();
-            optionPane("Database loaded from: " + JSON_STORE);
+            warningPane("Database loaded from: " + JSON_STORE);
         } catch (IOException ex) {
-            optionPane("Unable to load database. Creating new save.");
+            warningPane("Unable to load database. Creating new save.");
         }
     }
 
@@ -103,7 +103,7 @@ public class BankingApp {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 break;
             case JOptionPane.NO_OPTION:
-                optionPane("Database not saved.");
+                warningPane("Database not saved.");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 break;
             default:
@@ -118,15 +118,15 @@ public class BankingApp {
             jsonWriter.open();
             jsonWriter.write(database);
             jsonWriter.close();
-            optionPane("Database saved to: " + JSON_STORE);
+            warningPane("Database saved to: " + JSON_STORE);
         } catch (FileNotFoundException e) {
-            optionPane("Unable to write to file: " + JSON_STORE);
+            warningPane("Unable to write to file: " + JSON_STORE);
         }
     }
 
     // HELPER METHODS ==================================================================================================
     // EFFECTS: Creates a pop-up JOptionPane with a message
-    public static void optionPane(String message) {
+    public static void warningPane(String message) {
         JOptionPane.showMessageDialog(null, message, "Banking Application", JOptionPane.WARNING_MESSAGE);
     }
 

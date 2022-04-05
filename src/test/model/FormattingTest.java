@@ -32,171 +32,171 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsInvalidEntryEmpty() {
+    void testIsValidEntryEmpty() {
         try {
             isValidEntry("");
             fail("String is illegal");
-        } catch (RegistrationFailedInvalidEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException ex) {
             // pass
         }
     }
 
     @Test
-    void testIsInvalidEntryOnlySpace() {
+    void testIsValidEntryOnlySpace() {
         try {
             isValidEntry(" ");
             fail("String is illegal");
-        } catch (RegistrationFailedInvalidEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException ex) {
             // pass
         }
     }
 
     @Test
-    void testIsInvalidEntryLeadingSpace() {
+    void testIsValidEntryLeadingSpace() {
         try {
             isValidEntry(" test");
             fail("String is illegal");
-        } catch (RegistrationFailedInvalidEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException ex) {
             // pass
         }
     }
 
     @Test
-    void testIsInvalidEntryTrailingSpace() {
+    void testIsValidEntryTrailingSpace() {
         try {
             isValidEntry("test ");
             fail("String is illegal");
-        } catch (RegistrationFailedInvalidEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException ex) {
             // pass
         }
     }
 
     @Test
-    void testIsInvalidEntryValid() {
+    void testIsValidEntryValid() {
         try {
             isValidEntry("test");
             // pass
-        } catch (RegistrationFailedInvalidEntryException iee) {
+        } catch (RegistrationFailedInvalidEntryException ex) {
             fail("String is legal");
         }
     }
 
     @Test
-    void testIsInvalidNameNumbers() {
+    void testIsValidNameNumbers() {
         try {
             isValidName("123");
             fail("Name is illegal");
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             // pass
         }
     }
 
     @Test
-    void testIsInvalidNameEmpty() {
+    void testIsValidNameEmpty() {
         try {
             isValidName("");
             fail("Name is illegal");
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             // pass
         }
     }
 
     @Test
-    void testIsInvalidNameOnlySpace() {
+    void testIsValidNameOnlySpace() {
         try {
             isValidName(" ");
             fail("Name is illegal");
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             // pass
         }
     }
 
     @Test
-    void testIsInvalidNameNumbersAndLetters() {
+    void testIsValidNameNumbersAndLetters() {
         try {
             isValidName("123test");
             fail("Name is illegal");
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             // pass
         }
     }
 
     @Test
-    void testIsInvalidNameWord() {
+    void testIsValidNameWord() {
         try {
             isValidName("test");
             // pass
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             fail("Name is legal");
         }
     }
 
     @Test
-    void testIsInvalidNameWordLeadingSpace() {
+    void testIsValidNameWordLeadingSpace() {
         try {
             isValidName(" test");
             // pass
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             fail("Name is legal");
         }
     }
 
     @Test
-    void testIsInvalidNameWordTrailingSpace() {
+    void testIsValidNameWordTrailingSpace() {
         try {
             isValidName("test ");
             // pass
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             fail("Name is legal");
         }
     }
 
     @Test
-    void testIsInvalidNameTwoWords() {
+    void testIsValidNameTwoWords() {
         try {
             isValidName("first last");
             // pass
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             fail("Name is legal");
         }
     }
 
     @Test
-    void testIsInvalidNameThreeWords() {
+    void testIsValidNameThreeWords() {
         try {
             isValidName("first middle last");
             // pass
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             fail("Name is legal");
         }
     }
 
     @Test
-    void testIsInvalidNameExtraSpacesWords() {
+    void testIsValidNameExtraSpacesWords() {
         try {
             isValidName("first    middle    last");
             // pass
         } catch (RegistrationFailedNameTooLongException ex) {
             fail("Name is not too long");
-        } catch (RegistrationFailedInvalidNameException ine) {
+        } catch (RegistrationFailedInvalidNameException ex) {
             fail("Name is legal");
         }
     }
@@ -240,7 +240,7 @@ public class FormattingTest {
         try {
             isValidAmount("not numbers");
             fail("Illegal amount");
-        } catch (AmountFailedInvalidEntryException iae) {
+        } catch (AmountFailedInvalidEntryException ex) {
             // pass
         }
     }
@@ -250,7 +250,7 @@ public class FormattingTest {
         try {
             isValidAmount("-50");
             fail("Illegal amount");
-        } catch (AmountFailedInvalidEntryException iae) {
+        } catch (AmountFailedInvalidEntryException ex) {
             // pass
         }
     }
@@ -260,7 +260,7 @@ public class FormattingTest {
         try {
             isValidAmount("10.20.30");
             fail("Illegal amount");
-        } catch (AmountFailedInvalidEntryException iae) {
+        } catch (AmountFailedInvalidEntryException ex) {
             // pass
         }
     }
@@ -270,7 +270,7 @@ public class FormattingTest {
         try {
             isValidAmount("50");
             // pass
-        } catch (AmountFailedInvalidEntryException iae) {
+        } catch (AmountFailedInvalidEntryException ex) {
             fail("Amount is legal");
         }
     }
@@ -280,7 +280,7 @@ public class FormattingTest {
         try {
             isValidAmount("50.10");
             // pass
-        } catch (AmountFailedInvalidEntryException iae) {
+        } catch (AmountFailedInvalidEntryException ex) {
             fail("Amount is legal");
         }
     }
@@ -290,7 +290,7 @@ public class FormattingTest {
         try {
             isValidAmount("50.1020");
             // pass
-        } catch (AmountFailedInvalidEntryException iae) {
+        } catch (AmountFailedInvalidEntryException ex) {
             fail("Amount is legal");
         }
     }
@@ -311,7 +311,7 @@ public class FormattingTest {
         try {
             doPasswordsMatch("matching", "matching");
             // pass
-        } catch (RegistrationFailedPasswordsDoNotMatchException pdnme) {
+        } catch (RegistrationFailedPasswordsDoNotMatchException ex) {
             fail("Password matches confirmation");
         }
     }
@@ -321,7 +321,7 @@ public class FormattingTest {
         try {
             doPasswordsMatch("matching", "notmatching");
             fail("Password does not match confirmation");
-        } catch (RegistrationFailedPasswordsDoNotMatchException pdnme) {
+        } catch (RegistrationFailedPasswordsDoNotMatchException ex) {
             // pass
         }
     }
@@ -349,7 +349,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             // pass
-        } catch (AmountFailedInsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ex) {
             fail("There are enough funds");
         }
     }
@@ -362,7 +362,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             // pass
-        } catch (AmountFailedInsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ex) {
             fail("There are enough funds");
         }
     }
@@ -375,7 +375,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             // pass
-        } catch (AmountFailedInsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ex) {
             fail("There are enough funds");
         }
     }
@@ -388,7 +388,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             fail("There are not enough funds");
-        } catch (AmountFailedInsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ex) {
             // pass
         }
     }
@@ -401,7 +401,7 @@ public class FormattingTest {
         try {
             hasSufficientFunds(out, balance);
             fail("There are not enough funds");
-        } catch (AmountFailedInsufficientFundsException ife) {
+        } catch (AmountFailedInsufficientFundsException ex) {
             // pass
         }
     }

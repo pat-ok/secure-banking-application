@@ -19,6 +19,7 @@ import java.util.Map;
 import static model.Formatting.hasSufficientFunds;
 import static model.Formatting.isValidAmount;
 import static ui.pages.BankingApp.*;
+import static ui.pages.BankingApp.warningPane;
 
 // Represents account UI after login authentication
 // Child panel of container panel card layout
@@ -338,9 +339,9 @@ public class AccountPanel extends JPanel {
             udb.authUsername(fieldOne.getText());
             confirmationTrue(fieldTwo.getText());
             udb.getUserDatabase().get(fieldOne.getText()).lockAccount();
-            optionPane(fieldOne.getText() + " has been locked!");
+            warningPane(fieldOne.getText() + " has been locked!");
         } catch (AuthenticationFailedUsernameException | UnconfirmedException | CannotLockAdminException ex) {
-            optionPane(ex.getMessage());
+            warningPane(ex.getMessage());
         }
     }
 
@@ -350,9 +351,9 @@ public class AccountPanel extends JPanel {
             udb.authUsername(fieldOne.getText());
             confirmationTrue(fieldTwo.getText());
             udb.getUserDatabase().get(fieldOne.getText()).unlockAccount();
-            optionPane(fieldOne.getText() + " has been unlocked!");
+            warningPane(fieldOne.getText() + " has been unlocked!");
         } catch (AuthenticationFailedUsernameException | UnconfirmedException ex) {
-            optionPane(ex.getMessage());
+            warningPane(ex.getMessage());
         }
     }
 
@@ -369,7 +370,7 @@ public class AccountPanel extends JPanel {
                     + "\n>Transactions: " + user.transactionHistory();
             createPopFrame("Account Information", content, true);
         } catch (AuthenticationFailedUsernameException ex) {
-            optionPane(ex.getMessage());
+            warningPane(ex.getMessage());
         }
     }
 
@@ -466,11 +467,11 @@ public class AccountPanel extends JPanel {
     private void actionDeposit() {
         try {
             isValidAmount(fieldTwo.getText());
-            optionPane(account.deposit(fieldTwo.getText()));
+            warningPane(account.deposit(fieldTwo.getText()));
             balanceLabelActual.setText(account.getBalanceString());
             clearFields();
         } catch (AmountFailedInvalidEntryException ex) {
-            optionPane(ex.getMessage());
+            warningPane(ex.getMessage());
         }
     }
 
@@ -479,11 +480,11 @@ public class AccountPanel extends JPanel {
         try {
             isValidAmount(fieldTwo.getText());
             hasSufficientFunds(new BigDecimal(fieldTwo.getText()), account.getBalance());
-            optionPane(account.withdraw(fieldTwo.getText()));
+            warningPane(account.withdraw(fieldTwo.getText()));
             balanceLabelActual.setText(account.getBalanceString());
             clearFields();
         } catch (AmountFailedException ex) {
-            optionPane(ex.getMessage());
+            warningPane(ex.getMessage());
         }
     }
 
@@ -495,11 +496,11 @@ public class AccountPanel extends JPanel {
             hasSufficientFunds(new BigDecimal(fieldTwo.getText()), account.getBalance());
             Account recipientAccount = udb.getUserDatabase().get(fieldOne.getText());
             doTransferFromTo(fieldTwo.getText(), account, recipientAccount);
-            optionPane(recipientAccount.getName() + " has received your Interac eTransfer!");
+            warningPane(recipientAccount.getName() + " has received your Interac eTransfer!");
             balanceLabelActual.setText(account.getBalanceString());
             clearFields();
         } catch (AuthenticationFailedUsernameException | AmountFailedException ex) {
-            optionPane(ex.getMessage());
+            warningPane(ex.getMessage());
         }
     }
 

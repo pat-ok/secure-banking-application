@@ -51,7 +51,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.isUsernameFree("foo");
             fail("Username is already taken");
-        } catch (RegistrationFailedUsernameNotFreeException unfe) {
+        } catch (RegistrationFailedUsernameNotFreeException ex) {
             // pass
         }
     }
@@ -62,7 +62,7 @@ public class UserDatabaseTest {
             userDatabase.storeAccount("newTester", new Account("pass123", "New Tester"));
             userDatabase.isUsernameFree("newTester");
             fail("Username is already taken");
-        } catch (RegistrationFailedUsernameNotFreeException unfe) {
+        } catch (RegistrationFailedUsernameNotFreeException ex) {
             // pass
         }
     }
@@ -72,7 +72,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.isUsernameFree("newTester");
             // pass
-        } catch (RegistrationFailedUsernameNotFreeException unfe) {
+        } catch (RegistrationFailedUsernameNotFreeException ex) {
             fail("Username should be free");
         }
     }
@@ -82,7 +82,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.authUsername("Foo");
             fail("Username is not in database");
-        } catch (AuthenticationFailedUsernameException unfe) {
+        } catch (AuthenticationFailedUsernameException ex) {
             // pass
         }
     }
@@ -92,7 +92,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.authUsername("Bar");
             fail("Username is not in database");
-        } catch (AuthenticationFailedUsernameException unfe) {
+        } catch (AuthenticationFailedUsernameException ex) {
             // pass
         }
     }
@@ -102,7 +102,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.authUsername("foo");
             // pass
-        } catch (AuthenticationFailedUsernameException unfe) {
+        } catch (AuthenticationFailedUsernameException ex) {
             fail("Username should be in database");
         }
     }
@@ -112,7 +112,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.authUsername("bar");
             // pass
-        } catch (AuthenticationFailedUsernameException unfe) {
+        } catch (AuthenticationFailedUsernameException ex) {
             fail("Username should be in database");
         }
     }
@@ -122,7 +122,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.authPassword("foo", "fail");
             fail("Password is not correct");
-        } catch (AuthenticationFailedPasswordException afpe) {
+        } catch (AuthenticationFailedPasswordException ex) {
             // pass
         }
     }
@@ -132,7 +132,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.authPassword("foo", "pass123");
             // pass
-        } catch (AuthenticationFailedPasswordException afpe) {
+        } catch (AuthenticationFailedPasswordException ex) {
             fail("Password should pass");
         }
     }
@@ -142,7 +142,7 @@ public class UserDatabaseTest {
         try {
             userDatabase.authPassword("bar", "pass123");
             // pass
-        } catch (AuthenticationFailedPasswordException afpe) {
+        } catch (AuthenticationFailedPasswordException ex) {
             fail("Password should pass");
         }
     }

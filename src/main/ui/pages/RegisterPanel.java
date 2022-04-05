@@ -310,10 +310,10 @@ public class RegisterPanel extends JPanel {
                 udb.storeAccount(newUsername.getText(), acc);
                 clearFields();
                 registerStatus.setText("Account registered!");
-                optionPane("Registration Success!");
+                warningPane("Registration Success!");
             } catch (RegistrationFailedException ex) {
                 registerStatus.setText("Registration Failed!");
-                optionPane("Registration Failed! One or more fields invalid!");
+                warningPane("Registration Failed! One or more fields invalid!");
             }
         });
         this.add(buttonRegister);
