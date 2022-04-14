@@ -6,12 +6,12 @@
         "name": "Admin",
         "lock": false,
         "transactions": [],
+        "balanceString": "$100.00",
         "notifications": [
             "Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.",
             "Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!",
             "You have received a $100 sign up bonus!"
         ],
-        "balanceString": "$100.00",
         "notificationsString": "There are a total of 3 new notification(s).\n\n[1] Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.\n\n[2] Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!\n\n[3] You have received a $100 sign up bonus!\n\n"
     }]
 }
