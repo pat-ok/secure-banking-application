@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <argLine/>
     </properties>
 
     <dependencies>
@@ -36,24 +37,52 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.0.0-M6</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.8</version>
+        </dependency>
+
     </dependencies>
+
 
     <build>
         <pluginManagement>
             <plugins>
-                <!-- Code Coverage report generation -->
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M6</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.0.0-M6</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <argLine>-Xmx1024M @{argLine}</argLine>
+                    </configuration>
+                </plugin>
+
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.9</version>
+                    <version>0.8.8</version>
+
                     <executions>
+                        <!--first execution : for preparing JaCoCo runtime agent-->
                         <execution>
+                            <id>prepare-agent</id>
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
                         </execution>
+                        <!--second execution : for creating code coverage reports-->
                         <execution>
-                            <id>generate-code-coverage-report</id>
+                            <id>report</id>
                             <phase>test</phase>
                             <goals>
                                 <goal>report</goal>
@@ -62,15 +91,31 @@
                     </executions>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <argLine>@{argLine}</argLine>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <env>test</env>
+                <gebEnv>test</gebEnv>
+                <jacoco.skip>false</jacoco.skip>
+                <maven.test.skip>false</maven.test.skip>
+                <skip.unit.tests>false</skip.unit.tests>
+            </properties>
+        </profile>
+    </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
 </project>
