@@ -34,11 +34,11 @@ test-job:
 #    - mvn jacoco:report
   artifacts:
     paths:
-      - target/surefire-reports/TEST~*.xml
+      - target/surefire-reports/TEST-*.xml
       - target/site/jacoco/index.html
     reports:
       junit:
-        - target/surefire-reports/TEST~*.xml
+        - target/surefire-reports/TEST-*.xml
 
 #visualize-coverage:
 #  stage: visualize
