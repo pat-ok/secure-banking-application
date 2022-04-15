@@ -6,32 +6,32 @@
     ],
     "values": [
         {
-            "password": "OMo6r-1742775169",
+            "password": "QzzLq1622110478",
             "balance": 100,
             "name": "Mr. Bar",
             "lock": false,
             "transactions": [],
+            "notificationsString": "There are a total of 3 new notification(s).\n\n[1] Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.\n\n[2] Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!\n\n[3] You have received a $100 sign up bonus!\n\n",
             "notifications": [
                 "Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.",
                 "Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!",
                 "You have received a $100 sign up bonus!"
             ],
-            "balanceString": "$100.00",
-            "notificationsString": "There are a total of 3 new notification(s).\n\n[1] Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.\n\n[2] Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!\n\n[3] You have received a $100 sign up bonus!\n\n"
+            "balanceString": "$100.00"
         },
         {
-            "password": "MCmWY-1569185719",
+            "password": "b0DBO-1252673885",
             "balance": 100,
             "name": "Mr. Foo",
             "lock": false,
             "transactions": [],
+            "notificationsString": "There are a total of 3 new notification(s).\n\n[1] Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.\n\n[2] Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!\n\n[3] You have received a $100 sign up bonus!\n\n",
             "notifications": [
                 "Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.",
                 "Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!",
                 "You have received a $100 sign up bonus!"
             ],
-            "balanceString": "$100.00",
-            "notificationsString": "There are a total of 3 new notification(s).\n\n[1] Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.\n\n[2] Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!\n\n[3] You have received a $100 sign up bonus!\n\n"
+            "balanceString": "$100.00"
         },
         {
             "password": "admin",
@@ -39,13 +39,13 @@
             "name": "Admin",
             "lock": false,
             "transactions": [],
+            "notificationsString": "There are a total of 3 new notification(s).\n\n[1] Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.\n\n[2] Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!\n\n[3] You have received a $100 sign up bonus!\n\n",
             "notifications": [
                 "Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.",
                 "Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!",
                 "You have received a $100 sign up bonus!"
             ],
-            "balanceString": "$100.00",
-            "notificationsString": "There are a total of 3 new notification(s).\n\n[1] Welcome to BigDecimal Bank of Canada! Thank you for choosing to bank with us.\n\n[2] Enjoy our arbitrary-precision signed decimal numbers, so bits don't drop your coins!\n\n[3] You have received a $100 sign up bonus!\n\n"
+            "balanceString": "$100.00"
         }
     ]
 }
