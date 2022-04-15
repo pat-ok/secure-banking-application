@@ -2,21 +2,21 @@ package model;
 
 import exceptions.CannotLockAdminException;
 import exceptions.authentication.AuthenticationFailedAccountLockedException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class AccountTest {
+public class AccountTest {
     private Account foo;
     private Account bar;
     private Account admin;
 
-    @BeforeEach
-    void runBefore() {
+    @Before
+    public void runBefore() {
         foo = new Account("pass123", "Foo");
         bar = new Account("pass123", "Bar");
 
@@ -24,7 +24,7 @@ class AccountTest {
     }
 
     @Test
-    void testConstructor() {
+    public void testConstructor() {
         BigDecimal testBalance = new BigDecimal("100");
 
         assertEquals("pass123", foo.getPassword());
@@ -36,7 +36,7 @@ class AccountTest {
     }
 
     @Test
-    void testJsonReaderConstructor() {
+    public void testJsonReaderConstructor() {
         ArrayList<String> jsonNotifications = new ArrayList<>();
         ArrayList<String> jsonTransactions = new ArrayList<>();
         BigDecimal jsonBalance = new BigDecimal("50");
@@ -53,7 +53,7 @@ class AccountTest {
     }
 
     @Test
-    void testGetBalanceString() {
+    public void testGetBalanceString() {
         bar.withdraw("100");
 
         assertEquals("$0.00", bar.getBalanceString());
@@ -62,7 +62,7 @@ class AccountTest {
     }
 
     @Test
-    void testDepositOnce() {
+    public void testDepositOnce() {
         BigDecimal testBalance = new BigDecimal("150");
         foo.deposit("50");
 
@@ -71,7 +71,7 @@ class AccountTest {
     }
 
     @Test
-    void testDepositMany() {
+    public void testDepositMany() {
         BigDecimal testBalance = new BigDecimal("250");
         foo.deposit("25");
         foo.deposit("50");
@@ -82,7 +82,7 @@ class AccountTest {
     }
 
     @Test
-    void testWithdrawOnce() {
+    public void testWithdrawOnce() {
         BigDecimal testBalance = new BigDecimal("50");
         foo.withdraw("50");
 
@@ -91,7 +91,7 @@ class AccountTest {
     }
 
     @Test
-    void testWithdrawMany() {
+    public void testWithdrawMany() {
         BigDecimal testBalance = new BigDecimal("25");
         foo.withdraw("20");
         foo.withdraw("25");
@@ -102,14 +102,14 @@ class AccountTest {
     }
 
     @Test
-    void testLoginNotificationsClear() {
+    public void testLoginNotificationsClear() {
         foo.loginNotifications();
 
         assertEquals(0, foo.getNotifications().size());
     }
 
     @Test
-    void testTransferOutOnce() {
+    public void testTransferOutOnce() {
         BigDecimal testBalance = new BigDecimal("50");
         foo.transferOut("50", bar.getName());
 
@@ -118,7 +118,7 @@ class AccountTest {
     }
 
     @Test
-    void testTransferOutMany() {
+    public void testTransferOutMany() {
         BigDecimal testBalance = new BigDecimal ("25");
         foo.transferOut("20", bar.getName());
         foo.transferOut("25", bar.getName());
@@ -129,7 +129,7 @@ class AccountTest {
     }
 
     @Test
-    void testTransferInOnce() {
+    public void testTransferInOnce() {
         BigDecimal testBalance = new BigDecimal ("150");
         bar.transferIn("50", foo.getName());
 
@@ -139,7 +139,7 @@ class AccountTest {
     }
 
     @Test
-    void testTransferInMany() {
+    public void testTransferInMany() {
         BigDecimal testBalance = new BigDecimal("250");
         bar.transferIn("25", foo.getName());
         bar.transferIn("50", foo.getName());
@@ -151,7 +151,7 @@ class AccountTest {
     }
 
     @Test
-    void testTransactionHistory() {
+    public void testTransactionHistory() {
         foo.deposit("50");
         foo.withdraw("50");
         foo.transferIn("50", bar.getName());
@@ -169,7 +169,7 @@ class AccountTest {
     }
 
     @Test
-    void testLockAccountAdmin() {
+    public void testLockAccountAdmin() {
         try {
             admin.lockAccount();
             fail("Cannot lock admin");
@@ -179,7 +179,7 @@ class AccountTest {
     }
 
     @Test
-    void testLockAccountUser() {
+    public void testLockAccountUser() {
         try {
             foo.lockAccount();
             assertTrue(foo.getLock());
@@ -190,7 +190,7 @@ class AccountTest {
     }
 
     @Test
-    void testUnlockAccountUser() {
+    public void testUnlockAccountUser() {
         try {
             foo.lockAccount();
         } catch (CannotLockAdminException ex) {
@@ -201,7 +201,7 @@ class AccountTest {
     }
 
     @Test
-    void testConfirmAccountNotLockedThrows() {
+    public void testConfirmAccountNotLockedThrows() {
         try {
             foo.lockAccount();
             foo.confirmAccountNotLocked();
@@ -214,7 +214,7 @@ class AccountTest {
     }
 
     @Test
-    void testConfirmAccountNotLockedDoesNotThrow() {
+    public void testConfirmAccountNotLockedDoesNotThrow() {
         try {
             foo.confirmAccountNotLocked();
             // pass

@@ -6,25 +6,25 @@ import exceptions.registration.RegistrationFailedInvalidEntryException;
 import exceptions.registration.RegistrationFailedInvalidNameException;
 import exceptions.registration.RegistrationFailedNameTooLongException;
 import exceptions.registration.RegistrationFailedPasswordsDoNotMatchException;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 
 import static model.Formatting.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class FormattingTest {
 
     @Test
-    void testFormatting() {
+    public void testFormatting() {
         Formatting testFormatting = new Formatting();
         assertEquals("for junit", testFormatting.getJunit());
 
     }
 
     @Test
-    void testPretty() {
+    public void testPretty() {
         assertEquals("", pretty(""));
         assertEquals("testing", pretty("TeStInG"));
         assertEquals("testing", pretty("TeStInG123"));
@@ -32,7 +32,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidEntryEmpty() {
+    public void testIsValidEntryEmpty() {
         try {
             isValidEntry("");
             fail("String is illegal");
@@ -42,7 +42,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidEntryOnlySpace() {
+    public void testIsValidEntryOnlySpace() {
         try {
             isValidEntry(" ");
             fail("String is illegal");
@@ -52,7 +52,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidEntryLeadingSpace() {
+    public void testIsValidEntryLeadingSpace() {
         try {
             isValidEntry(" test");
             fail("String is illegal");
@@ -62,7 +62,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidEntryTrailingSpace() {
+    public void testIsValidEntryTrailingSpace() {
         try {
             isValidEntry("test ");
             fail("String is illegal");
@@ -72,7 +72,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidEntryValid() {
+    public void testIsValidEntryValid() {
         try {
             isValidEntry("test");
             // pass
@@ -82,7 +82,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameNumbers() {
+    public void testIsValidNameNumbers() {
         try {
             isValidName("123");
             fail("Name is illegal");
@@ -94,7 +94,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameEmpty() {
+    public void testIsValidNameEmpty() {
         try {
             isValidName("");
             fail("Name is illegal");
@@ -106,7 +106,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameOnlySpace() {
+    public void testIsValidNameOnlySpace() {
         try {
             isValidName(" ");
             fail("Name is illegal");
@@ -118,7 +118,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameNumbersAndLetters() {
+    public void testIsValidNameNumbersAndLetters() {
         try {
             isValidName("123test");
             fail("Name is illegal");
@@ -130,7 +130,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameWord() {
+    public void testIsValidNameWord() {
         try {
             isValidName("test");
             // pass
@@ -142,7 +142,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameWordLeadingSpace() {
+    public void testIsValidNameWordLeadingSpace() {
         try {
             isValidName(" test");
             // pass
@@ -154,7 +154,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameWordTrailingSpace() {
+    public void testIsValidNameWordTrailingSpace() {
         try {
             isValidName("test ");
             // pass
@@ -166,7 +166,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameTwoWords() {
+    public void testIsValidNameTwoWords() {
         try {
             isValidName("first last");
             // pass
@@ -178,7 +178,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameThreeWords() {
+    public void testIsValidNameThreeWords() {
         try {
             isValidName("first middle last");
             // pass
@@ -190,7 +190,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameExtraSpacesWords() {
+    public void testIsValidNameExtraSpacesWords() {
         try {
             isValidName("first    middle    last");
             // pass
@@ -202,7 +202,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameUnderBoundary() {
+    public void testIsValidNameUnderBoundary() {
         try {
             isValidName("QWERTYUIOP QWERTYUIO");
         } catch (RegistrationFailedInvalidNameException ex) {
@@ -213,7 +213,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameOnBoundary() {
+    public void testIsValidNameOnBoundary() {
         try {
             isValidName("QWERTYUIOP QWERTYUIOP");
         } catch (RegistrationFailedInvalidNameException ex) {
@@ -224,7 +224,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidNameOverBoundary() {
+    public void testIsValidNameOverBoundary() {
         try {
             isValidName("QWERTYUIOP QWERTYUIOP Q");
             fail("Name is too long");
@@ -236,7 +236,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidAmountLetters() {
+    public void testIsValidAmountLetters() {
         try {
             isValidAmount("not numbers");
             fail("Illegal amount");
@@ -246,7 +246,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidAmountNegativeAmount() {
+    public void testIsValidAmountNegativeAmount() {
         try {
             isValidAmount("-50");
             fail("Illegal amount");
@@ -256,7 +256,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidAmountTwoDecimals() {
+    public void testIsValidAmountTwoDecimals() {
         try {
             isValidAmount("10.20.30");
             fail("Illegal amount");
@@ -266,7 +266,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidAmountProperNoDecimal() {
+    public void testIsValidAmountProperNoDecimal() {
         try {
             isValidAmount("50");
             // pass
@@ -276,7 +276,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidAmountProperDecimal() {
+    public void testIsValidAmountProperDecimal() {
         try {
             isValidAmount("50.10");
             // pass
@@ -286,7 +286,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testIsValidAmountProperDecimalMore() {
+    public void testIsValidAmountProperDecimalMore() {
         try {
             isValidAmount("50.1020");
             // pass
@@ -296,7 +296,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testCapitalizeName() {
+    public void testCapitalizeName() {
         assertEquals("Testing", capitalizeName("testing"));
         assertEquals("Testing Again", capitalizeName("testing again"));
         assertEquals("Testing Three Words", capitalizeName("testing three words"));
@@ -307,7 +307,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testDoPasswordsMatchMatching() {
+    public void testDoPasswordsMatchMatching() {
         try {
             doPasswordsMatch("matching", "matching");
             // pass
@@ -317,7 +317,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testDoPasswordsMatchNotMatching() {
+    public void testDoPasswordsMatchNotMatching() {
         try {
             doPasswordsMatch("matching", "notmatching");
             fail("Password does not match confirmation");
@@ -327,7 +327,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testCurrencyFormat() {
+    public void testCurrencyFormat() {
         BigDecimal testAmount0 = new BigDecimal("0");
         BigDecimal testAmount1 = new BigDecimal("00.50");
         BigDecimal testAmount2 = new BigDecimal("50");
@@ -342,7 +342,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testHasSufficientFundsEnough() {
+    public void testHasSufficientFundsEnough() {
         BigDecimal out = new BigDecimal("5");
         BigDecimal balance = new BigDecimal("10");
 
@@ -355,7 +355,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testHasSufficientFundsEnoughBelowBoundary() {
+    public void testHasSufficientFundsEnoughBelowBoundary() {
         BigDecimal out = new BigDecimal("9.99");
         BigDecimal balance = new BigDecimal("10");
 
@@ -368,7 +368,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testHasSufficientFundsEnoughBoundary() {
+    public void testHasSufficientFundsEnoughBoundary() {
         BigDecimal out = new BigDecimal("10");
         BigDecimal balance = new BigDecimal("10");
 
@@ -381,7 +381,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testHasSufficientFundsNotEnoughBoundary() {
+    public void testHasSufficientFundsNotEnoughBoundary() {
         BigDecimal out = new BigDecimal("10.01");
         BigDecimal balance = new BigDecimal("10");
 
@@ -394,7 +394,7 @@ public class FormattingTest {
     }
 
     @Test
-    void testHasSufficientFundsNotEnoughGreater() {
+    public void testHasSufficientFundsNotEnoughGreater() {
         BigDecimal out = new BigDecimal("15");
         BigDecimal balance = new BigDecimal("10");
 

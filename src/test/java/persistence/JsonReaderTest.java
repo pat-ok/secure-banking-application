@@ -1,16 +1,17 @@
 package persistence;
 
 import model.UserDatabase;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class JsonReaderTest extends JsonTest {
 
     @Test
-    void testReaderNonExistentFile() {
+    public void testReaderNonExistentFile() {
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
             UserDatabase udb = reader.read();
@@ -21,7 +22,7 @@ public class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    void testReaderEmptyUserDatabase() {
+    public void testReaderEmptyUserDatabase() {
         JsonReader reader = new JsonReader("./data/testReaderEmptyUserDatabase.json");
         try {
             UserDatabase udb = reader.read();
@@ -32,7 +33,7 @@ public class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    void testReaderGeneralUserDatabase() {
+    public void testReaderGeneralUserDatabase() {
         JsonReader reader = new JsonReader("./data/testReaderGeneralUserDatabase.json");
         try {
             UserDatabase udb = reader.read();

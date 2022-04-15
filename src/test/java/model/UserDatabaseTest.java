@@ -3,26 +3,26 @@ package model;
 import exceptions.authentication.AuthenticationFailedPasswordException;
 import exceptions.authentication.AuthenticationFailedUsernameException;
 import exceptions.registration.RegistrationFailedUsernameNotFreeException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class UserDatabaseTest {
     private UserDatabase userDatabase;
     private HashMap<String, Account> testDB;
 
 
-    @BeforeEach
-    void runBefore() {
+    @Before
+    public void runBefore() {
         userDatabase = new UserDatabase(true);
         testDB = userDatabase.getUserDatabase();
     }
 
     @Test
-    void testConstructorEmpty() {
+    public void testConstructorEmpty() {
         UserDatabase emptyDatabase = new UserDatabase(false);
         testDB = emptyDatabase.getUserDatabase();
 
@@ -32,13 +32,13 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testConstructorDemo() {
+    public void testConstructorDemo() {
         assertEquals(3, testDB.size());
         assertTrue(testDB.containsKey("foo") && testDB.containsKey("bar") && testDB.containsKey("admin"));
     }
 
     @Test
-    void testStoreAccount() {
+    public void testStoreAccount() {
         Account testAccount = new Account("pass321", "Testing");
         userDatabase.storeAccount("Tester", testAccount);
 
@@ -47,7 +47,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testIsUsernameFreeNo() {
+    public void testIsUsernameFreeNo() {
         try {
             userDatabase.isUsernameFree("foo");
             fail("Username is already taken");
@@ -57,7 +57,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testIsUsernameFreeNewNo() {
+    public void testIsUsernameFreeNewNo() {
         try {
             userDatabase.storeAccount("newTester", new Account("pass123", "New Tester"));
             userDatabase.isUsernameFree("newTester");
@@ -68,7 +68,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testIsUsernameFreeYes() {
+    public void testIsUsernameFreeYes() {
         try {
             userDatabase.isUsernameFree("newTester");
             // pass
@@ -78,7 +78,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testAuthUsernameNotFoundFoo() {
+    public void testAuthUsernameNotFoundFoo() {
         try {
             userDatabase.authUsername("Foo");
             fail("Username is not in database");
@@ -88,7 +88,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testAuthUsernameNotFoundBar() {
+    public void testAuthUsernameNotFoundBar() {
         try {
             userDatabase.authUsername("Bar");
             fail("Username is not in database");
@@ -98,7 +98,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testAuthUsernameFoundFoo() {
+    public void testAuthUsernameFoundFoo() {
         try {
             userDatabase.authUsername("foo");
             // pass
@@ -108,7 +108,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testAuthUsernameFoundBar() {
+    public void testAuthUsernameFoundBar() {
         try {
             userDatabase.authUsername("bar");
             // pass
@@ -118,7 +118,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testAuthPasswordFail() {
+    public void testAuthPasswordFail() {
         try {
             userDatabase.authPassword("foo", "fail");
             fail("Password is not correct");
@@ -128,7 +128,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testAuthPasswordPassFoo() {
+    public void testAuthPasswordPassFoo() {
         try {
             userDatabase.authPassword("foo", "pass123");
             // pass
@@ -138,7 +138,7 @@ public class UserDatabaseTest {
     }
 
     @Test
-    void testAuthPasswordPassBar() {
+    public void testAuthPasswordPassBar() {
         try {
             userDatabase.authPassword("bar", "pass123");
             // pass

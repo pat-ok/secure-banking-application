@@ -1,14 +1,14 @@
 package ui;
 
 import exceptions.UnconfirmedException;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
 
 public class AccountPanelTest {
 
     @Test
-    void testConfirmationTrueThrows() {
+    public void testConfirmationTrueThrows() {
         try {
             confirmationTrue("false");
             fail("Text is not 'confirm'");
@@ -18,7 +18,7 @@ public class AccountPanelTest {
     }
 
     @Test
-    void testConfirmationTrueDoesNotThrow() {
+    public void testConfirmationTrueDoesNotThrow() {
         try {
             confirmationTrue("confirm");
             // pass

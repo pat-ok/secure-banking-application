@@ -1,17 +1,17 @@
 package persistence;
 
 import model.UserDatabase;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class JsonWriterTest extends JsonTest {
 
     @Test
-    void testWriterInvalidFile() {
+    public void testWriterInvalidFile() {
         try {
             UserDatabase udb = new UserDatabase(false);
             JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
@@ -23,7 +23,7 @@ public class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    void testWriterEmptyDatabase() {
+    public void testWriterEmptyDatabase() {
         try {
             UserDatabase udb = new UserDatabase(false);
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyUserDatabase.json");
@@ -40,7 +40,7 @@ public class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    void testWriterGeneralWorkroom() {
+    public void testWriterGeneralWorkroom() {
         try {
             UserDatabase udb = new UserDatabase(true);
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralUserDatabase.json");

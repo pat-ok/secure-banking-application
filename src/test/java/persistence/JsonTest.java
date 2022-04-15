@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 import static model.Security.hashFunction;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class JsonTest {
 

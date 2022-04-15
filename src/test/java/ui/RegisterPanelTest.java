@@ -2,17 +2,17 @@ package ui;
 
 import exceptions.registration.RegistrationFailedMatchesHintException;
 import exceptions.registration.RegistrationFailedMatchesHintPasswordConfirmException;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
 
 public class RegisterPanelTest {
 
-    private String newNameHint = "Name";
-    private String newPasswordConfirmHint = "Confirm password";
+    private final String newNameHint = "Name";
+    private final String newPasswordConfirmHint = "Confirm password";
 
     @Test
-    void testMatchesHintNameThrows() {
+    public void testMatchesHintNameThrows() {
         try {
             matchesHintName("Name");
             fail("Does match prompt");
@@ -22,7 +22,7 @@ public class RegisterPanelTest {
     }
 
     @Test
-    void testMatchesHintNameDoesNotThrow() {
+    public void testMatchesHintNameDoesNotThrow() {
         try {
             matchesHintName("Nope");
             // pass
@@ -32,7 +32,7 @@ public class RegisterPanelTest {
     }
 
     @Test
-    void testMatchesHintPasswordConfirmThrows() {
+    public void testMatchesHintPasswordConfirmThrows() {
         try {
             matchesHintPasswordConfirm("Confirm password");
             fail("Does match prompt");
@@ -42,7 +42,7 @@ public class RegisterPanelTest {
     }
 
     @Test
-    void testMatchesHintPasswordConfirmDoesNotThrow() {
+    public void testMatchesHintPasswordConfirmDoesNotThrow() {
         try {
             matchesHintPasswordConfirm("Nope");
             // pass
