@@ -5,18 +5,17 @@ stages:
 
 build:
   stage: build
-  auto:
-    branch: master
   script:
+    - src\main\ui\Main.java
     - echo "Building"
-    - mkdir build
-    - touch build/info.txt
-  artifacts:
-    paths:
-      - build/
+#    - mkdir build
+#    - touch build/info.txt
+#  artifacts:
+#    paths:
+#      - build/
 
 test:
   stage: test
   script:
     - echo "Testing"
-    - test -f "build/info.txt"
+#    - test -f "build/info.txt"
