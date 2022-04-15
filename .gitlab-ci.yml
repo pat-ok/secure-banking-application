@@ -25,3 +25,5 @@ test-job:
   script:
     - echo "Testing"
     - mvn test
+    - mvn jacoco:report
+    - echo \"$(cat target/site/jacoco/testcoverage.txt)% covered\"
