@@ -25,4 +25,3 @@ test-job:
   script:
     - echo "Testing"
     - mvn test
-    - condition: succeededOrFailed()
