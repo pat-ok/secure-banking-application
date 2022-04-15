@@ -13,7 +13,7 @@ cache:
 stages:
   - build
   - test
-  - visualize
+#  - visualize
 
 build-job:
   stage: build
@@ -26,6 +26,7 @@ test-job:
   script:
     - echo "Testing"
     - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
+    - python jacoco_parser/parser.py target/site/jacoco/index.html
 #    - mvn clean
 #    - mvn org.jacoco:jacoco-maven-plugin:prepare-agent install
 #    - mvn test
@@ -34,13 +35,13 @@ test-job:
     paths:
       - target/site/jacoco/jacoco.xml
 
-visualize-coverage:
-  stage: visualize
-  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
-  script:
-    # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
-  needs: ["test-job"]
-  artifacts:
-    reports:
-      cobertura: target/site/cobertura.xml
+#visualize-coverage:
+#  stage: visualize
+#  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
+#  script:
+#    # convert report from jacoco to cobertura, using relative project path
+#    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
+#  needs: ["test-job"]
+#  artifacts:
+#    reports:
+#      cobertura: target/site/cobertura.xml
