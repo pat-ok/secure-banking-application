@@ -334,11 +334,11 @@ public class FormattingTest {
         BigDecimal testAmount3 = new BigDecimal("77.77");
         BigDecimal testAmount4 = new BigDecimal("100.00");
 
-        assertEquals("$0.00", currencyFormat(testAmount0));
-        assertEquals("$0.50", currencyFormat(testAmount1));
-        assertEquals("$50.00", currencyFormat(testAmount2));
-        assertEquals("$77.77", currencyFormat(testAmount3));
-        assertEquals("$100.00", currencyFormat(testAmount4));
+        assertEquals("0.00", currencyFormat(testAmount0).substring(1));
+        assertEquals("$0.50", currencyFormat(testAmount1).substring(1));
+        assertEquals("$50.00", currencyFormat(testAmount2).substring(1));
+        assertEquals("$77.77", currencyFormat(testAmount3).substring(1));
+        assertEquals("$100.00", currencyFormat(testAmount4).substring(1));
     }
 
     @Test
