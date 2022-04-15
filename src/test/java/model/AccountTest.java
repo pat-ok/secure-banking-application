@@ -56,8 +56,8 @@ public class AccountTest {
     public void testGetBalanceString() {
         bar.withdraw("100");
 
-        assertEquals("$0.00", bar.getBalanceString().substring(1));
-        assertEquals("$100.00", foo.getBalanceString().substring(1));
+        assertEquals("0.00", bar.getBalanceString().substring(1));
+        assertEquals("100.00", foo.getBalanceString().substring(1));
 
     }
 
