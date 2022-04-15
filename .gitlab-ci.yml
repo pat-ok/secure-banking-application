@@ -1,4 +1,7 @@
 ---
+# gitlab must use a docker image for dependencies
+image: rvancea/maven-chrome-jdk8:latest
+
 stages:
   - build
   - test
@@ -7,6 +10,7 @@ build-job:
   stage: build
   script:
     - echo "Building"
+    - mvn compile
 #    - mkdir build
 #    - touch build/info.txt
 #  artifacts:
@@ -17,4 +21,5 @@ test-job:
   stage: test
   script:
     - echo "Testing"
+    - mvn clean test
 #    - test -f "build/info.txt"
