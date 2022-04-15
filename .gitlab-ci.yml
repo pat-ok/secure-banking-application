@@ -1,9 +1,12 @@
+---
 stages:
   - build
   - test
 
 build:
   stage: build
+  auto:
+    branch: master
   script:
     - echo "Building"
     - mkdir build
