@@ -9,9 +9,10 @@ cache:
   key: $CI_COMMIT_REF_SLUG
   paths:
     # cache the dependencies
-    - .m2/repository
+    - .m2/repository/
     # cache the build output
-    - target
+    - target/
+
 
 
 # stages of pipeline executed sequentially
