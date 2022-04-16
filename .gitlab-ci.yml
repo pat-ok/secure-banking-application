@@ -8,6 +8,7 @@ image: maven:3-jdk-8
 #variables:
 #  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
 #
+#
 ## caches dependencies between builds to increase pipeline speed
 #cache:
 #  key: $CI_COMMIT_REF_SLUG
