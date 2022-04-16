@@ -3,16 +3,22 @@
 # acts as the execution environment for the pipeline to increase portability
 image: maven:3-jdk-8
 
-# stages of pipeline executed sequentially
-stages:
-  - build
-  - test
 
 # caches dependencies between builds to increase pipeline speed
 cache:
   key: $CI_COMMIT_REF_SLUG
   paths:
+    # cache the dependencies
     - .m2/repository
+    # cache the build output
+    - target
+
+
+# stages of pipeline executed sequentially
+stages:
+  - build
+  - test
+
 
 # building stage
 build-job:
