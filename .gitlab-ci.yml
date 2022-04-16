@@ -8,6 +8,11 @@ stages:
   - build
   - test
 
+# caches dependencies between builds to increase pipeline speed
+cache:
+  paths:
+    - .m2/repository
+
 build-job:
   stage: build
   script:
