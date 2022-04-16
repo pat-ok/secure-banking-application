@@ -1,7 +1,9 @@
 ---
 # gitlab must use a docker image for dependencies
+# acts as the execution environment for the pipeline to increase portability
 image: maven:3-jdk-8
 
+# stages of pipeline executed sequentially
 stages:
   - build
   - test
@@ -10,14 +12,18 @@ build-job:
   stage: build
   script:
     - echo "Building"
+    # compiles source code
     - mvn compile
 
 test-job:
   stage: test
   script:
     - echo "Testing"
+    # tests and generates jacoco report using junit
     - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
+    # displays jacoco.html report for coverage parsing
     - cat target/site/jacoco/index.html
+  # artifacts to save test reports for viewing
   artifacts:
     paths:
       - target/surefire-reports/TEST-*.xml
