@@ -1,19 +1,21 @@
 ---
 # gitlab must use a docker image for dependencies
 # acts as the execution environment for the pipeline to increase portability
+# images are always pulled for each job regardless of cache
 image: maven:3-jdk-8
 
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
-
-# caches dependencies between builds to increase pipeline speed
-cache:
-  key: $CI_COMMIT_REF_SLUG
-  paths:
-    # cache the dependencies
-    - .m2/repository
-    # cache the build output
-    - target
+## environment variable that launches JVM running maven
+#variables:
+#  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+#
+## caches dependencies between builds to increase pipeline speed
+#cache:
+#  key: $CI_COMMIT_REF_SLUG
+#  paths:
+#    # cache the dependencies
+#    - .m2/repository
+#    # cache the build output
+#    - target
 
 
 # stages of pipeline executed sequentially
