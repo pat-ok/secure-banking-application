@@ -4,15 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+
     <groupId>org.example</groupId>
     <artifactId>secure-banking-app</artifactId>
     <version>1.0-SNAPSHOT</version>
+
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <argLine/>
     </properties>
+
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.json/json -->
@@ -30,7 +33,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
@@ -38,19 +40,19 @@
             <version>3.0.0-M6</version>
         </dependency>
 
+        <!--https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin-->
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.8</version>
         </dependency>
-
     </dependencies>
 
 
     <build>
         <pluginManagement>
             <plugins>
-
+                <!--surefire plugin - prevent overriding by adding @{argLine} in config-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -67,24 +69,26 @@
                     </configuration>
                 </plugin>
 
+                <!--JaCoCo plugin-->
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.8.8</version>
                     <configuration>
+                        <!--exclude testing for classes in ui package and subpackages-->
                         <excludes>
-                            <exclude>**/ui/*</exclude>
+                            <exclude>**/ui/**</exclude>
                         </excludes>
                     </configuration>
                     <executions>
-                        <!--first execution : for preparing JaCoCo runtime agent-->
+                        <!--execution for preparing JaCoCo runtime agent-->
                         <execution>
                             <id>prepare-agent</id>
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
                         </execution>
-                        <!--second execution : for creating code coverage reports-->
+                        <!--execution for code coverage reports-->
                         <execution>
                             <id>report</id>
                             <phase>test</phase>
@@ -94,32 +98,7 @@
                         </execution>
                     </executions>
                 </plugin>
-
             </plugins>
         </pluginManagement>
     </build>
-
-    <profiles>
-        <profile>
-            <id>test</id>
-            <properties>
-                <env>test</env>
-                <gebEnv>test</gebEnv>
-                <jacoco.skip>false</jacoco.skip>
-                <maven.test.skip>false</maven.test.skip>
-                <skip.unit.tests>false</skip.unit.tests>
-            </properties>
-        </profile>
-    </profiles>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.8</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
 </project>
