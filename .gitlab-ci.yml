@@ -4,6 +4,7 @@
 # images are always pulled for each job regardless of cache
 image: maven:3-jdk-8
 
+
 # environment variable that launches JVM running maven
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
