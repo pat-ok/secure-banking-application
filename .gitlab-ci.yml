@@ -10,6 +10,7 @@ stages:
 
 # caches dependencies between builds to increase pipeline speed
 cache:
+  key: $CI_COMMIT_REF_SLUG
   paths:
     - .m2/repository
 
