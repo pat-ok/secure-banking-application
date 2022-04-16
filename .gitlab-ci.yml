@@ -13,6 +13,7 @@ cache:
   paths:
     - .m2/repository
 
+# building stage
 build-job:
   stage: build
   script:
@@ -20,6 +21,7 @@ build-job:
     # compiles source code
     - mvn compile
 
+# testing stage
 test-job:
   stage: test
   script:
