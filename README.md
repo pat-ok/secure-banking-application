@@ -1,6 +1,11 @@
-# Banking Application
+# Secure Banking Application  
 
-## What does the application do?
+---
+![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline-status/pat-ok/secure-banking-application?branch=master)
+[![coverage report](https://gitlab.com/pat-ok/secure-banking-application/badges/master/coverage.svg)](https://gitlab.com/pat-ok/secure-banking-application/-/commits/master)
+![GitHub repo size](https://img.shields.io/github/repo-size/pat-ok/secure-banking-application)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
+
 Users can register for a bank account and access it to check balance and perform monetary transactions
 including deposits, withdrawals, and transfers to other users.
 Users may also view their notifications and transaction history. Additional features include:

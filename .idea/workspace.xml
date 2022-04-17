@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6095017c-9823-475a-b250-a610a8fb0328" name="Changes" comment="Removed custom parser">
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/CDL.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/Cookie.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/CookieList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/HTTP.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/HTTPTokener.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONArray.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONML.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONObject.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONPointer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONPointerException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONPropertyIgnore.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONPropertyName.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONString.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONStringer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONTokener.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONWriter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/Property.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/XML.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/XMLParserConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/XMLTokener.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/org/json/XMLXsiTypeConverter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/banking-application.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/database.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/testWriterEmptyUserDatabase.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/testWriterEmptyUserDatabase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/testWriterGeneralUserDatabase.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/testWriterGeneralUserDatabase.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OPEN_IN_BROWSER" value="true" />
+    <option name="OUTPUT_DIRECTORY" value="C:\Users\Petrock\Downloads\secure-banking-application\target\coverage-results" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="27pK4duaXaa9bHRQ5yJvpLK2w5x" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.13927579" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Petrock\Downloads\secure-banking-application" />
+      <recent name="C:\Users\Petrock\Downloads\secure-banking-application\src\main\java" />
+      <recent name="C:\Users\Petrock\Downloads\secure-banking-application\target\classes" />
+      <recent name="C:\Users\Petrock\Downloads\secure-banking-application\target" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Petrock\Downloads\secure-banking-application\target\classes" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ui.Main" />
+      <module name="banking-application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in banking-application" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="banking-application" />
+      <extension name="coverage" runner="jacoco">
+        <pattern>
+          <option name="PATTERN" value="ui.*" />
+          <option name="ENABLED" value="true" />
+          <option name="INCLUDE" value="false" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="exceptions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JsonReaderTest.testReaderEmptyUserDatabase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="banking-application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="persistence" />
+      <option name="MAIN_CLASS_NAME" value="persistence.JsonReaderTest" />
+      <option name="METHOD_NAME" value="testReaderEmptyUserDatabase" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JsonWriterTest.testWriterEmptyUserDatabase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="banking-application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="persistence" />
+      <option name="MAIN_CLASS_NAME" value="persistence.JsonWriterTest" />
+      <option name="METHOD_NAME" value="testWriterEmptyUserDatabase" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="secure-banking-app-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/target/secure-banking-app-1.0-SNAPSHOT.jar" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JAR Application.secure-banking-app-1.0-SNAPSHOT.jar" />
+      <item itemvalue="JUnit.All in banking-application" />
+      <item itemvalue="JUnit.JsonReaderTest.testReaderEmptyUserDatabase" />
+      <item itemvalue="JUnit.JsonWriterTest.testWriterEmptyUserDatabase" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.All in banking-application" />
+        <item itemvalue="JAR Application.secure-banking-app-1.0-SNAPSHOT.jar" />
+        <item itemvalue="JUnit.JsonWriterTest.testWriterEmptyUserDatabase" />
+        <item itemvalue="JUnit.JsonReaderTest.testReaderEmptyUserDatabase" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6095017c-9823-475a-b250-a610a8fb0328" name="Changes" comment="" />
+      <created>1650011397598</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650011397598</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Changed tests to JUnit 4.13.2">
+      <created>1650011847983</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1650011847983</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added build dir artifact in pipeline">
+      <created>1650012513252</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1650012513252</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added cache for pipeline">
+      <created>1650013194224</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1650013194224</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Removed dollar signs in AccountTest and FormattingTest">
+      <created>1650014355729</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1650014355729</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Adjusted errors in assertion tests with dollar sign">
+      <created>1650014580716</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1650014580716</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added exceptions for NumberFormatException in JsonWriterTest">
+      <created>1650016353888</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1650016353888</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed error in pipeline">
+      <created>1650016526123</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1650016526123</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added jacoco coverage report in .gitlab-ci.yml">
+      <created>1650018958830</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1650018958830</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Added jacoco maven plugin">
+      <created>1650021217846</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1650021217846</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updated .gitlab-ci.yml to save jacoco.xml to cobertura">
+      <created>1650032593597</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1650032593597</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Added jacoco index.html parser for output">
+      <created>1650036032621</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1650036032621</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Actually added jacoco index.html parser for output">
+      <created>1650036283557</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1650036283557</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Updated .gitlab-ci.yml">
+      <created>1650038944694</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1650038944694</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Updated dash in .gitlab-ci.yml">
+      <created>1650039219194</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1650039219194</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Updated jacoco bug in .gitlab-ci.yml">
+      <created>1650039482634</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1650039482634</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Added ui package exclusion in pom.xml">
+      <created>1650040911508</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1650040911508</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Fixed bug in pom.xml where ui package was not properly excluded&#10;&#10;Removed test profile from pom.xml&#10;&#10;Removed duplicate jacoco plugin from pom.xml&#10;&#10;Removed visualize">
+      <created>1650095202866</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1650095202866</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Removed artifacts from test-job in .gitlab-ci.yml">
+      <created>1650099077975</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1650099077976</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added report artifacts to .gitlab-ci.yml&#10;&#10;Also removed variables and cache">
+      <created>1650099679556</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1650099679556</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Changed docker image to maven:3-jdk-8 in .gitlab-ci.yml&#10;&#10;Also changed report artifacts to paths">
+      <created>1650100102598</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1650100102598</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Updated documentation in .gitlab-ci.yml">
+      <created>1650101707377</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1650101707377</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Added docker image caching in .gitlab-ci.yml">
+      <created>1650102150351</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1650102150351</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Testing pipeline speed">
+      <created>1650102697925</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1650102697925</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Added key for cache in .gitlab-ci.yml">
+      <created>1650103179941</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1650103179941</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Moved cache above stages in .gitlab-ci.yml">
+      <created>1650103917450</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1650103917450</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Testing pipeline speed">
+      <created>1650104172010</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1650104172010</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Added variables in .gitlab-ci.yml">
+      <created>1650105024930</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1650105024930</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Testing pipeline speed">
+      <created>1650105839969</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1650105839969</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Testing pipeline speed again with no cache">
+      <created>1650106136690</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1650106136690</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Added caching and variables for .m2/repo and target">
+      <created>1650106359574</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1650106359574</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Testing pipeline speed with caching">
+      <created>1650106639973</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1650106639973</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Removed custom parser">
+      <created>1650107607538</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1650107607538</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Added exceptions for NumberFormatException in JsonWriterTest" />
+    <MESSAGE value="Fixed error in pipeline" />
+    <MESSAGE value="Added jacoco coverage report in .gitlab-ci.yml" />
+    <MESSAGE value="Added jacoco maven plugin" />
+    <MESSAGE value="Updated .gitlab-ci.yml to save jacoco.xml to cobertura" />
+    <MESSAGE value="Added jacoco index.html parser for output" />
+    <MESSAGE value="Actually added jacoco index.html parser for output" />
+    <MESSAGE value="Updated .gitlab-ci.yml" />
+    <MESSAGE value="Updated dash in .gitlab-ci.yml" />
+    <MESSAGE value="Updated jacoco bug in .gitlab-ci.yml" />
+    <MESSAGE value="Added ui package exclusion in pom.xml" />
+    <MESSAGE value="Fixed bug in pom.xml where ui package was not properly excluded&#10;&#10;Removed test profile from pom.xml&#10;&#10;Removed duplicate jacoco plugin from pom.xml&#10;&#10;Removed visualize" />
+    <MESSAGE value="Removed artifacts from test-job in .gitlab-ci.yml" />
+    <MESSAGE value="Added report artifacts to .gitlab-ci.yml&#10;&#10;Also removed variables and cache" />
+    <MESSAGE value="Changed docker image to maven:3-jdk-8 in .gitlab-ci.yml&#10;&#10;Also changed report artifacts to paths" />
+    <MESSAGE value="Updated documentation in .gitlab-ci.yml" />
+    <MESSAGE value="Added docker image caching in .gitlab-ci.yml" />
+    <MESSAGE value="Added key for cache in .gitlab-ci.yml" />
+    <MESSAGE value="Moved cache above stages in .gitlab-ci.yml" />
+    <MESSAGE value="Added variables in .gitlab-ci.yml" />
+    <MESSAGE value="Testing pipeline speed" />
+    <MESSAGE value="Testing pipeline speed again with no cache" />
+    <MESSAGE value="Added caching and variables for .m2/repo and target" />
+    <MESSAGE value="Testing pipeline speed with caching" />
+    <MESSAGE value="Removed custom parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed custom parser" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Main_java$All_in_banking_application.exec" NAME="All in banking-application Coverage Results" MODIFIED="1650040401680" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="jacoco" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>exceptions.*</FILTER>
+      <FILTER>model.*</FILTER>
+      <FILTER>persistence.*</FILTER>
+      <EXCLUDED_FILTER>ui.*</EXCLUDED_FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Main_java$All_in_banking_application.ic" NAME="All in banking-application Coverage Results" MODIFIED="1650030116512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>exceptions.*</FILTER>
+      <FILTER>model.*</FILTER>
+      <FILTER>persistence.*</FILTER>
+    </SUITE>
+  </component>
+</project>
