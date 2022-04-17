@@ -19,7 +19,7 @@ money to other users. But here are some features you *don't* see in every other 
 * Transactions history for when you wonder *where did all your money go?!* (Hint: you spent it)
 * Automatic notifications for eTransfers. Who *doesn't* love seeing the words "You've received money from..."?
 * [Admin access](#accessing-the-admin-account) for freezing accounts and viewing database information.
-* All transactions performed using [BigDecimal objects](#what-is-bigdecimal) - and *no, those are not just numbers big decimals.*
+* All transactions performed using [BigDecimal objects](#what-is-bigdecimal) - and *no, those are not just decimals that are big.*
 * Optional data persistence, for when you want to save your activity (or not).
 
 ---
