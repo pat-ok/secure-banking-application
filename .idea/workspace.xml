@@ -4,34 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6095017c-9823-475a-b250-a610a8fb0328" name="Changes" comment="Removed custom parser">
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/CDL.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/Cookie.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/CookieList.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/HTTP.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/HTTPTokener.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONArray.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONML.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONObject.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONPointer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONPointerException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONPropertyIgnore.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONPropertyName.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONString.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONStringer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONTokener.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/JSONWriter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/Property.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/XML.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/XMLParserConfiguration.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/XMLTokener.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/json/XMLXsiTypeConverter.class" afterDir="false" />
+    <list default="true" id="6095017c-9823-475a-b250-a610a8fb0328" name="Changes" comment="Added badges to readme.md">
+      <change afterPath="$PROJECT_DIR$/pics/account_page_admin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pics/account_page_admin_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pics/account_page_admin_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pics/account_page_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pics/account_page_user_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pics/login_page_admin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pics/login_page_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pics/registration_page.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/banking-application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/banking-application.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/database.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/testWriterEmptyUserDatabase.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/testWriterEmptyUserDatabase.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/testWriterGeneralUserDatabase.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/testWriterGeneralUserDatabase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ui/pages/AccountPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ui/pages/AccountPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ui/pages/AccountPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ui/pages/AccountPanel.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +54,7 @@
       <recent name="C:\Users\Petrock\Downloads\secure-banking-application\target" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Petrock\Downloads\secure-banking-application\pics" />
       <recent name="C:\Users\Petrock\Downloads\secure-banking-application\target\classes" />
     </key>
   </component>
@@ -401,7 +387,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650107607538</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Added badges to readme.md">
+      <created>1650171655762</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1650171655762</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -418,7 +411,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Added exceptions for NumberFormatException in JsonWriterTest" />
     <MESSAGE value="Fixed error in pipeline" />
     <MESSAGE value="Added jacoco coverage report in .gitlab-ci.yml" />
     <MESSAGE value="Added jacoco maven plugin" />
@@ -443,7 +435,8 @@
     <MESSAGE value="Added caching and variables for .m2/repo and target" />
     <MESSAGE value="Testing pipeline speed with caching" />
     <MESSAGE value="Removed custom parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed custom parser" />
+    <MESSAGE value="Added badges to readme.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added badges to readme.md" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Main_java$All_in_banking_application.exec" NAME="All in banking-application Coverage Results" MODIFIED="1650040401680" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="jacoco" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

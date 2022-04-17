@@ -394,7 +394,7 @@ public class AccountPanel extends JPanel {
     // EFFECTS: Sets first button to trigger fields to change for user input to deposit money,
     //          sets action to deposit
     private void setUserDepositButton() {
-        buttonOne.setText("Deposit");
+        buttonOne.setText("DEPOSIT");
         buttonOne.addActionListener(arg0 -> {
             clearFields();
             labelTwo.setText(depositText);
@@ -408,7 +408,7 @@ public class AccountPanel extends JPanel {
     // EFFECTS: Sets second button to trigger fields to change for user input to withdraw money,
     //          sets action to withdraw
     private void setUserWithdrawButton() {
-        buttonTwo.setText("Withdraw");
+        buttonTwo.setText("WITHDRAW");
         buttonTwo.addActionListener(arg0 -> {
             clearFields();
             labelTwo.setText(withdrawText);
@@ -422,7 +422,7 @@ public class AccountPanel extends JPanel {
     // EFFECTS: Sets third button to trigger fields to change for user input to transfer money,
     //          sets action to transfer
     private void setUserTransferButton() {
-        buttonThree.setText("Transfer");
+        buttonThree.setText("TRANSFER");
         buttonThree.addActionListener(arg0 -> {
             clearFields();
             labelOne.setText(transferRecipientText);
@@ -437,7 +437,7 @@ public class AccountPanel extends JPanel {
 
     // EFFECTS: Sets fourth button to trigger pop up displaying transaction history
     private void setUserHistoryButton() {
-        buttonFour.setText("History");
+        buttonFour.setText("HISTORY");
         buttonFour.addActionListener(arg0 -> {
             clearFields();
             createPopFrame("Transaction History", account.transactionHistory(), false);
