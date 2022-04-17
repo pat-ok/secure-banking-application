@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6095017c-9823-475a-b250-a610a8fb0328" name="Changes" comment="Added badges to readme.md">
-      <change afterPath="$PROJECT_DIR$/pics/account_page_admin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pics/account_page_admin_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pics/account_page_admin_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pics/account_page_user.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pics/account_page_user_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pics/login_page_admin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pics/login_page_user.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pics/registration_page.png" afterDir="false" />
+    <list default="true" id="6095017c-9823-475a-b250-a610a8fb0328" name="Changes" comment="Updated readme file">
+      <change afterPath="$PROJECT_DIR$/pics/app_preview.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ui/pages/AccountPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ui/pages/AccountPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ui/pages/AccountPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ui/pages/AccountPanel.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +31,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pics" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.13927579" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -48,6 +39,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Petrock\Downloads\secure-banking-application\pics" />
       <recent name="C:\Users\Petrock\Downloads\secure-banking-application" />
       <recent name="C:\Users\Petrock\Downloads\secure-banking-application\src\main\java" />
       <recent name="C:\Users\Petrock\Downloads\secure-banking-application\target\classes" />
@@ -394,7 +386,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650171655762</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Updated readme file">
+      <created>1650185562711</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1650185562711</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -411,7 +410,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fixed error in pipeline" />
     <MESSAGE value="Added jacoco coverage report in .gitlab-ci.yml" />
     <MESSAGE value="Added jacoco maven plugin" />
     <MESSAGE value="Updated .gitlab-ci.yml to save jacoco.xml to cobertura" />
@@ -436,7 +434,8 @@
     <MESSAGE value="Testing pipeline speed with caching" />
     <MESSAGE value="Removed custom parser" />
     <MESSAGE value="Added badges to readme.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added badges to readme.md" />
+    <MESSAGE value="Updated readme file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated readme file" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Main_java$All_in_banking_application.exec" NAME="All in banking-application Coverage Results" MODIFIED="1650040401680" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="jacoco" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

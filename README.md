@@ -10,9 +10,7 @@
 [Features](#why-bank-with-us?) | [Get Started](#getting-started) | [Usage](#usage-examples) | [Additional Info](#faq)
 
 ---
-
-
-
+![](pics/app_preview.gif)
 
 ### Why bank with us?
 Sure, any banking app might also allow you to create an account and deposit or withdraw money from it. Maybe you can even transfer 
